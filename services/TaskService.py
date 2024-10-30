@@ -4,6 +4,9 @@ from sqlalchemy import select #so we can query our db
 from models.feedback import Feedback
 from datetime import date
 from models.skill import Skill
+from models.task import Task
+from services import SkillService
+from services import TaskService
 
 def create_task(task_data):
     new_task = Task(task_neighbor_id=task_data['task_neighbor_id'], 
@@ -98,3 +101,9 @@ def delete_task(task_id):
         return None
     
     
+# need to implement a cart system for tasks. If task is traded, it is added to the cart along with the traded task.
+# need to implement a payment system for tasks. If task is paid, what is the payment method?
+# need to implement a system for tasks that are completed. If task is completed, it is added to the feedback system.
+
+
+
