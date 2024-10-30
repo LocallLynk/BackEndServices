@@ -87,7 +87,7 @@ def delete_task(task_id):
     result = db.session.execute(query)
     task = result.scalars().first()
 
-    input("Are you sure you want to delete this task? (y/n): ")
+    input("Are you sure you want to delete this task? (y/n): ").lower()
     if input == "y":
         db.session.delete(task)
         db.session.commit()

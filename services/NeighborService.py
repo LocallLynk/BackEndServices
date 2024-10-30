@@ -134,8 +134,8 @@ def delete_neighbor(neighbor_id):
     neighbor = result.scalars().first()
 
     if neighbor:
-        input('Are you sure you want to delete your account? This cannot be undone. Press Y to confirm.')
-        if input == 'Y':
+        input('Are you sure you want to delete your account? This cannot be undone. Press (y/n).').lower()
+        if input == 'y':
             db.session.delete(neighbor)
             db.session.commit()
             print('Account deleted successfully')
