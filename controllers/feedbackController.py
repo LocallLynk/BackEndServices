@@ -1,7 +1,6 @@
 from flask import request, jsonify
 from models.schemas.feedbackSchema import feedback_schema
 from services import NeighborService
-from models.neighbor import Neighbor
 from marshmallow import ValidationError
 from cache import cache
 from utils.util import token_required, user_validation, admin_required

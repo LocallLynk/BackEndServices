@@ -1,5 +1,6 @@
 from flask import request, jsonify
 from models.schemas.neighborSchema import neighbor_schema, neighbors_schema, neighbor_login
+from models.schemas.skillSchema import skill_schema
 from services import NeighborService
 from models.neighbor import Neighbor
 from marshmallow import ValidationError
@@ -29,18 +30,21 @@ def get_all_neighbors():
 
 def login():
     try:
-        neighbor_data = neighbor_login.load(request.json)
+        credentials = neighbor_login.load(request.json)
     except ValidationError as e:
         return jsonify(e.messages), 400
 
-    neighbor = NeighborService.get_neighbor_by_username(neighbor_data['username'])
+    token = NeighborService.login(credentials)
 
-    if not neighbor or not neighbor.check_password(neighbor_data['password']):
-        return jsonify({'error': 'Invalid username or password'}), 401
-
-    token = neighbor.encode_auth_token(neighbor.id)
-
-    return jsonify({'token': token.decode('UTF-8')}), 200
+    if token:
+        response = {
+            "status": "success",
+            "message": "successfully logging in",
+            "token": token
+        }
+        return jsonify(response), 200
+    else:
+        return jsonify({"status": "error", "message": "invalid username or password"}), 404
 
 @token_required
 def get_neighbor_by_id(neighbor_id):
