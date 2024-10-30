@@ -1,5 +1,5 @@
 from flask import Blueprint
-from controllers.taskController import taskController
+from controllers.taskController import create_task, get_all_tasks, get_task_by_id, get_task_by_task_neighbor_id, get_task_by_client_neighbor_id, update_task, delete_task, update_task_status, update_task_paid, update_traded_task
 
 task_blueprint = Blueprint('task_bp', __name__)
 
