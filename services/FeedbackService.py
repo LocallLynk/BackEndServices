@@ -4,6 +4,8 @@ from sqlalchemy import select #so we can query our db
 from models.feedback import Feedback
 from datetime import date
 from models.skill import Skill
+from models.task import Task
+from services import SkillService
 
 def create_feedback(feedback_data):
     new_feedback = Feedback(task_neighbor_id=feedback_data['reviewed_neighbor_id'], 

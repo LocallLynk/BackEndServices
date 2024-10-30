@@ -7,6 +7,8 @@ from sqlalchemy import select #so we can query our db
 from models.skill import Skill
 from models.feedback import Feedback
 from datetime import date
+from services import SkillService 
+from SkillService import skill_bank, create_skill, skill_data
 
 #Creating a new neighbor
 
@@ -14,7 +16,7 @@ def create_neighbor(neighbor_data):
     new_neighbor = Neighbor(name=neighbor_data['name'], email=neighbor_data['email'], 
                    phone=neighbor_data['phone'], zipcode=neighbor_data['zipcode'], 
                    username=neighbor_data['username'], password=neighbor_data['password'], 
-                   overall_rating=0, num_ratings=0, num_rated=0, created_on=date.today())
+                   overall_rating=0, num_ratings=0, num_rated=0, admin=0, created_on=date.today())
     
     db.session.add(new_neighbor)
     db.session.commit() #adding the new neighbor to the db

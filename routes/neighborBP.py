@@ -1,5 +1,5 @@
 from flask import Blueprint
-from controllers.neighborController import neighborController
+from controllers.neighborController import create_neighbor, get_all_neighbors, get_neighbor_by_id, get_neighbor_by_username, get_neighbor_by_email, get_neighbor_by_zipcode, get_neighbor_by_skill, get_neighbor_by_task, get_neighbor_by_feedback, get_neighbor_by_rating, update_neighbor, delete_neighbor, add_skill_to_neighbor
 
 neighbor_blueprint = Blueprint('neighbor_bp', __name__)
 

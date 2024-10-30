@@ -115,7 +115,11 @@ skill_bank = {
     ]
 }
 
-# Example usage
+def get_skills_by_category(category):
+    if category in skill_bank:
+        return skill_bank[category]
+    else:
+        return None
 
 def get_all_skills():
     for category, skills in skill_bank.items():
