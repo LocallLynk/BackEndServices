@@ -149,3 +149,25 @@ def delete_neighbor(neighbor_id):
         return None
     
 
+def add_skill_to_neighbor(neighbor_id, skill_id):
+    query = select(Neighbor).where(Neighbor.id == neighbor_id)
+    result = db.session.execute(query)
+    neighbor = result.scalars().first()
+
+    query = select(Skill).where(Skill.id == skill_id)
+    result = db.session.execute(query)
+    skill = result.scalars().first()
+
+    if neighbor and skill:
+        neighbor.skills.append(skill)
+        db.session.commit()
+        db.session.refresh(neighbor)
+        print('Skill added successfully')
+        return neighbor
+    else:
+        if skill != skill_bank:
+            print("Skill not found. Would you like to add it to the skill bank? (y/n): ").lower()
+        if input == "y":
+            create_skill(skill_data)
+        else:
+            print("Skill not added.")

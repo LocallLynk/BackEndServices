@@ -78,3 +78,13 @@ def update_client_neighbor_feedback_rating(client_neighbor_id, feedback):
 
     return overall_rating
 
+def delete_feedback(feedback_id):
+    query = select(Feedback).where(Feedback.id == feedback_id)
+    result = db.session.execute(query)
+    feedback = result.scalars().first()
+
+    db.session.delete(feedback)
+    db.session.commit()
+
+    return feedback
+

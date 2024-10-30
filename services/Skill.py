@@ -116,14 +116,83 @@ skill_bank = {
 }
 
 # Example usage
-for category, skills in skill_bank.items():
-    print(f"{category}:")
+
+def get_all_skills():
+    for category, skills in skill_bank.items():
+        print(f"{category}:")
     for skill in skills:
         print(f"  - {skill}")
+    return skill_bank
 
-if skill != skill_bank:
-    print("Skill not found. Would you like to add it to the skill bank? (y/n): ").lower()
+def get_skill_by_id(skill_id):
+    query = select(Skill).where(Skill.id == skill_id)
+    result = db.session.execute(query)
+    skill = result.scalars().first()
+
+    return skill
+
+def get_skill_by_name(skill_name):
+    query = select(Skill).where(Skill.skill_name == skill_name)
+    result = db.session.execute(query)
+    skill = result.scalars().first()
+
+    return skill
+
+def update_skill(skill_id, skill_data):
+    query = select(Skill).where(Skill.id == skill_id)
+    result = db.session.execute(query)
+    skill = result.scalars().first()
+
+    skill.skill_name = skill_data['skill_name']
+    skill.skill_description = skill_data['skill_description']
+    skill.skill_experience = skill_data['skill_experience']
+    db.session.commit()
+
+    return skill
+
+def delete_skill(skill_id):
+    query = select(Skill).where(Skill.id == skill_id)
+    result = db.session.execute(query)
+    skill = result.scalars().first()
+    input("Are you sure you want to delete this skill? (y/n): ").lower()
     if input == "y":
-        create_skill(skill_data)
+        db.session.delete(skill)
+        db.session.commit()
+        print("Skill deleted.")
+        return skill
     else:
-        print("Skill not added.")
+        print("Skill deletion cancelled")
+        return None
+    
+def get_neighbors_by_skill(skill_id):
+    query = select(Neighbor).where(Neighbor.skills.any(Skill.id == skill_id))
+    result = db.session.execute(query)
+    neighbors = result.scalars().all()
+
+    return neighbors
+
+def get_skills_by_neighbor(neighbor_id):
+    query = select(Skill).where(Skill.neighbors.any(Neighbor.id == neighbor_id))
+    result = db.session.execute(query)
+    skills = result.scalars().all()
+
+    return skills
+
+def remove_skill_from_neighbor(neighbor_id, skill_id):
+    query = select(Neighbor).where(Neighbor.id == neighbor_id)
+    result = db.session.execute(query)
+    neighbor = result.scalars().first()
+
+    query = select(Skill).where(Skill.id == skill_id)
+    result = db.session.execute(query)
+    skill = result.scalars().first()
+
+    if neighbor and skill:
+        neighbor.skills.remove(skill)
+        db.session.commit()
+        db.session.refresh(neighbor)
+        print('Skill removed successfully')
+    else:
+        print('Neighbor or skill not found')
+
+    return neighbor
