@@ -50,13 +50,13 @@ def update_task_neighbor_feedback_rating(task_neighbor_id, feedback):
     return jsonify({'message': 'Feedback updated successfully'}), 200
 
 @admin_required
-def get_all_feedbacks():
+def get_all_feedback():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
 
-    all_feedbacks = FeedbackService.get_all_feedbacks(page, per_page)
+    all_feedback = FeedbackService.get_all_feedback(page, per_page)
 
-    return feedback_schema.jsonify(all_feedbacks), 200
+    return feedback_schema.jsonify(all_feedback), 200
 
 @token_required
 def update_client_neighbor_feedback_rating(client_neighbor_id, feedback):
