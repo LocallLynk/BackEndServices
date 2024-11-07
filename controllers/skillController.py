@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from models.schema.skillSchema import skill_schema
-from models.schema.neighborSchema import neighbor_schema
+from models.schema.neighborSchema import neighbors_schema
 from services import SkillService
 from marshmallow import ValidationError
 from utils.util import token_required, admin_required
