@@ -71,7 +71,7 @@ def get_all_feedback():
 
     return jsonify({
         "message": "All feedback retrieved successfully",
-        "feedback": feedback_schema.dump(all_feedback, many=True)
+        "feedback": feedbacks_schema.dump(all_feedback, many=True)
     }), 200
 
 @token_required
