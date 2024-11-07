@@ -13,7 +13,6 @@ from routes.taskBP import task_blueprint
 from limiter import limiter
 from flask_cors import CORS
 from cache import cache
-from flask_limiter import Limiter
 from flask_swagger_ui import get_swaggerui_blueprint
 from chat import app as chat_app
 SWAGGER_URL = '/api/docs' # URL endpoint to view our docs
@@ -49,13 +48,13 @@ def blueprint_config(app):
 
 
 def rate_limit_config(app):
-    Limiter.init_app(app)
-    Limiter.limit('50 per hour')(feedback_blueprint)
-    Limiter.limit('50 per hour')(neighbor_blueprint)
-    Limiter.limit('50 per hour')(skill_blueprint)
-    Limiter.limit('50 per hour')(task_blueprint)
-    Limiter.limit('50 per hour')(swagger_blueprint)
-    
+    limiter.init_app(app)
+    limiter.limit('50 per hour')(feedback_blueprint)
+    limiter.limit('50 per hour')(neighbor_blueprint)
+    limiter.limit('50 per hour')(skill_blueprint)
+    limiter.limit('50 per hour')(task_blueprint)
+    limiter.limit('50 per hour')(swagger_blueprint)
+
 
 if __name__ == '__main__':
     app = create_app('LocalLynk')
