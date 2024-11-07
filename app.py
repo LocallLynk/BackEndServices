@@ -13,47 +13,55 @@ from routes.taskBP import task_blueprint
 from limiter import limiter
 from flask_cors import CORS
 from cache import cache
+from flask_limiter import Limiter
 from flask_swagger_ui import get_swaggerui_blueprint
+from chat import app as chat_app
 SWAGGER_URL = '/api/docs' # URL endpoint to view our docs
 API_URL = '/static/swagger.yaml'#Grabs our host from our swagger.yaml file
 
 swagger_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL, config={'app_name': 'LocalLynk'})
 
-app = Flask(__name__)
+def create_app(config_name):
+    app = Flask(__name__) # instantiate the Flask app
 
-message_storage = []
-socketio = SocketIO()
-
-socketio.init_app(app, cors_allowed_origin = '*')# set cors to allow all origins with *
-
-userlog = {}
-
-@socketio.on('connect') #this wrapper is responsible for triggering the following function based on the specified event
-def handle_connect():
-    print('Client Connected')
-
-@socketio.on('disconnect')
-def handle_disconnect():
-    print('Client Disconnected')
-
-@socketio.on('message')#when a message comes through, create an empty list that gets appended
-def handle_message(message): # When listening for a message events, takes in a message as an argument
-    print(f"Message: {message}")
-    user = message.split()[0].strip(':')
-    if user in userlog:
-        userlog[user].append(message)
-    else:
-        userlog[user]= [message]
-    print(userlog)
-    socketio.emit('message', message) #.emit() method broadcasts a special message to everyone connected
-   
+    app.config.from_object(f'config.{config_name}')
+    db.init_app(app)
+    ma.init_app(app)
+    blueprint_config(app)
+    rate_limit_config(app)
+    cache.init_app(app)
+    limiter.init_app(app)
+    CORS(app)
+    socketio = SocketIO(app)
+    socketio.init_app(app)
 
 
-@app.route('/')
-def home():
-    return render_template('base.html')
+    return app
 
+
+def blueprint_config(app):
+    app.register_blueprint(feedback_blueprint, url_prefix='/feedback')
+    app.register_blueprint(neighbor_blueprint, url_prefix='/neighbor')
+    app.register_blueprint(skill_blueprint, url_prefix='/skill')
+    app.register_blueprint(task_blueprint, url_prefix='/task')
+    app.register_blueprint(chat_app, url_prefix='/chat')
+    app.register_blueprint(swagger_blueprint, url_prefux=SWAGGER_URL)
+
+
+def rate_limit_config(app):
+    Limiter.init_app(app)
+    Limiter.limit('50 per hour')(feedback_blueprint)
+    Limiter.limit('50 per hour')(neighbor_blueprint)
+    Limiter.limit('50 per hour')(skill_blueprint)
+    Limiter.limit('50 per hour')(task_blueprint)
+    Limiter.limit('50 per hour')(swagger_blueprint)
+    
 
 if __name__ == '__main__':
-    app.debug = True
-    socketio.run(app)
+    app = create_app('LocalLynk')
+
+    with app.app_context():
+        db.create_all()
+
+    app.run()
+
