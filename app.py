@@ -49,11 +49,11 @@ def blueprint_config(app):
 
 def rate_limit_config(app):
     limiter.init_app(app)
-    limiter.limit('50 per hour')(feedback_blueprint)
-    limiter.limit('50 per hour')(neighbor_blueprint)
-    limiter.limit('50 per hour')(skill_blueprint)
-    limiter.limit('50 per hour')(task_blueprint)
-    limiter.limit('50 per hour')(swagger_blueprint)
+    limiter.limit('150 per hour')(feedback_blueprint)
+    limiter.limit('150 per hour')(neighbor_blueprint)
+    limiter.limit('150 per hour')(skill_blueprint)
+    limiter.limit('150 per hour')(task_blueprint)
+    limiter.limit('150 per hour')(swagger_blueprint)
 
 
 if __name__ == '__main__':
