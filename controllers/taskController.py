@@ -96,7 +96,18 @@ def update_task_paid(task_id):
         "task": task_schema.dump(updated_task)
     }), 200
 
+@token_required
+def update_traded_task(task_id):
+    try:
+        task_data = task_schema.load(request.json)
+    except ValidationError as e:
+        return jsonify({"error": e.messages}), 400
 
+    updated_task = TaskService.update_traded_task(task_id, task_data)
+    return jsonify({
+        "message": "Task traded status updated successfully",
+        "task": task_schema.dump(updated_task)
+    }), 200
 
 
 
