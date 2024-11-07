@@ -5,7 +5,7 @@ from models.neighbor import Neighbor
 from models.skill import Skill
 from models.task import Task
 from models.feedback import Feedback
-from models.schemas import ma
+from models.schema import ma
 from routes.feedbackBP import feedback_blueprint
 from routes.neighborBP import neighbor_blueprint
 from routes.skillBP import skill_blueprint

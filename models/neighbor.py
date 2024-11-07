@@ -28,7 +28,7 @@ class Neighbor(Base):
     skill_id = Mapped[int] = mapped_column(db.Integer, ForeignKey('skill.id'))
 
 
-    skills = Mapped[List[Skill]] = mapped_column(relationship("Skill", secondary="neighbor_skill", back_populates="neighbors"))
+    skills = Mapped[List[Skill]] = mapped_column(relationship("Skill", secondary="neighbor_skill", back_populates="neighbor"))
     task = Mapped[List[Task]] = mapped_column(relationship("Task", back_populates="neighbor"))
     feedback = Mapped[List[Feedback]] = mapped_column(relationship("Feedback", back_populates="neighbor"))
 
