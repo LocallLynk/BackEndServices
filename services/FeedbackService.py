@@ -1,6 +1,5 @@
 from database import db  # services interact directly with the db
-from models.neighbor import Neighbor
-from models.feedback import Feedback
+from models import Neighbor, Skill, Task, Feedback
 from datetime import date
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError

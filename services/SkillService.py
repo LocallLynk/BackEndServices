@@ -1,6 +1,5 @@
 from database import db
-from models.neighbor import Neighbor
-from models.skill import Skill
+from models import Neighbor, Skill, Task, Feedback
 from sqlalchemy import select
 
 def create_skill(skill_data):

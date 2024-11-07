@@ -1,8 +1,5 @@
 from database import db  # services interact directly with the db
-from models.neighbor import Neighbor  # to create Neighbor objects
-from models.task import Task
-from models.skill import Skill
-from models.feedback import Feedback
+from models import Neighbor, Skill, Task, Feedback
 from sqlalchemy import select
 from utils.util import encode_role_token
 from SkillService import create_skill

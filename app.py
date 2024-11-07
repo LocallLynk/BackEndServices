@@ -1,10 +1,6 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO
 from database import db
-from models.neighbor import Neighbor
-from models.skill import Skill
-from models.task import Task
-from models.feedback import Feedback
 from models.schema import ma
 from routes.feedbackBP import feedback_blueprint
 from routes.neighborBP import neighbor_blueprint

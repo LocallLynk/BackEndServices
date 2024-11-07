@@ -1,6 +1,5 @@
 from database import db
-from models.neighbor import Neighbor
-from models.task import Task
+from models import Neighbor, Skill, Task, Feedback
 from datetime import date
 from sqlalchemy import select
 
