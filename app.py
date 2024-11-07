@@ -25,7 +25,6 @@ def create_app(config_name):
     blueprint_config(app)
     rate_limit_config(app)
     cache.init_app(app)
-    limiter.init_app(app)
     CORS(app)
     socketio = SocketIO(app)
     socketio.init_app(app)
