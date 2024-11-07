@@ -17,8 +17,6 @@ class Feedback(Base):
     reviewer_id = Mapped[int] = mapped_column(db.Integer, ForeignKey('neighbor.id'), nullable=False)
     reviewed_neighbor_id = Mapped[int] = mapped_column(db.Integer, ForeignKey('neighbor.id'), nullable=False)
     task_id = Mapped[int] = mapped_column(db.Integer, ForeignKey('task.id'), nullable=False)
-    
-    
     reviewer = Mapped[Neighbor] = mapped_column(relationship("Neighbor", foreign_keys=[reviewer_id]))
     reviewed_neighbor = Mapped[Neighbor] = mapped_column(relationship("Neighbor", foreign_keys=[reviewed_neighbor_id]))
     task = Mapped[Task] = mapped_column(relationship("Task", back_populates="feedback"))
