@@ -1,10 +1,13 @@
+#from database import db, Base
 from database import db, Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import List
 from datetime import date
 from sqlalchemy import ForeignKey
 # from models import Neighbor, Skill, Task, Feedback
-
+from models.neighbor import Neighbor
+from models.skill import Skill
+from models.feedback import Feedback
 class Task(Base):
     __tablename__ = 'task'
 
@@ -21,8 +24,8 @@ class Task(Base):
     
     
     
-    neighbor: Mapped[Neighbor] = mapped_column(relationship("Neighbor", back_populates="task"))
-    skill: Mapped[Skill] = mapped_column(relationship("Skill", back_populates="task"))
-    feedback: Mapped[List[Feedback]] = mapped_column(relationship("Feedback", back_populates="task"))
+    neighbor: Mapped["Neighbor"] = db.relationship(back_populates="task")
+    skill: Mapped["Skill"] = db.relationship(back_populates="task")
+    feedback: Mapped[List["Feedback"]] = db.relationship(back_populates="task")
     
     

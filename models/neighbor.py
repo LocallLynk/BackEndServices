@@ -3,6 +3,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import List
 from datetime import date
 from sqlalchemy import ForeignKey
+from models.skill import Skill
 
 
 class Neighbor(Base):
@@ -26,6 +27,6 @@ class Neighbor(Base):
     skill_id: Mapped[int] = mapped_column(db.Integer, ForeignKey('skill.id'))
 
 
-    skills: Mapped[List[Skill]] = db.relationship(back_populates="neighbor")
+    skills: Mapped[List["Skill"]] = db.relationship(back_populates="neighbor")
    
 

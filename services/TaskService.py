@@ -1,4 +1,4 @@
-from database import db
+from database import db, Base
 from models import Neighbor, Skill, Task, Feedback
 from datetime import date
 from sqlalchemy import select

@@ -1,8 +1,7 @@
-from database import db  # services interact directly with the db
+from database import db, Base  # services interact directly with the db
 from models import Neighbor, Skill, Task, Feedback
 from sqlalchemy import select
 from utils.util import encode_role_token
-from SkillService import create_skill
 from datetime import date
 import hashlib
 import secrets

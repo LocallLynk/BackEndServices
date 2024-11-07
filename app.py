@@ -41,7 +41,7 @@ def blueprint_config(app):
     app.register_blueprint(neighbor_blueprint, url_prefix='/neighbor')
     app.register_blueprint(skill_blueprint, url_prefix='/skill')
     app.register_blueprint(task_blueprint, url_prefix='/task')
-    app.register_blueprint(chat_app, url_prefix='/chat')
+    # app.register_blueprint(chat_app, url_prefix='/chat')
     app.register_blueprint(swagger_blueprint, url_prefux=SWAGGER_URL)
 
 
