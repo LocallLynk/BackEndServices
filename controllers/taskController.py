@@ -25,7 +25,7 @@ def get_all_tasks():
     all_tasks = TaskService.get_all_tasks(page, per_page)
     return jsonify({
         "message": "All tasks retrieved successfully",
-        "tasks": task_schema.dump(all_tasks, many=True)
+        "tasks": tasks_schema.dump(all_tasks, many=True)
     }), 200
 
 @token_required
