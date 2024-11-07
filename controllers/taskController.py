@@ -1,30 +1,21 @@
 from flask import request, jsonify
-from models.schemas.skillSchema import skill_schema
-from models.schemas.neighborSchema import neighbors_schema, neighbor_schema
-from services import SkillService
-from models.skill import Skill
-from marshmallow import ValidationError
-from cache import cache
-from utils.util import token_required, user_validation, admin_required
-from models.task import Task
-from models.feedback import Feedback
-from services import FeedbackService
-from services import NeighborService
-from models.neighbor import Neighbor
-from services import TaskService
-from models.task import Task
 from models.schemas.taskSchema import task_schema
+from services import TaskService
+from marshmallow import ValidationError
+from utils.util import token_required, admin_required
 
 @token_required
 def create_task():
     try:
         task_data = task_schema.load(request.json)
     except ValidationError as e:
-        return jsonify(e.messages), 400
+        return jsonify({"error": e.messages}), 400
 
     new_task = TaskService.create_task(task_data)
-
-    return task_schema.jsonify(new_task), 201
+    return jsonify({
+        "message": "Task created successfully",
+        "task": task_schema.dump(new_task)
+    }), 201
 
 @admin_required
 def get_all_tasks():
@@ -32,76 +23,79 @@ def get_all_tasks():
     per_page = request.args.get('per_page', 10, type=int)
 
     all_tasks = TaskService.get_all_tasks(page, per_page)
-
-    return task_schema.jsonify(all_tasks), 200
+    return jsonify({
+        "message": "All tasks retrieved successfully",
+        "tasks": task_schema.dump(all_tasks, many=True)
+    }), 200
 
 @token_required
 def get_task_by_id(task_id):
     task = TaskService.find_task_by_id(task_id)
-
-    return task_schema.jsonify(task), 200
+    return jsonify({
+        "message": "Task retrieved successfully",
+        "task": task_schema.dump(task)
+    }), 200
 
 @token_required
 def get_task_by_task_neighbor_id(task_neighbor_id):
     task = TaskService.find_task_by_task_neighbor_id(task_neighbor_id)
-
-    return task_schema.jsonify(task), 200
+    return jsonify({
+        "message": "Task by neighbor ID retrieved successfully",
+        "task": task_schema.dump(task)
+    }), 200
 
 @token_required
 def get_task_by_client_neighbor_id(client_neighbor_id):
     task = TaskService.find_task_by_client_neighbor_id(client_neighbor_id)
-
-    return task_schema.jsonify(task), 200
+    return jsonify({
+        "message": "Task by client neighbor ID retrieved successfully",
+        "task": task_schema.dump(task)
+    }), 200
 
 @token_required
 def update_task(task_id):
     try:
         task_data = task_schema.load(request.json)
     except ValidationError as e:
-        return jsonify(e.messages), 400
+        return jsonify({"error": e.messages}), 400
 
     updated_task = TaskService.update_task(task_id, task_data)
-
-    return task_schema.jsonify(updated_task), 200
+    return jsonify({
+        "message": "Task updated successfully",
+        "task": task_schema.dump(updated_task)
+    }), 200
 
 @token_required
 def delete_task(task_id):
     TaskService.delete_task(task_id)
-
-    return jsonify({'message': 'Task deleted successfully'}), 200
+    return jsonify({"message": "Task deleted successfully"}), 200
 
 @token_required
 def update_task_status(task_id):
     try:
         task_data = task_schema.load(request.json)
     except ValidationError as e:
-        return jsonify(e.messages), 400
+        return jsonify({"error": e.messages}), 400
 
     updated_task = TaskService.update_task_status(task_id, task_data)
-
-    return task_schema.jsonify(updated_task), 200
+    return jsonify({
+        "message": "Task status updated successfully",
+        "task": task_schema.dump(updated_task)
+    }), 200
 
 @token_required
 def update_task_paid(task_id):
     try:
         task_data = task_schema.load(request.json)
     except ValidationError as e:
-        return jsonify(e.messages), 400
+        return jsonify({"error": e.messages}), 400
 
     updated_task = TaskService.update_task_paid(task_id, task_data)
+    return jsonify({
+        "message": "Task payment status updated successfully",
+        "task": task_schema.dump(updated_task)
+    }), 200
 
-    return task_schema.jsonify(updated_task), 200
-
-@token_required
-def update_traded_task(task_id):
-    try:
-        task_data = task_schema.load(request.json)
-    except ValidationError as e:
-        return jsonify(e.messages), 400
-
-    updated_task = TaskService.update_traded_task(task_id, task_data)
-
-    return task_schema.jsonify(updated_task), 200
 
 
 
