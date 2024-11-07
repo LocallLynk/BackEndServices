@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from models.schemas.taskSchema import task_schema
+from models.schema.taskSchema import task_schema
 from services import TaskService
 from marshmallow import ValidationError
 from utils.util import token_required, admin_required
