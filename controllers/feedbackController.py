@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from models.schema.feedbackSchema import feedback_schema
+from models.schema.feedbackSchema import feedback_schema, feedbacks_schema
 from services import NeighborService
 from marshmallow import ValidationError
 from cache import cache
