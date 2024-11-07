@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from models.schemas.feedbackSchema import feedback_schema
+from models.schemas.feedbackSchema import feedback_schema, feedbacks_schema
 from services import NeighborService
 from marshmallow import ValidationError
 from cache import cache
@@ -71,7 +71,7 @@ def get_all_feedback():
 
     return jsonify({
         "message": "All feedback retrieved successfully",
-        "feedback": feedback_schema.dump(all_feedback, many=True)
+        "feedback": feedbacks_schema.dump(all_feedback, many=True)
     }), 200
 
 @token_required
