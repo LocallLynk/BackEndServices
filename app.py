@@ -33,6 +33,8 @@ def create_app(config_name):
     CORS(app)
     socketio = SocketIO(app)
     socketio.init_app(app)
+    
+
 
 
     return app
@@ -57,7 +59,7 @@ def rate_limit_config(app):
 
 
 if __name__ == '__main__':
-    app = create_app('LocalLynk')
+    app = create_app('DevelopmentConfig')
 
     with app.app_context():
         db.create_all()
