@@ -17,6 +17,25 @@ def create_skill(skill_data):
     
     return new_skill
 
+def add_skill_to_neighbor(neighbor_id, skill_id):
+    """Adds a skill to a neighbor's profile."""
+    neighbor = db.session.get(Neighbor, neighbor_id)
+    skill = db.session.get(Skill, skill_id)
+
+    if not neighbor:
+        print("Neighbor not found.")
+        return None
+    if not skill:
+        print("Skill not found.")
+        return None
+
+    neighbor.skills.append(skill)
+    db.session.commit()
+    db.session.refresh(neighbor)
+    print("Skill added successfully.")
+    
+    return neighbor
+
 def find_skill_by_name(skill_name):
     """Finds a skill by name."""
     query = select(Skill).where(Skill.skill_name == skill_name)

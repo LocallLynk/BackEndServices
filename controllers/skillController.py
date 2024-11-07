@@ -18,6 +18,7 @@ def create_skill():
         "skill": skill_schema.dump(new_skill)
     }), 201
 
+
 @token_required
 def get_skill_by_id(skill_id):
     skill = SkillService.find_skill_by_id(skill_id)

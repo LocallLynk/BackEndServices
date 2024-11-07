@@ -4,6 +4,7 @@ from models.feedback import Feedback
 from datetime import date
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
+from flask import jsonify
 
 def create_feedback(feedback_data):
     new_feedback = Feedback(
@@ -88,6 +89,6 @@ def delete_feedback(feedback_id):
     db.session.delete(feedback)
     db.session.commit()
 
-    return {"message": "Feedback deleted successfully"}
+    return jsonify({"message": "Feedback deleted successfully"}), 200
 
 

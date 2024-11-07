@@ -5,6 +5,7 @@ from models.skill import Skill
 from models.feedback import Feedback
 from sqlalchemy import select
 from utils.util import encode_role_token
+from SkillService import create_skill
 from datetime import date
 import hashlib
 import secrets
@@ -33,7 +34,8 @@ def create_neighbor(neighbor_data):
         salt=salt,
         overall_rating=0, 
         num_ratings=0, 
-        num_rated=0, 
+        num_rated=0,
+        skills=[], 
         admin=0, 
         created_on=date.today()
     )
@@ -119,7 +121,8 @@ def update_neighbor(neighbor_id, neighbor_data):
     neighbor.phone = neighbor_data.get('phone', neighbor.phone)
     neighbor.zipcode = neighbor_data.get('zipcode', neighbor.zipcode)
     neighbor.username = neighbor_data.get('username', neighbor.username)
-    
+    neighbor.skills = neighbor_data.get('skills', neighbor.skills)
+
     if 'password' in neighbor_data:
         neighbor.password, neighbor.salt = generate_password_hash(neighbor_data['password'])
 
@@ -153,8 +156,10 @@ def add_skill_to_neighbor(neighbor_id, skill_id):
         print("Neighbor not found.")
         return None
     if not skill:
-        print("Skill not found. Would you like to add it to the skill bank? (y/n): ")
+        input("Skill not found.")
         return None
+
+       
 
     neighbor.skills.append(skill)
     db.session.commit()
