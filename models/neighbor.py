@@ -25,6 +25,7 @@ class Neighbor(Base):
     client_neighbor = Mapped[bool] = mapped_column(db.Boolean, default=None, nullable=True)
     admin = Mapped[bool] = mapped_column(db.Boolean, default=False)
     # salt = Mapped[str] = mapped_column(db.String(255), nullable=False)
+    skill_id = Mapped[int] = mapped_column(db.Integer, ForeignKey('skill.id'))
 
 
     skills = Mapped[List[Skill]] = mapped_column(relationship("Skill", secondary="neighbor_skill", back_populates="neighbors"))

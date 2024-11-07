@@ -13,6 +13,10 @@ class Skill(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name = Mapped[str] = mapped_column(db.String(255), nullable=False)
+    experience = Mapped[int] = mapped_column(db.String(255), nullable=False)
     description = Mapped[str] = mapped_column(db.String(255), nullable=False)
 
-    neighbors = Mapped[List[Neighbor]] = mapped_column(relationship("Neighbor", secondary="neighbor_skill", back_populates="skills"))
+    neighbor_id = Mapped[int] = mapped_column(db.Integer, ForeignKey('neighbor.id'))
+
+    neighbor = Mapped[List[Neighbor]] = mapped_column(relationship("Neighbor", secondary="neighbor_skill", back_populates="skills"))
+    task = Mapped[List[Task]] = mapped_column(relationship("Task", back_populates="skill"))
