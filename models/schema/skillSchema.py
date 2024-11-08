@@ -6,7 +6,7 @@ class SkillSchema(ma.Schema):
     name = fields.String(required=True)
     experience = fields.String(required=True)
     description = fields.String(required=True)
-    neighbor_id = fields.Integer(required=False)
+    
     
     class Meta:
         fields = ('id', 'name','experience','description','neighbor_id') #fields coming into skill schema

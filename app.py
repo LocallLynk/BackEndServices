@@ -59,6 +59,6 @@ if __name__ == '__main__':
 
     with app.app_context():
         db.create_all()
-        #populate_skill_bank(db.session)
+        populate_skill_bank(db.session)
     app.run()
 

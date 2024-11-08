@@ -79,6 +79,8 @@ def get_neighbor_by_skill(skill_id):
     query = select(Neighbor).join(Skill).where(Skill.id == skill_id)
     result = db.session.execute(query)
     return result.scalars().all()
+    
+    
 
 def get_neighbor_by_task(task_id):
     query = select(Neighbor).join(Task).where(Task.id == task_id)

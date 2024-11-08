@@ -2,7 +2,7 @@ from database import db, Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import List
 from sqlalchemy import ForeignKey
-from neighborSkill import neighbor_skill
+from models.neighborSkill import neighbor_skill
 
 
 class Skill(Base):
@@ -13,7 +13,7 @@ class Skill(Base):
     experience: Mapped[str] = mapped_column(db.String(255), nullable=False)
     description: Mapped[str] = mapped_column(db.String(255), nullable=False)
     
-    neighbors: Mapped[List["Neighbor"]] = relationship("Neighbor", secondary=neighbor_skill, back_populates="skills")
+    neighbor: Mapped[List["Neighbor"]] = relationship("Neighbor", secondary=neighbor_skill, back_populates="skills")
 
     # Relationship for tasks associated with this skill
     tasks: Mapped[List["Task"]] = relationship("Task", back_populates="skill")

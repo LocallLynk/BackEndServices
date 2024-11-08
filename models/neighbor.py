@@ -3,9 +3,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import List
 from datetime import date
 from sqlalchemy import ForeignKey
-from neighborSkill import neighbor_skill
-# from models.feedback import Feedback
-# from models.task import Task
+from models.neighborSkill import neighbor_skill
+from models.feedback import Feedback
+from models.task import Task
 
 class Neighbor(Base):
 
