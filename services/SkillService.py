@@ -1,43 +1,61 @@
 from database import db, Base
-from models import Neighbor, Skill, Task, Feedback
+from models.skill import Skill
+from models.neighbor import Neighbor
 from sqlalchemy import select
+from sqlalchemy.orm import Session
+
+def populate_skill_bank(db_session: Session):
+    for category, skills in skill_bank.items():
+        for skill_name in skills:
+            
+            existing_skill = db_session.query(Skill).filter_by(name=skill_name).first()
+            if existing_skill:
+                continue
+
+            new_skill = Skill(
+                name=skill_name,
+                experience="Beginner",  # Default experience level; adjust as needed
+                description=f"{skill_name} skill under {category} category.",
+                
+            )
+
+            db_session.add(new_skill)
+
+    db_session.commit()
+    print("Skill bank has been populated.")
 
 def create_skill(skill_data):
-    """Creates a new skill and saves it to the database."""
     new_skill = Skill(
-        skill_name=skill_data['skill_name'], 
-        skill_description=skill_data['skill_description'],
-        skill_experience=skill_data['skill_experience']
+        name=skill_data['name'],
+        experience=skill_data['experience'],
+        description=skill_data['description']
     )
-    
+
     db.session.add(new_skill)
     db.session.commit()
-    db.session.refresh(new_skill)  # Refresh to retrieve the new skill ID
-    
+    db.session.refresh(new_skill)
+
     return new_skill
+# def add_skill_to_neighbor(neighbor_id, skill_id):
+#     neighbor = db.session.get(Neighbor, neighbor_id)
+#     skill = db.session.get(Skill, skill_id)
 
-def add_skill_to_neighbor(neighbor_id, skill_id):
-    """Adds a skill to a neighbor's profile."""
-    neighbor = db.session.get(Neighbor, neighbor_id)
-    skill = db.session.get(Skill, skill_id)
+#     if not neighbor:
+#         print("Neighbor not found.")
+#         return None
+#     if not skill:
+#         print("Skill not found.")
+#         return None
 
-    if not neighbor:
-        print("Neighbor not found.")
-        return None
-    if not skill:
-        print("Skill not found.")
-        return None
-
-    neighbor.skills.append(skill)
-    db.session.commit()
-    db.session.refresh(neighbor)
-    print("Skill added successfully.")
+#     neighbor.skills.append(skill)
+#     db.session.commit()
+#     db.session.refresh(neighbor)
+#     print("Skill added successfully.")
     
-    return neighbor
+#     return neighbor
 
 def find_skill_by_name(skill_name):
-    """Finds a skill by name."""
-    query = select(Skill).where(Skill.skill_name == skill_name)
+    query = select(Skill).where(Skill.name == skill_name)
     result = db.session.execute(query)
     return result.scalars().first()
 
@@ -123,36 +141,31 @@ skill_bank = {
 }
 
 def get_skills_by_category(category):
-    """Retrieves skills for a specific category from the skill bank."""
     return skill_bank.get(category)
 
 def get_all_skills():
-    """Returns all skills organized by category."""
     return skill_bank
 
 def get_skill_by_id(skill_id):
-    """Finds a skill by its ID."""
     skill = db.session.get(Skill, skill_id)
     if skill is None:
         raise ValueError("Skill not found.")
     return skill
 
 def update_skill(skill_id, skill_data):
-    """Updates an existing skill's information."""
     skill = db.session.get(Skill, skill_id)
     if not skill:
         raise ValueError("Skill not found.")
-
-    skill.skill_name = skill_data.get('skill_name', skill.skill_name)
-    skill.skill_description = skill_data.get('skill_description', skill.skill_description)
-    skill.skill_experience = skill_data.get('skill_experience', skill.skill_experience)
+    
+    skill.name = skill_data.get('skill_name', skill.name)
+    skill.description = skill_data.get('skill_description', skill.description)
+    skill.experience = skill_data.get('skill_experience', skill.experience)
     db.session.commit()
     db.session.refresh(skill)
     
     return skill
 
 def delete_skill(skill_id, confirm_deletion):
-    """Deletes a skill if confirmed by user."""
     skill = db.session.get(Skill, skill_id)
     if not skill:
         raise ValueError("Skill not found.")
@@ -167,19 +180,19 @@ def delete_skill(skill_id, confirm_deletion):
         return None
 
 def get_neighbors_by_skill(skill_id):
-    """Retrieves neighbors associated with a specific skill ID."""
+    
     query = select(Neighbor).where(Neighbor.skills.any(Skill.id == skill_id))
     result = db.session.execute(query)
     return result.scalars().all()
 
 def get_skills_by_neighbor(neighbor_id):
-    """Retrieves skills associated with a specific neighbor ID."""
+   
     query = select(Skill).where(Skill.neighbors.any(Neighbor.id == neighbor_id))
     result = db.session.execute(query)
     return result.scalars().all()
 
 def remove_skill_from_neighbor(neighbor_id, skill_id):
-    """Removes a skill from a neighbor."""
+    
     neighbor = db.session.get(Neighbor, neighbor_id)
     skill = db.session.get(Skill, skill_id)
 

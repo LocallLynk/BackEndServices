@@ -20,6 +20,11 @@ def verify_password(password, hashed_password, salt):
 # Creating a new neighbor
 def create_neighbor(neighbor_data):
     password_hash, salt = generate_password_hash(neighbor_data['password'])
+    skills = []
+    if 'skills' in neighbor_data:
+        skill_ids = neighbor_data['skills']  
+        skills = db.session.query(Skill).filter(Skill.id.in_(skill_ids)).all()
+
     new_neighbor = Neighbor(
         name=neighbor_data['name'], 
         email=neighbor_data['email'],

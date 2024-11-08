@@ -1,13 +1,12 @@
-#from database import db, Base
 from database import db, Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import List
 from datetime import date
 from sqlalchemy import ForeignKey
 # from models import Neighbor, Skill, Task, Feedback
-from models.neighbor import Neighbor
-from models.skill import Skill
-from models.feedback import Feedback
+# from models.neighbor import Neighbor
+# from models.skill import Skill
+# from models.feedback import Feedback
 class Task(Base):
     __tablename__ = 'task'
 
@@ -21,11 +20,11 @@ class Task(Base):
     client_neighbor_id: Mapped[int] = mapped_column(db.Integer, ForeignKey('neighbor.id'), nullable=False)
     skill_id: Mapped[int] = mapped_column(db.Integer, ForeignKey('skill.id'), nullable=False)
     
-    
-    
-    
-    neighbor: Mapped["Neighbor"] = db.relationship(back_populates="task")
-    skill: Mapped["Skill"] = db.relationship(back_populates="task")
-    feedback: Mapped[List["Feedback"]] = db.relationship(back_populates="task")
+    # Define relationships and clarify foreign keys
+
+    task_neighbor: Mapped["Neighbor"] = relationship("Neighbor", foreign_keys=[task_neighbor_id], back_populates="tasks_as_task_neighbor")
+    client_neighbor: Mapped["Neighbor"] = relationship("Neighbor", foreign_keys=[client_neighbor_id], back_populates="tasks_as_client_neighbor")
+    skill: Mapped["Skill"] = relationship("Skill", back_populates="tasks")
+    feedback: Mapped[List["Feedback"]] = relationship("Feedback", back_populates="task")
     
     

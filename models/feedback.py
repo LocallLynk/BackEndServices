@@ -4,7 +4,7 @@ from typing import List
 from datetime import date
 from sqlalchemy import ForeignKey
 # from models import Neighbor, Task
-from models.neighbor import Neighbor
+
 
 
 class Feedback(Base):
@@ -19,7 +19,10 @@ class Feedback(Base):
     task_id: Mapped[int] = mapped_column(db.Integer, ForeignKey('task.id'), nullable=False)
    
    
-    reviewer: Mapped["Neighbor"] = db.relationship(back_populates="feedback")
-    reviewed_neighbor: Mapped["Neighbor"] = db.relationship(back_populates="feedback")
+    reviewer: Mapped["Neighbor"] = relationship("Neighbor", foreign_keys=[reviewer_id], back_populates="given_feedback")
+    reviewed_neighbor: Mapped["Neighbor"] = relationship("Neighbor", foreign_keys=[reviewed_neighbor_id], back_populates="received_feedback")
+
+    # Relationship back to Task
+    task: Mapped["Task"] = relationship("Task", back_populates="feedback")
     
 

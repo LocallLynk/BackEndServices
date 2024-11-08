@@ -11,6 +11,7 @@ from flask_cors import CORS
 from cache import cache
 from flask_swagger_ui import get_swaggerui_blueprint
 from chat import app as chat_app
+from services.SkillService import populate_skill_bank
 SWAGGER_URL = '/api/docs' # URL endpoint to view our docs
 API_URL = '/static/swagger.yaml'#Grabs our host from our swagger.yaml file
 
@@ -58,6 +59,6 @@ if __name__ == '__main__':
 
     with app.app_context():
         db.create_all()
-
+        #populate_skill_bank(db.session)
     app.run()
 

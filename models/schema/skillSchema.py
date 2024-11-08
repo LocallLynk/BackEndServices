@@ -4,9 +4,9 @@ from marshmallow import fields
 class SkillSchema(ma.Schema):
     id = fields.Integer(required=False) #will auto increment
     name = fields.String(required=True)
-    experience = fields.Integer(required=True)
+    experience = fields.String(required=True)
     description = fields.String(required=True)
-    neighbor_id = fields.Integer(required=True)
+    neighbor_id = fields.Integer(required=False)
     
     class Meta:
         fields = ('id', 'name','experience','description','neighbor_id') #fields coming into skill schema

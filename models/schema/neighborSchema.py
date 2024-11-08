@@ -9,7 +9,7 @@ class NeighborSchema(ma.Schema):
     username = fields.String(required=True)
     password = fields.String(required=True)
     zipcode = fields.String(required=True)
-    admin = fields.Integer(required=True)
+    admin = fields.Integer(required=False)
     
         
     class Meta:
