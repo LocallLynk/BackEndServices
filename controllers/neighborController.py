@@ -16,8 +16,8 @@ def create_neighbor():
     new_neighbor = NeighborService.create_neighbor(neighbor_data)
 
     return jsonify({
-        "message": "Neighbor created successfully",
-        "neighbor": neighbor_schema.dump(new_neighbor)
+        "message": "Neighbor created successfully"
+       
     }), 201
 
 @cache.cached(timeout=50)
@@ -30,33 +30,54 @@ def get_all_neighbors():
 
     return jsonify({
         "message": "Neighbors retrieved successfully",
-        "neighbors": neighbors_schema.dump(all_neighbors, many=True)
+        "data": neighbors_schema.dump(all_neighbors)
+        
     }), 200
 
+@admin_required
+def make_admin(neighbor_id):
+    neighbor = NeighborService.make_admin(neighbor_id)
+
+    if neighbor:
+        return jsonify({
+            "message": "Neighbor is now an admin",
+            
+        }), 200
+    else:
+        return jsonify({"message": "Neighbor not found"}), 404
+    
 def login():
     try:
+        
         credentials = neighbor_login.load(request.json)
+
     except ValidationError as e:
-        return jsonify(e.messages), 400
+        
+        return jsonify({"status": "error", "message": "Invalid input", "errors": e.messages}), 400
 
     token = NeighborService.login(credentials)
 
     if token:
+        # Successful login response
         response = {
             "status": "success",
-            "message": "successfully logging in",
+            "message": "Successfully logged in",
             "token": token
         }
         return jsonify(response), 200
     else:
-        return jsonify({"status": "error", "message": "invalid username or password"}), 404
-
+        # Error response for invalid credentials
+        return jsonify({"status": "error", "message": "Invalid username or password"}), 401
+    
 @token_required
 def get_neighbor_by_id(neighbor_id):
     neighbor = NeighborService.get_neighbor_by_id(neighbor_id)
+
     return jsonify({
         "message": "Neighbor retrieved successfully",
         "neighbor": neighbor_schema.dump(neighbor)
+
+        
     }), 200
 
 @token_required
@@ -66,11 +87,11 @@ def update_neighbor(current_neighbor):
     except ValidationError as e:
         return jsonify(e.messages), 400
 
-    updated_neighbor = NeighborService.update_neighbor(current_neighbor, neighbor_data)
+    NeighborService.update_neighbor(current_neighbor, neighbor_data)
 
     return jsonify({
-        "message": "Neighbor updated successfully",
-        "neighbor": neighbor_schema.dump(updated_neighbor)
+        "message": "Neighbor updated successfully"
+        
     }), 200
 
 @token_required
@@ -86,11 +107,11 @@ def add_skill_to_neighbor(current_neighbor):
     except ValidationError as e:
         return jsonify(e.messages), 400
 
-    new_skill = NeighborService.add_skill_to_neighbor(current_neighbor, skill_data)
+    NeighborService.add_skill_to_neighbor(current_neighbor, skill_data)
 
     return jsonify({
-        "message": "Skill added to neighbor successfully",
-        "skill": skill_schema.dump(new_skill)
+        "message": "Skill added to neighbor successfully"
+        
     }), 201
 
 @token_required
@@ -98,11 +119,12 @@ def get_neighbor_by_skill(neighbor_skill):
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
 
-    neighbors = NeighborService.get_neighbor_by_skill(neighbor_skill, page, per_page)
+    neighbor = NeighborService.get_neighbor_by_skill(neighbor_skill, page, per_page)
 
     return jsonify({
         "message": "Neighbors with skill retrieved successfully",
-        "neighbors": neighbors_schema.dump(neighbors, many=True)
+        "neighbor": neighbor_schema.dump(neighbor)
+        
     }), 200
 
 @token_required
@@ -110,11 +132,12 @@ def get_neighbor_by_task(task_id):
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
 
-    neighbors = NeighborService.get_neighbor_by_task(task_id, page, per_page)
+    neighbor = NeighborService.get_neighbor_by_task(task_id, page, per_page)
 
     return jsonify({
         "message": "Neighbors by task retrieved successfully",
-        "neighbors": neighbors_schema.dump(neighbors, many=True)
+        "neighbor": neighbor_schema.dump(neighbor)
+        
     }), 200
 
 @token_required
@@ -122,11 +145,11 @@ def get_neighbor_by_feedback(feedback_id):
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
 
-    neighbors = NeighborService.get_neighbor_by_feedback(feedback_id, page, per_page)
+    neighbor = NeighborService.get_neighbor_by_feedback(feedback_id, page, per_page)
 
     return jsonify({
         "message": "Neighbors by feedback retrieved successfully",
-        "neighbors": neighbors_schema.dump(neighbors, many=True)
+        "neighbor": neighbor_schema.dump(neighbor)
     }), 200
 
 @token_required
@@ -134,11 +157,11 @@ def get_neighbor_by_rating(rating):
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
 
-    neighbors = NeighborService.get_neighbor_by_rating(rating, page, per_page)
+    neighbor = NeighborService.get_neighbor_by_rating(rating, page, per_page)
 
     return jsonify({
         "message": "Neighbors by rating retrieved successfully",
-        "neighbors": neighbors_schema.dump(neighbors, many=True)
+        "neighbor": neighbor_schema.dump(neighbor)
     }), 200
 
 @token_required
@@ -159,10 +182,10 @@ def get_neighbor_by_email(email):
 
 @token_required
 def get_neighbor_by_zipcode(zipcode):
-    neighbors = NeighborService.get_neighbor_by_zipcode(zipcode)
+    neighbor = NeighborService.get_neighbor_by_zipcode(zipcode)
     return jsonify({
         "message": "Neighbors by zipcode retrieved successfully",
-        "neighbors": neighbors_schema.dump(neighbors, many=True)
+        "neighbor": neighbors_schema.dump(neighbor)
     }), 200
 
 

@@ -20,7 +20,9 @@ def verify_password(password, hashed_password, salt):
 # Creating a new neighbor
 def create_neighbor(neighbor_data):
     password_hash, salt = generate_password_hash(neighbor_data['password'])
+    
     skills = []
+    
     if 'skills' in neighbor_data:
         skill_ids = neighbor_data['skills']  
         skills = db.session.query(Skill).filter(Skill.id.in_(skill_ids)).all()
@@ -48,6 +50,17 @@ def create_neighbor(neighbor_data):
     db.session.refresh(new_neighbor)
     return new_neighbor
 
+def make_admin(neighbor_id):
+    neighbor = db.session.get(Neighbor, neighbor_id)
+    if not neighbor:
+        print("Neighbor not found")
+        return None
+
+    neighbor.admin = True
+    db.session.commit()
+    db.session.refresh(neighbor)
+    print("Neighbor is now an admin")
+    return neighbor
 #-------- Searching for neighbors --------
 
 def get_all_neighbors(page=1, per_page=10):
@@ -101,10 +114,10 @@ def get_neighbor_by_rating(rating):
 
 #-------- Logging in --------
 
-def login(username, password):
-    query = select(Neighbor).where(Neighbor.username == username)
-    result = db.session.execute(query)
-    neighbor = result.scalars().first()
+def login(credentials):
+    query = select(Neighbor).where(Neighbor.email == credentials['email'])
+    neighbor = db.session.execute(query).scalar_one_or_none()
+    password = credentials['password'] 
 
     if neighbor and verify_password(password, neighbor.password, neighbor.salt):
         print(f'Login successful. Welcome, {neighbor.name}')
@@ -115,8 +128,8 @@ def login(username, password):
 
 #-------- Updating a neighbor's information --------
 
-def update_neighbor(neighbor_id, neighbor_data):
-    neighbor = db.session.get(Neighbor, neighbor_id)
+def update_neighbor(neighbor_data):
+    neighbor = db.session.get(Neighbor, neighbor_data['id'])
     if not neighbor:
         print("Neighbor not found")
         return None
@@ -138,20 +151,16 @@ def update_neighbor(neighbor_id, neighbor_data):
 
 #-------- Deleting a neighbor --------
 
-def delete_neighbor(neighbor_id, confirm_deletion):
+def delete_neighbor(neighbor_id):
     neighbor = db.session.get(Neighbor, neighbor_id)
     if not neighbor:
-        print("Account not found")
+        print("Neighbor not found")
         return None
 
-    if confirm_deletion.lower() == 'y':
-        db.session.delete(neighbor)
-        db.session.commit()
-        print("Account deleted successfully")
-        return neighbor
-    else:
-        print("Account deletion cancelled")
-        return None
+    db.session.delete(neighbor)
+    db.session.commit()
+    print("Neighbor deleted")
+    return neighbor
 
 def add_skill_to_neighbor(neighbor_id, skill_id):
     neighbor = db.session.get(Neighbor, neighbor_id)
@@ -161,7 +170,7 @@ def add_skill_to_neighbor(neighbor_id, skill_id):
         print("Neighbor not found.")
         return None
     if not skill:
-        input("Skill not found.")
+        print("Skill not found.")
         return None
 
        
