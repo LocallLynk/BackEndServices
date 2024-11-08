@@ -4,6 +4,7 @@ from marshmallow import fields
 class SkillSchema(ma.Schema):
     id = fields.Integer(required=False) #will auto increment
     name = fields.String(required=True)
+    category = fields.String(required=True)
     experience = fields.String(required=True)
     description = fields.String(required=True)
     

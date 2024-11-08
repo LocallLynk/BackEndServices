@@ -14,8 +14,9 @@ def populate_skill_bank(db_session: Session):
 
             new_skill = Skill(
                 name=skill_name,
+                category=f"{category}",
                 experience="Beginner",  # Default experience level; adjust as needed
-                description=f"{skill_name} skill under {category} category.",
+                description=f"{skill_name} skill."  # Default description; adjust as needed
                 
             )
 
@@ -27,6 +28,7 @@ def populate_skill_bank(db_session: Session):
 def create_skill(skill_data):
     new_skill = Skill(
         name=skill_data['name'],
+        category=skill_data['category'],
         experience=skill_data['experience'],
         description=skill_data['description']
     )

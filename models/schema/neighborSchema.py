@@ -6,10 +6,16 @@ class NeighborSchema(ma.Schema):
     name = fields.String(required=True)
     email = fields.String(required=True)
     phone = fields.String(required=True)
+    zipcode = fields.String(required=True)
     username = fields.String(required=True)
     password = fields.String(required=True)
-    zipcode = fields.String(required=True)
-    admin = fields.Integer(required=False)
+    overall_rating = fields.Float(required=False)
+    num_ratings = fields.Integer(required=False)
+    num_rated = fields.Integer(required=False)
+    created_on = fields.Date(required=False)
+    task_neighbor = fields.Boolean(required=False)
+    client_neighbor = fields.Boolean(required=False)
+    admin = fields.Boolean(required=False)
     
         
     class Meta:

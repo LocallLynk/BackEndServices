@@ -10,6 +10,7 @@ class Skill(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(db.String(255), nullable=False)
+    category: Mapped[str] = mapped_column(db.String(255), nullable=False)
     experience: Mapped[str] = mapped_column(db.String(255), nullable=False)
     description: Mapped[str] = mapped_column(db.String(255), nullable=False)
     
