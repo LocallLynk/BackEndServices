@@ -1,5 +1,5 @@
 class DevelopmentConfig:
-    SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://root:Groovin@localhost/LocalLynk'
+    SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://root:rootroot1!@localhost/LocalLynk'
     CACHE_TYPE = "SimpleCache"
     DEBUG = True
 
