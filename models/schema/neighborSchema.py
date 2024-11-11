@@ -16,10 +16,11 @@ class NeighborSchema(ma.Schema):
     task_neighbor = fields.Boolean(required=False)
     client_neighbor = fields.Boolean(required=False)
     admin = fields.Boolean(required=False)
+    skills = fields.List(fields.Nested('SkillSchema'), required=False)
     
         
     class Meta:
-        fields = ('id', 'name', 'email', 'phone', 'username', 'password', 'zipcode', 'admin') #fields coming into neighbor schema
+        fields = ('id', 'name', 'email', 'phone', 'username', 'password', 'zipcode', 'admin', 'skills') #fields coming into neighbor schema
             
 neighbor_schema = NeighborSchema() #instantiating our neighbor schema
 neighbors_schema = NeighborSchema(many=True, exclude=["password"]) # returns a list of neighbors, excludes the password field

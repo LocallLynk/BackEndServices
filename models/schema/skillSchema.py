@@ -10,7 +10,7 @@ class SkillSchema(ma.Schema):
     
     
     class Meta:
-        fields = ('id', 'name','experience','description','neighbor_id') #fields coming into skill schema
+        fields = ('id', 'name', 'category', 'experience','description','neighbor_id') #fields coming into skill schema
 
 skill_schema = SkillSchema() #instantiating our skill schema
 skills_schema = SkillSchema(many=True) # returns a list of skills

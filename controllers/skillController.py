@@ -21,28 +21,28 @@ def create_skill():
 
 @token_required
 def get_skill_by_id(skill_id):
-    skill = SkillService.find_skill_by_id(skill_id)
+    skill = SkillService.get_skill_by_id(skill_id)
     return jsonify({
         "message": "Skill retrieved successfully",
         "skill": skill_schema.dump(skill)
     }), 200
 
 @token_required
-def get_skill_by_name(skill_name):
-    skill = SkillService.find_skill_by_name(skill_name)
+def get_skill_by_name(name):
+    skill = SkillService.get_skill_by_name(name)
     return jsonify({
         "message": "Skill retrieved successfully",
         "skill": skill_schema.dump(skill)
     }), 200
 
 @admin_required
-def update_skill(current_skill):
+def update_skill(skill_id):
     try:
         skill_data = skill_schema.load(request.json)
     except ValidationError as e:
         return jsonify({"error": e.messages}), 400
 
-    updated_skill = SkillService.update_skill(current_skill, skill_data)
+    updated_skill = SkillService.update_skill(skill_id, skill_data)
     return jsonify({
         "message": "Skill updated successfully",
         "skill": skill_schema.dump(updated_skill)
@@ -58,26 +58,10 @@ def get_all_skills():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
 
-    all_skills = SkillService.get_all_skills(page, per_page)
+    all_skills = SkillService.get_all_skills()
     return jsonify({
         "message": "Skills retrieved successfully",
         "skills": skill_schema.dump(all_skills, many=True)
-    }), 200
-
-@token_required
-def get_skill_by_neighbor_id(neighbor_id):
-    skill = SkillService.find_skill_by_neighbor_id(neighbor_id)
-    return jsonify({
-        "message": "Skill by neighbor ID retrieved successfully",
-        "skill": skill_schema.dump(skill)
-    }), 200
-
-@token_required
-def get_skill_by_zipcode(zipcode):
-    skill = SkillService.find_skill_by_zipcode(zipcode)
-    return jsonify({
-        "message": "Skill by zipcode retrieved successfully",
-        "skill": skill_schema.dump(skill)
     }), 200
 
 @token_required
@@ -85,7 +69,7 @@ def get_neighbors_by_skill(skill_id):
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
 
-    all_neighbors = SkillService.get_neighbor_by_skill(skill_id, page, per_page)
+    all_neighbors = SkillService.get_neighbors_by_skill(skill_id)
     return jsonify({
         "message": "Neighbors by skill retrieved successfully",
         "neighbors": neighbors_schema.dump(all_neighbors, many=True)

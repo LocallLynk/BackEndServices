@@ -101,14 +101,7 @@ def get_neighbor_by_zipcode(zipcode):
     query = select(Neighbor).where(Neighbor.zipcode == zipcode)
     result = db.session.execute(query)
     return result.scalars().all()
-
-def get_neighbor_by_skill(skill_id):
-    query = select(Neighbor).join(Skill).where(Skill.id == skill_id)
-    result = db.session.execute(query)
-    return result.scalars().all()
     
-    
-
 def get_neighbor_by_task(task_id):
     query = select(Neighbor).join(Task).where(Task.id == task_id)
     result = db.session.execute(query)
@@ -170,21 +163,4 @@ def delete_neighbor(neighbor_id):
     print("Neighbor deleted")
 
 
-def add_skill_to_neighbor(neighbor_id, skill_id):
-    neighbor = db.session.get(Neighbor, neighbor_id)
-    skill = db.session.get(Skill, skill_id)
-    
-    if not neighbor:
-        print("Neighbor not found.")
-        return None
-    if not skill:
-        print("Skill not found.")
-        return None
 
-       
-
-    neighbor.skills.append(skill)
-    db.session.commit()
-    db.session.refresh(neighbor)
-    print("Skill added successfully")
-    return neighbor

@@ -38,26 +38,28 @@ def create_skill(skill_data):
     db.session.refresh(new_skill)
 
     return new_skill
-# def add_skill_to_neighbor(neighbor_id, skill_id):
-#     neighbor = db.session.get(Neighbor, neighbor_id)
-#     skill = db.session.get(Skill, skill_id)
 
-#     if not neighbor:
-#         print("Neighbor not found.")
-#         return None
-#     if not skill:
-#         print("Skill not found.")
-#         return None
+def add_skill_to_neighbor(neighbor_id, skill_id):
+    neighbor = db.session.get(Neighbor, neighbor_id)
+    skill = db.session.get(Skill, skill_id)
 
-#     neighbor.skills.append(skill)
-#     db.session.commit()
-#     db.session.refresh(neighbor)
-#     print("Skill added successfully.")
+    if not neighbor:
+        print("Neighbor not found.")
+        return None
+    if not skill:
+        print("Skill not found.")
+        return None
+
+    neighbor.skills.append(skill)
+    db.session.commit()
+    db.session.refresh(neighbor)
+    print("Skill added successfully.")
     
-#     return neighbor
+    return neighbor
 
-def find_skill_by_name(skill_name):
-    query = select(Skill).where(Skill.name == skill_name)
+def get_skill_by_name(name):
+    name = name.capitalize()
+    query = select(Skill).where(Skill.name == name)
     result = db.session.execute(query)
     return result.scalars().first()
 
@@ -146,7 +148,9 @@ def get_skills_by_category(category):
     return skill_bank.get(category)
 
 def get_all_skills():
-    return skill_bank
+    query = select(Skill)
+    result = db.session.execute(query)
+    return result.scalars().all()
 
 def get_skill_by_id(skill_id):
     skill = db.session.get(Skill, skill_id)
@@ -160,6 +164,7 @@ def update_skill(skill_id, skill_data):
         raise ValueError("Skill not found.")
     
     skill.name = skill_data.get('skill_name', skill.name)
+    skill.category = skill_data.get('skill_category', skill.category)
     skill.description = skill_data.get('skill_description', skill.description)
     skill.experience = skill_data.get('skill_experience', skill.experience)
     db.session.commit()
@@ -167,19 +172,17 @@ def update_skill(skill_id, skill_data):
     
     return skill
 
-def delete_skill(skill_id, confirm_deletion):
+def delete_skill(skill_id):
     skill = db.session.get(Skill, skill_id)
     if not skill:
         raise ValueError("Skill not found.")
 
-    if confirm_deletion.lower() == 'y':
+    else:
         db.session.delete(skill)
         db.session.commit()
         print("Skill deleted.")
         return skill
-    else:
-        print("Skill deletion cancelled.")
-        return None
+   
 
 def get_neighbors_by_skill(skill_id):
     
@@ -187,11 +190,6 @@ def get_neighbors_by_skill(skill_id):
     result = db.session.execute(query)
     return result.scalars().all()
 
-def get_skills_by_neighbor(neighbor_id):
-   
-    query = select(Skill).where(Skill.neighbors.any(Neighbor.id == neighbor_id))
-    result = db.session.execute(query)
-    return result.scalars().all()
 
 def remove_skill_from_neighbor(neighbor_id, skill_id):
     
@@ -214,3 +212,4 @@ def remove_skill_from_neighbor(neighbor_id, skill_id):
         print("Skill is not associated with this neighbor.")
     
     return neighbor
+

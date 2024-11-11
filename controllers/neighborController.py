@@ -113,33 +113,6 @@ def delete_neighbor(neighbor_id):
     return jsonify({"message": "Neighbor deleted successfully"}), 204
 
 @token_required
-def add_skill_to_neighbor(neighbor_id, skill_id):
-    try:
-        skill_id = skill_schema.load(request.json)
-    except ValidationError as e:
-        return jsonify(e.messages), 400
-
-    NeighborService.add_skill_to_neighbor(neighbor_id, skill_id)
-
-    return jsonify({
-        "message": "Skill added to neighbor successfully"
-        
-    }), 201
-
-@token_required
-def get_neighbor_by_skill(skill_id):
-    page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 10, type=int)
-
-    neighbor = NeighborService.get_neighbor_by_skill(skill_id, page, per_page)
-
-    return jsonify({
-        "message": "Neighbors with skill retrieved successfully",
-        "neighbor": neighborz_schema.dump(neighbor)
-        
-    }), 200
-
-@token_required
 def get_neighbor_by_task(task_id):
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
