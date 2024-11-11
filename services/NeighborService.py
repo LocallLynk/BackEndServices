@@ -160,7 +160,7 @@ def delete_neighbor(neighbor_id):
     db.session.delete(neighbor)
     db.session.commit()
     print("Neighbor deleted")
-    return neighbor
+
 
 def add_skill_to_neighbor(neighbor_id, skill_id):
     neighbor = db.session.get(Neighbor, neighbor_id)
