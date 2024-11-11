@@ -119,10 +119,6 @@ def get_neighbor_by_feedback(feedback_id):
     result = db.session.execute(query)
     return result.scalars().all()
 
-def get_neighbor_by_rating(rating):
-    query = select(Neighbor).where(Neighbor.overall_rating == rating)
-    result = db.session.execute(query)
-    return result.scalars().all()
 
 #-------- Logging in --------
 
@@ -140,8 +136,8 @@ def login(credentials):
 
 #-------- Updating a neighbor's information --------
 
-def update_neighbor(neighbor_data):
-    neighbor = db.session.get(Neighbor, neighbor_data['id'])
+def update_neighbor(neighbor_id, neighbor_data):
+    neighbor = db.session.get(Neighbor, neighbor_data)
     if not neighbor:
         print("Neighbor not found")
         return None

@@ -52,7 +52,7 @@ def remove_admin(neighbor_id):
 
     if neighbor:
         return jsonify({
-            "message": "Neighbor is no longer an Admin",
+            "message": "Neighbor is no longer an admin",
             
         }), 200
     else:
@@ -93,13 +93,13 @@ def get_neighbor_by_id(neighbor_id):
     }), 200
 
 @token_required
-def update_neighbor(current_neighbor):
+def update_neighbor(neighbor_id):
     try:
-        neighbor_data = neighbor_schema.load(request.json)
+        neighbor_id = neighbor_schema.load(request.json)
     except ValidationError as e:
         return jsonify(e.messages), 400
 
-    NeighborService.update_neighbor(current_neighbor, neighbor_data)
+    NeighborService.update_neighbor(neighbor_id)
 
     return jsonify({
         "message": "Neighbor updated successfully"
@@ -107,19 +107,19 @@ def update_neighbor(current_neighbor):
     }), 200
 
 @token_required
-def delete_neighbor(current_neighbor):
-    NeighborService.delete_neighbor(current_neighbor)
+def delete_neighbor(neighbor_id):
+    NeighborService.delete_neighbor(neighbor_id)
 
     return jsonify({"message": "Neighbor deleted successfully"}), 204
 
 @token_required
-def add_skill_to_neighbor(current_neighbor):
+def add_skill_to_neighbor(neighbor_id, skill_id):
     try:
-        skill_data = skill_schema.load(request.json)
+        skill_id = skill_schema.load(request.json)
     except ValidationError as e:
         return jsonify(e.messages), 400
 
-    NeighborService.add_skill_to_neighbor(current_neighbor, skill_data)
+    NeighborService.add_skill_to_neighbor(neighbor_id, skill_id)
 
     return jsonify({
         "message": "Skill added to neighbor successfully"
@@ -127,11 +127,11 @@ def add_skill_to_neighbor(current_neighbor):
     }), 201
 
 @token_required
-def get_neighbor_by_skill(neighbor_skill):
+def get_neighbor_by_skill(skill_id):
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
 
-    neighbor = NeighborService.get_neighbor_by_skill(neighbor_skill, page, per_page)
+    neighbor = NeighborService.get_neighbor_by_skill(skill_id, page, per_page)
 
     return jsonify({
         "message": "Neighbors with skill retrieved successfully",
@@ -161,18 +161,6 @@ def get_neighbor_by_feedback(feedback_id):
 
     return jsonify({
         "message": "Neighbors by feedback retrieved successfully",
-        "neighbor": neighborz_schema.dump(neighbor)
-    }), 200
-
-@token_required
-def get_neighbor_by_rating(rating):
-    page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 10, type=int)
-
-    neighbor = NeighborService.get_neighbor_by_rating(rating, page, per_page)
-
-    return jsonify({
-        "message": "Neighbors by rating retrieved successfully",
         "neighbor": neighborz_schema.dump(neighbor)
     }), 200
 
