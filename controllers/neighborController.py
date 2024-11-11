@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from models.schema.neighborSchema import neighbor_schema, neighbors_schema, neighbor_login
+from models.schema.neighborSchema import neighbor_schema, neighbors_schema, neighbor_login, neighborz_schema
 from models.schema.skillSchema import skill_schema, skills_schema
 from services import NeighborService
 from marshmallow import ValidationError
@@ -75,7 +75,7 @@ def get_neighbor_by_id(neighbor_id):
 
     return jsonify({
         "message": "Neighbor retrieved successfully",
-        "neighbor": neighbor_schema.dump(neighbor)
+        "neighbor": neighborz_schema.dump(neighbor)
 
         
     }), 200
@@ -123,7 +123,7 @@ def get_neighbor_by_skill(neighbor_skill):
 
     return jsonify({
         "message": "Neighbors with skill retrieved successfully",
-        "neighbor": neighbor_schema.dump(neighbor)
+        "neighbor": neighborz_schema.dump(neighbor)
         
     }), 200
 
@@ -136,7 +136,7 @@ def get_neighbor_by_task(task_id):
 
     return jsonify({
         "message": "Neighbors by task retrieved successfully",
-        "neighbor": neighbor_schema.dump(neighbor)
+        "neighbor": neighborz_schema.dump(neighbor)
         
     }), 200
 
@@ -149,7 +149,7 @@ def get_neighbor_by_feedback(feedback_id):
 
     return jsonify({
         "message": "Neighbors by feedback retrieved successfully",
-        "neighbor": neighbor_schema.dump(neighbor)
+        "neighbor": neighborz_schema.dump(neighbor)
     }), 200
 
 @token_required
@@ -161,7 +161,7 @@ def get_neighbor_by_rating(rating):
 
     return jsonify({
         "message": "Neighbors by rating retrieved successfully",
-        "neighbor": neighbor_schema.dump(neighbor)
+        "neighbor": neighborz_schema.dump(neighbor)
     }), 200
 
 @token_required
@@ -169,7 +169,7 @@ def get_neighbor_by_username(username):
     neighbor = NeighborService.get_neighbor_by_username(username)
     return jsonify({
         "message": "Neighbor by username retrieved successfully",
-        "neighbor": neighbor_schema.dump(neighbor)
+        "neighbor": neighborz_schema.dump(neighbor)
     }), 200
 
 @token_required
@@ -177,7 +177,7 @@ def get_neighbor_by_email(email):
     neighbor = NeighborService.get_neighbor_by_email(email)
     return jsonify({
         "message": "Neighbor by email retrieved successfully",
-        "neighbor": neighbor_schema.dump(neighbor)
+        "neighbor": neighborz_schema.dump(neighbor)
     }), 200
 
 @token_required
