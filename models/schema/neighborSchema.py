@@ -23,4 +23,4 @@ class NeighborSchema(ma.Schema):
             
 neighbor_schema = NeighborSchema() #instantiating our neighbor schema
 neighbors_schema = NeighborSchema(many=True, exclude=["password"]) # returns a list of neighbors, excludes the password field
-neighbor_login = NeighborSchema(exclude=["name", "phone", "username","id"]) #returns a neighbor object with only the username and password fields
+neighbor_login = NeighborSchema(exclude=["name", "phone", "username","zipcode","id"]) #returns a neighbor object with only the email and password fields
