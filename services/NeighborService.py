@@ -39,7 +39,7 @@ def create_neighbor(neighbor_data):
         num_ratings=0, 
         num_rated=0,
         skills=[], 
-        admin=True, 
+        admin=False, 
         task_neighbor=False, 
         client_neighbor=False, 
         created_on=date.today()
