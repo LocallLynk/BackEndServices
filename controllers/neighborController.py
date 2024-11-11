@@ -46,6 +46,18 @@ def make_admin(neighbor_id):
     else:
         return jsonify({"message": "Neighbor not found"}), 404
     
+@admin_required
+def remove_admin(neighbor_id):
+    neighbor = NeighborService.make_admin(neighbor_id)
+
+    if neighbor:
+        return jsonify({
+            "message": "Neighbor is no longer an Admin",
+            
+        }), 200
+    else:
+        return jsonify({"message": "Neighbor not found"}), 404
+    
 def login():
     try:
         

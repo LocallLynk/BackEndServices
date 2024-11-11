@@ -61,6 +61,18 @@ def make_admin(neighbor_id):
     db.session.refresh(neighbor)
     print("Neighbor is now an admin")
     return neighbor
+
+def remove_admin(neighbor_id):
+    neighbor = db.session.get(Neighbor, neighbor_id)
+    if not neighbor:
+        print("Neighbor not found")
+        return None
+
+    neighbor.admin = False
+    db.session.commit()
+    db.session.refresh(neighbor)
+    print("Neighbor is no longer an admin")
+    return neighbor
 #-------- Searching for neighbors --------
 
 def get_all_neighbors(page=1, per_page=10):
