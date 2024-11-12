@@ -10,8 +10,8 @@ feedback_blueprint.route('/<feedback_id>', methods=['GET'])(get_feedback_by_id)
 feedback_blueprint.route('/task/<task_id>', methods=['GET'])(get_feedback_by_task_id)
 feedback_blueprint.route('/task_neighbor/<task_neighbor_id>', methods=['GET'])(get_feedback_by_task_neighbor_id)
 feedback_blueprint.route('/client_neighbor/<client_neighbor_id>', methods=['GET'])(get_feedback_by_client_neighbor_id)
-feedback_blueprint.route('/task_neighbor/<task_neighbor_id>', methods=['PUT'])(update_task_neighbor_feedback_rating) # not working as expected
-feedback_blueprint.route('/client_neighbor/<client_neighbor_id>', methods=['PUT'])(update_client_neighbor_feedback_rating) # not working as expected
+feedback_blueprint.route('/task_neighbor/<task_neighbor_id>', methods=['PUT'])(update_task_neighbor_feedback_rating) # not working as expected when trying to implement into the create_feedback function
+feedback_blueprint.route('/client_neighbor/<client_neighbor_id>', methods=['PUT'])(update_client_neighbor_feedback_rating) # not working as expected when trying to implement into the create_feedback function
 feedback_blueprint.route('/<feedback_id>', methods=['DELETE'])(delete_feedback)
 feedback_blueprint.route('/', methods=['GET'])(get_all_feedback)
 

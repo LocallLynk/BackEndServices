@@ -25,7 +25,7 @@ def create_feedback(feedback_data):
         # Add and commit the new feedback to the session
         db.session.add(new_feedback)
         db.session.commit()
-        db.session.refresh(new_feedback)  # Refresh to get the ID of new feedback
+        db.session.refresh(new_feedback)  
 
         # Update the overall rating for the appropriate neighbor
         if Feedback.reviewed_neighbor_id == Task.task_neighbor_id:
@@ -36,7 +36,7 @@ def create_feedback(feedback_data):
 
         return {
             "feedback": new_feedback,
-            "overall_rating": Task.task_neighbor.ov
+            "overall_rating": Task.task_neighbor
             
         }
     

@@ -59,6 +59,8 @@ def update_task(task_id, task_data):
     task.status = task_data.get('status', task.status)
     task.task_paid = task_data.get('task_paid', task.task_paid)
     task.traded_task = task_data.get('traded_task', task.traded_task)
+    if task.status not in ["open", "in_progress", "completed"]:
+        raise ValueError("Invalid status. Please enter 'open', 'in_progress', or 'completed'.")
     db.session.commit()
     return task
 
