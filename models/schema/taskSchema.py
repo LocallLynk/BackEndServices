@@ -4,8 +4,8 @@ from marshmallow import fields
 class TaskSchema(ma.Schema):
     id = fields.Integer(required=False) #will auto increment
     description = fields.String(required=True)
-    created_on = fields.Date(required=True)
-    status = fields.String(required=True)
+    created_on = fields.Date(required=False)
+    status = fields.String(required=False)
     task_paid = fields.Boolean(required=True)
     traded_task = fields.Boolean(required=True)
     task_neighbor_id = fields.Integer(required=True)
