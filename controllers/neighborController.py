@@ -95,11 +95,11 @@ def get_neighbor_by_id(neighbor_id):
 @token_required
 def update_neighbor(neighbor_id):
     try:
-        neighbor_id = neighbor_schema.load(request.json)
+        neighbor_data = neighbor_schema.load(request.json)
     except ValidationError as e:
         return jsonify(e.messages), 400
 
-    NeighborService.update_neighbor(neighbor_id)
+    NeighborService.update_neighbor(neighbor_id, neighbor_data)
 
     return jsonify({
         "message": "Neighbor updated successfully"

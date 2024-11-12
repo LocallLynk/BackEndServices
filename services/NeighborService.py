@@ -5,6 +5,7 @@ from utils.util import encode_role_token
 from datetime import date
 import hashlib
 import secrets
+from flask import request
 
 def generate_password_hash(password):
     """Generates a secure password hash using the Argon2 algorithm."""
@@ -35,14 +36,8 @@ def create_neighbor(neighbor_data):
         username=neighbor_data['username'], 
         password=password_hash, 
         salt=salt,
-        overall_rating=0, 
-        num_ratings=0, 
-        num_rated=0,
-        skills=[], 
-        admin=False, 
-        task_neighbor=False, 
-        client_neighbor=False, 
-        created_on=date.today()
+        skills=[]
+        
     )
     
     db.session.add(new_neighbor)
@@ -130,17 +125,17 @@ def login(credentials):
 #-------- Updating a neighbor's information --------
 
 def update_neighbor(neighbor_id, neighbor_data):
-    neighbor = db.session.get(Neighbor, neighbor_data)
+    neighbor = db.session.execute(select(Neighbor).where(Neighbor.id == neighbor_id)).scalar()
+    print('I am here', neighbor.name)
     if not neighbor:
         print("Neighbor not found")
         return None
-
     neighbor.name = neighbor_data.get('name', neighbor.name)
     neighbor.email = neighbor_data.get('email', neighbor.email)
     neighbor.phone = neighbor_data.get('phone', neighbor.phone)
     neighbor.zipcode = neighbor_data.get('zipcode', neighbor.zipcode)
     neighbor.username = neighbor_data.get('username', neighbor.username)
-    neighbor.skills = neighbor_data.get('skills', neighbor.skills)
+    neighbor.admin = neighbor_data.get('admin', neighbor.admin)
 
     if 'password' in neighbor_data:
         neighbor.password, neighbor.salt = generate_password_hash(neighbor_data['password'])
