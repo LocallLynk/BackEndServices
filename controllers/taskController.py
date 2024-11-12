@@ -41,7 +41,7 @@ def get_task_by_task_neighbor_id(task_neighbor_id):
     task = TaskService.find_tasks_by_task_neighbor_id(task_neighbor_id)
     return jsonify({
         "message": "Tasks by task neighbor ID retrieved successfully",
-        "task": task_schema.dump(task)
+        "task": tasks_schema.dump(task)
     }), 200
 
 @token_required
@@ -49,7 +49,7 @@ def get_task_by_client_neighbor_id(client_neighbor_id):
     task = TaskService.find_tasks_by_client_neighbor_id(client_neighbor_id)
     return jsonify({
         "message": "Task by client neighbor ID retrieved successfully",
-        "task": task_schema.dump(task)
+        "task": tasks_schema.dump(task)
     }), 200
 
 @token_required

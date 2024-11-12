@@ -97,15 +97,6 @@ def get_neighbor_by_zipcode(zipcode):
     result = db.session.execute(query)
     return result.scalars().all()
     
-def get_neighbor_by_task(task_id):
-    query = select(Neighbor).join(Task).where(Task.id == task_id)
-    result = db.session.execute(query)
-    return result.scalars().all()
-
-def get_neighbor_by_feedback(feedback_id):
-    query = select(Neighbor).join(Feedback).where(Feedback.id == feedback_id)
-    result = db.session.execute(query)
-    return result.scalars().all()
 
 
 #-------- Logging in --------

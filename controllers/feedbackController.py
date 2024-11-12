@@ -44,7 +44,7 @@ def get_feedback_by_task_neighbor_id(task_neighbor_id):
 
     return jsonify({
         "message": "Feedback for the task neighbor retrieved successfully",
-        "feedback": feedback_schema.dump(feedback)
+        "feedback": feedbacks_schema.dump(feedback)
     }), 200
 
 @token_required
@@ -53,7 +53,7 @@ def get_feedback_by_client_neighbor_id(client_neighbor_id):
 
     return jsonify({
         "message": "Feedback for the client neighbor retrieved successfully",
-        "feedback": feedback_schema.dump(feedback)
+        "feedback": feedbacks_schema.dump(feedback)
     }), 200
 
 @token_required

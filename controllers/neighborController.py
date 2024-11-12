@@ -112,30 +112,6 @@ def delete_neighbor(neighbor_id):
 
     return jsonify({"message": "Neighbor deleted successfully"}), 204
 
-@token_required
-def get_neighbor_by_task(task_id):
-    page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 10, type=int)
-
-    neighbor = NeighborService.get_neighbor_by_task(task_id, page, per_page)
-
-    return jsonify({
-        "message": "Neighbors by task retrieved successfully",
-        "neighbor": neighborz_schema.dump(neighbor)
-        
-    }), 200
-
-@token_required
-def get_neighbor_by_feedback(feedback_id):
-    page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 10, type=int)
-
-    neighbor = NeighborService.get_neighbor_by_feedback(feedback_id, page, per_page)
-
-    return jsonify({
-        "message": "Neighbors by feedback retrieved successfully",
-        "neighbor": neighborz_schema.dump(neighbor)
-    }), 200
 
 @token_required
 def get_neighbor_by_username(username):

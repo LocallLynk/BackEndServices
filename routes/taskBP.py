@@ -8,8 +8,8 @@ task_blueprint = Blueprint('task_bp', __name__)
 task_blueprint.route('/', methods=['POST'])(create_task)
 task_blueprint.route('/', methods=['GET'])(get_all_tasks)
 task_blueprint.route('/<task_id>', methods=['GET'])(get_task_by_id)
-task_blueprint.route('/task_neighbor/<task_neighbor_id>', methods=['GET'])(get_task_by_task_neighbor_id) # results show in terminal but not in postman
-task_blueprint.route('/client_neighbor/<client_neighbor_id>', methods=['GET'])(get_task_by_client_neighbor_id) # results show in terminal but not in postman
+task_blueprint.route('/task_neighbor/<task_neighbor_id>', methods=['GET'])(get_task_by_task_neighbor_id)
+task_blueprint.route('/client_neighbor/<client_neighbor_id>', methods=['GET'])(get_task_by_client_neighbor_id)
 task_blueprint.route('/<task_id>', methods=['PUT'])(update_task)
 task_blueprint.route('/<task_id>/', methods=['DELETE'])(delete_task)
 
