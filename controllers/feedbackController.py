@@ -17,7 +17,7 @@ def create_feedback():
 
     return jsonify({
         "message": "Feedback added successfully",
-        "feedback": feedback_schema.dump(new_feedback)
+        "feedback": feedback_schema.dump(new_feedback['feedback'])
     }), 201
 
 @token_required

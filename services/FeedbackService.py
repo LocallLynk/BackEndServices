@@ -22,12 +22,12 @@ def create_feedback(feedback_data):
             created_on=date.today()
         )
         
-        # Add and commit the new feedback to the session
+        
         db.session.add(new_feedback)
         db.session.commit()
         db.session.refresh(new_feedback)  
 
-        # Update the overall rating for the appropriate neighbor
+       
         if Feedback.reviewed_neighbor_id == Task.task_neighbor_id:
             overall_rating = update_task_neighbor_feedback_rating(Task.task_neighbor_id, feedback_data)
         elif Feedback.reviewer_id == Task.client_neighbor_id:
