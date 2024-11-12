@@ -36,7 +36,7 @@ def create_feedback(feedback_data):
 
         return {
             "feedback": new_feedback,
-            "overall_rating": Neighbor.overall_rating
+            "overall_rating": Task.task_neighbor.ov
             
         }
     

@@ -3,10 +3,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import List
 from datetime import date
 from sqlalchemy import ForeignKey
-# from models import Neighbor, Skill, Task, Feedback
-# from models.neighbor import Neighbor
-# from models.skill import Skill
-# from models.feedback import Feedback
+
 class Task(Base):
     __tablename__ = 'task'
 
