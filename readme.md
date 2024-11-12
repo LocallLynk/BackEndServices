@@ -7,15 +7,43 @@ This is to allow us to check off routes as we test them, so we know what works a
 NeighborBP- url prefix /neighbor
 
 X-create_neighbor: POST, "/"
+    -needs the following input:
+    {
+    "name": "foo",
+    "email": "foo@foo.foo",
+    "phone": "1234567890",
+    "zipcode": "12345"
+    "username": "foofoo",
+    "password": "foofoo"
+    }
+
 X-get_all_neighbors: GET. "/"
 X-login: POST, "neighbor/login"
+    -needs the following input:
+    {
+    "email": "foo@foo.foo",
+    "password": "foofoo"
+    }
 X-make_admin: PUT, "neighbor/admin/<neighbor_id>"
+    -needs the following input:
+    {
+    "admin": "1"
+    }
 X-remove_admin: DELETE, "neighbor/admin/<neighbor_id>"
 X-get_neighbor_by_id: GET, "/<neighbor_id>"
 X-get_neighbor_by_username: GET, "/username/<username>"
 X-get_neighbor_by_email: GET, "email/<email>"
 X-get_neighbor_by_zipcode: GET, "/zipcode/<zipcode>"
 X-update_neighbor: PUT, "/<neighbor_id>"
+    -needs the following input:
+    {
+    "name": "foo2",
+    "email": "foo2@foo.foo",
+    "phone": "1234567890",
+    "zipcode": "12345"
+    "username": "foofoo2",
+    "password": "foofoo2"
+    }
 X-delete_neighbor: DELETE, "/<neighbor_id>"
 
 FeedbackBP- url prefix /feedback
