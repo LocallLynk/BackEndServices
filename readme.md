@@ -32,15 +32,15 @@ FeedbackBP- url prefix /feedback
 
 SkillBP- url prefix /skill
 
--create_skill: POST, "/"
--get_all_skills: GET, "/"
--get_skill_by_id: GET, "/<skill_id>"
--get_skill_by_name: GET, "/name/<name>"
--update_skill: PUT, "/<skill_id>"
--delete_skill: DELETE, "/<skill_id>
--get_neighbors_by_skill: GET, "/<skill_id>/neighbors"
--remove_skill_by_neighbor: DELETE, "/<skill_id>/neighbors/<neighbor_id>"
-_add_skill_to_neighbors: POST, "/<skill_id>/neighbors/<neighbor_id>"
+X-create_skill: POST, "/"
+X-get_all_skills: GET, "/"
+X-get_skill_by_id: GET, "/<skill_id>"
+X-get_skill_by_name: GET, "/name/<name>"
+X-update_skill: PUT, "/<skill_id>"
+X-delete_skill: DELETE, "/<skill_id>
+X-get_neighbors_by_skill: GET, "/<skill_id>/neighbors"
+X-remove_skill_by_neighbor: DELETE, "/<skill_id>/neighbors/<neighbor_id>"
+X-_add_skill_to_neighbors: POST, "/<skill_id>/neighbors/     <neighbor_id>"
 
 TaskBP- url prefix /task
 -create_task: POST, "/"
