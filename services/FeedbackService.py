@@ -26,32 +26,25 @@ def create_feedback(feedback_data):
             created_on=date.today()
         )
         
-        
         db.session.add(new_feedback)
         db.session.commit()
         db.session.refresh(new_feedback)  
-
-        # Determine which neighbor rating to update
-        task = db.session.get(Task, feedback_data['task_id'])
         
-        if task:
-            # Update task_neighbor or client_neighbor rating based on task information
-            if new_feedback.reviewed_neighbor_id == task.task_neighbor_id:
-                overall_rating = update_task_neighbor_feedback_rating(task.task_neighbor_id, feedback_data)
-            elif new_feedback.reviewer_id == task.client_neighbor_id:
-                overall_rating = update_client_neighbor_feedback_rating(task.client_neighbor_id, feedback_data)
-            else:
-                raise ValueError("No matching neighbor found to update rating.")
+        reviewed_neighbor = db.session.query(Feedback).filter_by(reviewed_neighbor_id=feedback_data['reviewed_neighbor_id']).all()
+       
+        if reviewed_neighbor:
+            overall_rating = update_task_neighbor_feedback_rating(reviewed_neighbor)
+        else:
+            raise ValueError("No matching neighbor found to update rating.")
         
-        return jsonify({
-            "feedback": new_feedback,
-            "overall_rating": overall_rating
-        }), 200
+        return new_feedback, overall_rating
 
     except SQLAlchemyError as e:
         db.session.rollback()  # Roll back in case of an error
         print("An error occurred while adding feedback:", e)
         raise ValueError("An error occurred while adding feedback.")
+    
+        
 
 
 
@@ -88,32 +81,17 @@ def find_feedback_by_client_neighbor_id(client_neighbor_id):
 
     return feedbacks
 
-def update_task_neighbor_feedback_rating(feedback_data):
-    task_id = db.session.get(feedback_data['task_id'])
-    task_neighbor = db.session.get(Task.task_neighbor_id)
-    if not task_neighbor:
-        raise ValueError("Neighbor with this ID not found.")
-
-    Neighbor.num_ratings += 1
-    new_rating = feedback_data['rating']
-    overall_rating = (task_neighbor.rating * (Neighbor.num_ratings - 1) + new_rating) / Neighbor.num_ratings
-    task_neighbor.rating = overall_rating
-
-    db.session.commit()
-
-    return overall_rating
-
-def update_client_neighbor_feedback_rating(feedback_data):
-    task_id = db.session.get(feedback_data['task_id'])
-    client_neighbor = db.session.get(Task.client_neighbor_id)
-    if not client_neighbor:
-        raise ValueError("Client neighbor with this ID not found.")
-
-    Neighbor.num_ratings += 1
-    new_rating = feedback_data['rating']
-    overall_rating = (client_neighbor.rating * (Neighbor.num_ratings - 1) + new_rating) / Neighbor.num_ratings
-    Neighbor.rating = overall_rating
-
+def update_task_neighbor_feedback_rating(feedbacks): 
+    # calculate the average based on the list of feedbacks
+    rating = sum([feedback.rating for feedback in feedbacks]) / len(feedbacks)
+    overall_rating = round(rating, 2)
+    # get the Neighbor based on its id
+    neighbor_id = feedbacks[0].reviewed_neighbor_id
+    neighbor = db.session.query(Neighbor).filter_by(id=neighbor_id).first()
+    neighbor.num_ratings += 1
+    # update the neighbor overall rating attribute
+    neighbor.overall_rating = overall_rating
+   # commit the changes
     db.session.commit()
 
     return overall_rating
@@ -126,7 +104,7 @@ def delete_feedback(feedback_id):
     db.session.delete(feedback)
     db.session.commit()
 
-    return jsonify({"message": "Feedback deleted successfully"}), 200
+    return None
 
 def get_all_feedback(page=1, per_page=10):
     query = select(Feedback).order_by(Feedback.created_on).limit(per_page).offset((page - 1) * per_page)

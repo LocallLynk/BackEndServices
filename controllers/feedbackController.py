@@ -13,11 +13,11 @@ def create_feedback():
     except ValidationError as e:
         return jsonify(e.messages), 400
 
-    new_feedback = FeedbackService.create_feedback(feedback_data)
+    new_feedback,_ = FeedbackService.create_feedback(feedback_data)
 
     return jsonify({
         "message": "Feedback added successfully",
-        "feedback": feedback_schema.dump(new_feedback['feedback'])
+        "feedback": feedback_schema.dump(new_feedback)
     }), 201
 
 @token_required
@@ -57,10 +57,22 @@ def get_feedback_by_client_neighbor_id(client_neighbor_id):
     }), 200
 
 @token_required
-def update_task_neighbor_feedback_rating(task_neighbor_id, feedback):
-    FeedbackService.update_task_neighbor_feedback_rating(task_neighbor_id, feedback)
+def update_task_neighbor_feedback_rating(reviewed_neighbor):
+    task = FeedbackService.update_task_neighbor_feedback_rating(reviewed_neighbor)
 
-    return jsonify({"message": "Feedback rating for task neighbor updated successfully"}), 200
+    return jsonify({
+        "message": "Feedback rating for task neighbor updated successfully",
+        "overall_rating": feedbacks_schema.dump(task)
+    }), 200
+
+@token_required
+def update_client_neighbor_feedback_rating(reviewer_neighbor):
+    client = FeedbackService.update_client_neighbor_feedback_rating(reviewer_neighbor)
+
+    return jsonify({
+        "message": "Feedback rating for client neighbor updated successfully",
+        "overall_rating": feedbacks_schema.dump(client)
+    }), 200
 
 @admin_required
 def get_all_feedback():
@@ -72,26 +84,6 @@ def get_all_feedback():
     return jsonify({
         "message": "All feedback retrieved successfully",
         "feedback": feedbacks_schema.dump(all_feedback, many=True)
-    }), 200
-
-@token_required
-def update_client_neighbor_feedback_rating(client_neighbor_id, feedback):
-    FeedbackService.update_client_neighbor_feedback_rating(client_neighbor_id, feedback)
-
-    return jsonify({"message": "Feedback rating for client neighbor updated successfully"}), 200
-
-@token_required
-def update_feedback(feedback_id):
-    try:
-        feedback_data = feedback_schema.load(request.json)
-    except ValidationError as e:
-        return jsonify(e.messages), 400
-
-    updated_feedback = FeedbackService.update_feedback(feedback_id, feedback_data)
-
-    return jsonify({
-        "message": "Feedback updated successfully",
-        "feedback": feedback_schema.dump(updated_feedback)
     }), 200
 
 @admin_required
