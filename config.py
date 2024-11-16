@@ -4,3 +4,8 @@ class DevelopmentConfig:
     DEBUG = True
 
 # to connect to your computer, after root:, you can put your password between the colon and @
+
+class TestingConfig:
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///app.db'
+    CACHE_TYPE = "SimpleCache"
+    TESTING = True
