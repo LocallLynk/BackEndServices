@@ -1,0 +1,19 @@
+from datetime import date
+from typing import List
+from sqlalchemy.orm import relationship, Mapped, mapped_column
+from sqlalchemy.sql.schema import ForeignKey
+from sqlalchemy.ext.declarative import declarative_base
+from database import db, Base
+
+#Base = declarative_base()
+class Share(Base):
+    __tablename__ = 'shares'
+
+    share_id: Mapped[int] = mapped_column(primary_key=True)
+    post_id: Mapped[int] = mapped_column(ForeignKey('posts.post_id'), nullable=False)
+    neighbor_id: Mapped[int] = mapped_column(ForeignKey('neighbor.id'), nullable=False)
+    shared_on: Mapped[date] = mapped_column(default=date.today)
+
+    # Relationships
+    post: Mapped["Post"] = relationship("Post", back_populates="shares")
+    neighbor: Mapped["Neighbor"] = relationship("Neighbor", back_populates="shares")

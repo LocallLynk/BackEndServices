@@ -6,12 +6,28 @@ from sqlalchemy import ForeignKey
 from models.neighborSkill import neighbor_skill
 from models.feedback import Feedback
 from models.task import Task
+from models.skill import Skill
+from models.post import Post
+# from models.comment import Comment
+# from models.like import Like
+# from models.dislike import Dislike
+# from models.shares import Share
+
+from typing import TYPE_CHECKING
+
+
+print("Importing Neighbor model...")
+if TYPE_CHECKING:
+    from models.post import Post
+    print("Post successfully imported in Neighbor.")
+
 
 class Neighbor(Base):
 
     __tablename__ = 'neighbor'
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    profile_pic: Mapped[str] = mapped_column(db.String(255), nullable=True) # Storing the path to the profile picture
     name: Mapped[str] = mapped_column(db.String(255), nullable=False)
     email: Mapped[str] = mapped_column(db.String(255), nullable=False, unique=True)
     phone: Mapped[str] = mapped_column(db.String(25), nullable=False)
@@ -37,3 +53,16 @@ class Neighbor(Base):
     # Relationships for Task as task neighbor and client neighbor
     tasks_as_task_neighbor: Mapped[List["Task"]] = relationship("Task", foreign_keys="[Task.task_neighbor_id]", back_populates="task_neighbor")
     tasks_as_client_neighbor: Mapped[List["Task"]] = relationship("Task", foreign_keys="[Task.client_neighbor_id]", back_populates="client_neighbor")
+
+    # These relationships only exist because the other models exist 
+    # So create other models, and then lazy load these in 
+
+    # TODO: Add lazy="select"
+
+    # Social interactions
+    
+    posts = relationship("Post", back_populates="neighbor", lazy="select")  # Explicitly specify lazy loading (default)
+    comments = relationship("Comment", back_populates="neighbor", lazy="select")
+    likes = relationship("Like", back_populates="neighbor", lazy="select")
+    dislikes = relationship("Dislike", back_populates="neighbor", lazy="select")
+    shares = relationship("Share", back_populates="neighbor", lazy="select")
