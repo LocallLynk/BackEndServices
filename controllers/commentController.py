@@ -64,20 +64,54 @@ def get_comments_by_neighbor_id(neighbor_id):
 
 @token_required
 def update_comment(comment_id):
+    # Get the current user from the token
+    neighbor_id = get_current_user()
+
+    # Fetch the comment from the database
+    comment = Comment.query.get(comment_id)
+
+    # Check if the comment exists
+    if not comment:
+        return jsonify({"error": "Comment not found"}), 404
+
+    # Check if the current user is the owner of the comment
+    if comment.neighbor_id != neighbor_id:
+        return jsonify({"error": "You are not the owner of this comment"}), 403
+
+    # Validate the input data
     try:
         comment_data = comment_schema.load(request.json)
     except ValidationError as e:
         return jsonify({"error": e.messages}), 400
 
+    # Update the comment
     updated_comment = CommentService.update_comment(comment_id, comment_data)
+
     return jsonify({
         "message": "Comment updated successfully",
         "comment": comment_schema.dump(updated_comment)
     }), 200
 
+
 @token_required
 def delete_comment(comment_id):
+    # Get the current user from the token
+    neighbor_id = get_current_user()
+
+    # Fetch the comment from the database
+    comment = Comment.query.get(comment_id)
+
+    # Check if the comment exists
+    if not comment:
+        return jsonify({"error": "Comment not found"}), 404
+
+    # Check if the current user is the owner of the comment
+    if comment.neighbor_id != neighbor_id:
+        return jsonify({"error": "You are not the owner of this comment"}), 403
+
+    # Delete the comment
     CommentService.delete_comment(comment_id)
+
     return jsonify({
         "message": "Comment deleted successfully"
     }), 200

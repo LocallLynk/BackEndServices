@@ -50,6 +50,7 @@ def get_share_by_id(share_id):
 def update_share(share_id):
     try:
         share_data = share_schema.load(request.json)
+        
     except ValidationError as e:
         return jsonify({"error": e.messages}), 400
 

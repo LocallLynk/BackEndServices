@@ -3,7 +3,7 @@ from models.schema.neighborSchema import neighbor_schema, neighbors_schema, neig
 from services import NeighborService
 from marshmallow import ValidationError
 from cache import cache
-from utils.util import token_required, user_validation, admin_required
+from utils.util import token_required, user_validation, admin_required, get_current_user
 
 
 def create_neighbor():
@@ -84,6 +84,8 @@ def login():
 @token_required
 def get_neighbor_by_id(neighbor_id):
     neighbor = NeighborService.get_neighbor_by_id(neighbor_id)
+    if not neighbor:
+        return jsonify({"message": "Neighbor not found"}), 404
 
     return jsonify({
         "message": "Neighbor retrieved successfully",
@@ -96,8 +98,12 @@ def get_neighbor_by_id(neighbor_id):
 def update_neighbor(neighbor_id):
     try:
         neighbor_data = neighbor_schema.load(request.json)
+        if neighbor_id != get_current_user():
+            return jsonify({"message": "Unauthorized"}), 403
     except ValidationError as e:
         return jsonify(e.messages), 400
+    if not neighbor_id:
+        return jsonify({"message": "Neighbor not found"}), 404
 
     NeighborService.update_neighbor(neighbor_id, neighbor_data)
 
@@ -108,6 +114,10 @@ def update_neighbor(neighbor_id):
 
 @token_required
 def delete_neighbor(neighbor_id):
+    if not neighbor_id:
+        return jsonify({"message": "Neighbor not found"}), 404
+    if neighbor_id != get_current_user():
+        return jsonify({"message": "Unauthorized"}), 403
     NeighborService.delete_neighbor(neighbor_id)
 
     return jsonify({"message": "Neighbor deleted successfully"}), 204

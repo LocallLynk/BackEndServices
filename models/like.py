@@ -4,9 +4,7 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from database import db, Base
-# from models.neighbor import Neighbor
 
-#Base = declarative_base()
 
 class Like(Base):
     __tablename__ = 'likes'

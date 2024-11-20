@@ -3,9 +3,10 @@ from models.schema.skillSchema import skill_schema, skills_schema
 from models.schema.neighborSchema import neighbors_schema, neighbor_schema
 from services import SkillService
 from marshmallow import ValidationError
-from utils.util import token_required, admin_required
+from utils.util import token_required, admin_required, get_current_user
 
-@token_required
+
+@admin_required
 def create_skill():
     try:
         skill_data = skill_schema.load(request.json)
@@ -77,11 +78,17 @@ def get_neighbors_by_skill(skill_id):
 
 @token_required
 def remove_skill_from_neighbor(neighbor_id, skill_id):
+    if neighbor_id != get_current_user():
+        return jsonify({"error": "You are not the owner of this account"}), 403
+    if not neighbor_id:
+        return jsonify({"error": "Neighbor not found"}), 404
     SkillService.remove_skill_from_neighbor(neighbor_id, skill_id)
     return jsonify({"message": "Skill removed from neighbor successfully"}), 200
 
 @token_required
 def add_skill_to_neighbor(neighbor_id, skill_id):
+    if neighbor_id != get_current_user():
+        return jsonify({"error": "You are not the owner of this account"}), 403
     SkillService.add_skill_to_neighbor(neighbor_id, skill_id)
     return jsonify({"message": "Skill added to neighbor successfully"}), 200
 
