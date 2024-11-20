@@ -64,84 +64,86 @@ def get_skill_by_name(name):
     return result.scalars().first()
 
 # Predefined skill categories and skills
-skill_bank = {
-    "Technology": [
-        "Python Programming", "Data Science", "Web Development", "Cybersecurity",
-        "Machine Learning", "Blockchain Technology", "Cloud Computing",
-        "Mobile App Development", "Artificial Intelligence"
+skill_bank = { 
+    "Technical Skills": [
+        "Python", "JavaScript", "Java", "C#", "C++", "Ruby", "Go", "PHP", "Swift", "Kotlin", "R", "SQL", "NoSQL", 
+        "HTML", "CSS", "React", "Angular", "Vue.js", "Node.js", "Express.js", "Django", "Flask", "Spring Boot", 
+        "ASP.NET", "Ruby on Rails", "GraphQL", "REST APIs", "Docker", "Kubernetes", "AWS", "Azure", "Google Cloud", 
+        "Linux", "Unix", "Git", "GitHub", "GitLab", "Jenkins", "CI/CD", "Jira", "Azure DevOps", "Terraform", "Ansible", 
+        "Nginx", "Apache", "MySQL", "PostgreSQL", "MongoDB", "Redis", "SQLite", "MariaDB", "Elasticsearch", 
+        "Solr", "RabbitMQ", "Kafka", "TensorFlow", "PyTorch", "OpenCV", "Machine Learning", "Deep Learning", 
+        "Natural Language Processing", "Computer Vision", "AI", "Data Science", "Data Analysis", "Data Visualization", 
+        "Statistics", "Mathematics", "Big Data", "Hadoop", "Spark", "Tableau", "Power BI", "Excel", "Google Analytics", 
+        "Google Tag Manager", "SEO", "SEM", "Content Management System", "WordPress", "Drupal", "Magento", "Shopify", 
+        "Adobe Photoshop", "Adobe Illustrator", "Figma", "Sketch", "InVision", "UI/UX Design", "Wireframing", "Prototyping", 
+        "Agile", "Scrum", "Kanban", "DevOps", "Automated Testing", "Unit Testing", "Integration Testing", "TDD", "BDD", 
+        "Selenium", "Jest", "Mocha", "JUnit", "PyTest", "Cypress", "Postman", "Swagger", "OAuth", "JWT", "Graph Databases"
     ],
-    "Creative Arts": [
-        "Graphic Design", "Illustration", "Digital Art", "Photography",
-        "Videography", "Music Production", "3D Modeling", "Animation",
-        "Creative Writing"
+    "Business Skills": [
+        "Project Management", "Leadership", "Communication", "Negotiation", "Strategic Planning", "Problem Solving", 
+        "Team Management", "Budgeting", "Time Management", "Risk Management", "Supply Chain Management", "Change Management", 
+        "Business Analysis", "Client Relations", "Sales", "Marketing", "Financial Modeling", "Sales Forecasting", 
+        "Customer Service", "Event Planning", "Product Management", "Operations Management", "Market Research", "Branding", 
+        "Public Relations", "Business Development", "Customer Retention", "Vendor Management", "Compliance", "Contract Management", 
+        "Legal Knowledge", "Fundraising", "Mergers & Acquisitions", "Investor Relations", "Crisis Management", "Cultural Sensitivity", 
+        "Human Resources", "Recruitment", "Onboarding", "Employee Engagement", "Training and Development", "Compensation & Benefits", 
+        "Performance Management", "Employee Relations", "Payroll", "Labor Laws", "Workplace Diversity", "Organizational Development", 
+        "Team Building", "Networking", "Conflict Resolution", "Staff Scheduling", "Talent Acquisition", "Internship Program Management"
     ],
-    "Business": [
-        "Entrepreneurship",
-        "Marketing Strategy",
-        "Project Management",
-        "Accounting",
-        "Leadership Skills",
-        "E-commerce",
-        "Sales Techniques",
-        "SEO Optimization",
-        "Financial Analysis"
+    "Creative Skills": [
+        "Graphic Design", "Illustration", "Photography", "Videography", "Animation", "Video Editing", "3D Modeling", 
+        "Motion Graphics", "UI/UX Design", "Product Design", "Fashion Design", "Interior Design", "Web Design", "App Design", 
+        "Art Direction", "Brand Identity", "Packaging Design", "Typography", "Logo Design", "Color Theory", "Photo Editing", 
+        "Concept Art", "Storyboard Creation", "Cinematography", "Film Production", "Content Creation", "Social Media Marketing", 
+        "Content Writing", "Blogging", "Copywriting", "Journalism", "Public Speaking", "Podcasting", "Music Production", 
+        "Sound Editing", "Voice Acting", "Stage Design", "Scriptwriting", "Storytelling", "Creative Writing", "Poetry", 
+        "Playwriting", "Literary Criticism", "Book Editing", "Publishing", "Transmedia Storytelling", "Radio Broadcasting", 
+        "TV Production", "Digital Art", "Photography Editing", "Video Storytelling", "Content Strategy", "Brand Storytelling", 
+        "Film Editing", "Creative Project Management", "Art Curation", "Gallery Management", "Event Design"
     ],
-    "Personal Development": [
-        "Public Speaking",
-        "Time Management",
-        "Stress Management",
-        "Goal Setting",
-        "Emotional Intelligence",
-        "Mindfulness Meditation",
-        "Resilience Building",
-        "Career Coaching",
-        "Self-Discipline"
+    "Soft Skills": [
+        "Emotional Intelligence", "Teamwork", "Adaptability", "Work Ethic", "Critical Thinking", "Problem Solving", 
+        "Creativity", "Decision Making", "Self-motivation", "Stress Management", "Active Listening", "Empathy", "Confidence", 
+        "Patience", "Resilience", "Collaboration", "Initiative", "Self-discipline", "Time Management", "Open-mindedness", 
+        "Presentation Skills", "Conflict Resolution", "Negotiation", "Customer Focus", "Networking", "Mentoring", 
+        "Coaching", "Interpersonal Skills", "Self-awareness", "Delegation", "Learning Agility", "Cultural Sensitivity", 
+        "Relationship Building", "Persuasion", "Listening Skills", "Positive Attitude", "Assertiveness", "Trustworthiness", 
+        "Leadership", "Work-life Balance", "Decision Making", "Goal Setting", "Stress Reduction"
     ],
-    "Language Learning": [
-        "English",
-        "Spanish",
-        "Mandarin Chinese",
-        "French",
-        "German",
-        "Japanese",
-        "Italian",
-        "Russian",
-        "Arabic"
+    "Sales & Marketing Skills": [
+        "Sales Strategy", "Lead Generation", "Market Research", "Customer Acquisition", "Product Marketing", "Brand Strategy", 
+        "Digital Marketing", "Email Marketing", "SEO", "SEM", "PPC", "Google Ads", "Facebook Ads", "Affiliate Marketing", 
+        "Influencer Marketing", "Social Media Strategy", "Content Marketing", "Video Marketing", "Mobile Marketing", 
+        "Public Relations", "Event Marketing", "Market Segmentation", "Competitive Analysis", "CRM", "Sales Forecasting", 
+        "Sales Presentations", "Account Management", "B2B Sales", "B2C Sales", "Retail Marketing", "Customer Retention", 
+        "Product Launch", "Trade Shows", "Sales Process Optimization", "Telemarketing", "E-commerce Marketing", "Product Pricing", 
+        "Campaign Management", "Product Positioning", "Target Market Analysis", "Branding", "Viral Marketing", "Negotiation"
     ],
-    "Health & Fitness": [
-        "Yoga",
-        "Pilates",
-        "Strength Training",
-        "Nutrition",
-        "Weight Loss Coaching",
-        "Personal Training",
-        "Mindfulness Meditation",
-        "Sleep Optimization",
-        "Mental Health Support"
+    "Management Skills": [
+        "Project Management", "People Management", "Team Leadership", "Resource Allocation", "Budget Management", 
+        "Risk Management", "Strategic Planning", "Delegation", "Organizational Skills", "Coaching", "Change Management", 
+        "Conflict Management", "Decision Making", "Operations Management", "Crisis Management", "Time Management", 
+        "Productivity Optimization", "Process Improvement", "Decision Making", "Employee Engagement", "Motivation", 
+        "Team Development", "Business Planning", "Financial Planning", "Staffing", "Performance Evaluation", 
+        "Client Management", "Vendor Management", "Policy Development", "Compliance Management", "Workforce Planning", 
+        "Change Leadership", "Training & Development", "Workplace Culture", "Workforce Optimization", "Remote Team Management"
     ],
-    "Lifestyle": [
-        "Cooking",
-        "Gardening",
-        "Travel Planning",
-        "Interior Design",
-        "Minimalism",
-        "Fashion Styling",
-        "Pet Care",
-        "DIY Crafts",
-        "Event Planning"
+    "Finance Skills": [
+        "Financial Modeling", "Budgeting", "Accounting", "Financial Planning", "Financial Analysis", "Bookkeeping", 
+        "Investment Analysis", "Risk Management", "Taxation", "Asset Management", "Portfolio Management", "Corporate Finance", 
+        "Mergers & Acquisitions", "Venture Capital", "Private Equity", "Financial Reporting", "Forensic Accounting", 
+        "Cash Flow Management", "Banking", "Financial Auditing", "Financial Risk Assessment", "Corporate Tax Planning", 
+        "Wealth Management", "Insurance", "Financial Forecasting", "Business Valuation", "Credit Analysis", "Loan Structuring", 
+        "Debt Management", "Stock Market Analysis", "Real Estate Investment", "Financial Modeling in Excel", "Fundraising"
     ],
-    "Education & Teaching": [
-        "Tutoring (Math, Science, etc.)",
-        "Curriculum Development",
-        "Online Teaching",
-        "Special Needs Education",
-        "Instructional Design",
-        "Education Technology",
-        "ESL Teaching",
-        "Early Childhood Education",
-        "Test Prep Coaching"
+    "Healthcare Skills": [
+        "Medical Coding", "Medical Billing", "Nursing", "Pharmacy", "Physical Therapy", "Patient Care", "Healthcare Administration", 
+        "Healthcare Management", "Clinical Research", "Medical Transcription", "Emergency Medical Services", "Surgical Assistance", 
+        "Radiology", "Anesthesia", "Geriatrics", "Orthopedics", "Family Medicine", "Psychiatry", "Dentistry", "Laboratory Skills", 
+        "Emergency Room Care", "Pediatric Care", "Nutritional Counseling", "Health Education", "Telemedicine", "Infectious Diseases", 
+        "Medical Records", "Healthcare IT", "Health Insurance", "Pharmaceuticals", "Health Advocacy", "Surgical Preparation", 
+        "Medical Research", "Patient Advocacy", "Health Policy", "Triage", "Diagnostic Testing", "Medical Sales"
     ]
-    # More categories can be added as needed
 }
 
 def get_skills_by_category(category):
