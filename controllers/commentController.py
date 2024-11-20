@@ -2,20 +2,30 @@ from flask import request, jsonify
 from models.schema.commentSchema import comment_schema, comments_schema
 from services import CommentService
 from marshmallow import ValidationError
-from utils.util import token_required, admin_required
+from utils.util import token_required, admin_required, get_current_user
+from models.comment import Comment
 
 @token_required
 def add_comment():
+    neighbor_id = get_current_user()
+    request.json['neighbor_id'] = neighbor_id
     try:
+        # Validate and deserialize JSON input
         comment_data = comment_schema.load(request.json)
     except ValidationError as e:
         return jsonify({"error": e.messages}), 400
 
-    new_comment = CommentService.add_comment(comment_data)
+    # Create a Comment instance from the validated data
+    new_comment = Comment(**comment_data)
+
+    # Pass the Comment instance to the service
+    added_comment = CommentService.add_comment(new_comment)
+
     return jsonify({
         "message": "Comment created successfully",
-        "comment": comment_schema.dump(new_comment)
+        "comment": comment_schema.dump(added_comment)
     }), 201
+
 
 @admin_required
 def get_all_comments():
