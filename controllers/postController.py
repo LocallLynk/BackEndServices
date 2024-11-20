@@ -3,19 +3,39 @@ from models.schema.postSchema import post_schema, posts_schema
 from services import PostService
 from marshmallow import ValidationError
 from utils.util import token_required, admin_required
+from sqlalchemy.orm import Session
+from services.PostService import create_post as create_post_service
+from database import db 
+# from flask_login import current_user
+from utils.util import get_current_user
+
+
 
 @token_required
 def create_post():
+    # Add current user's neighbor_id to post data
+    neighbor_id = get_current_user()
+    request.json['neighbor_id'] = neighbor_id
+   
     try:
+        # Validate input using the schema
         post_data = post_schema.load(request.json)
     except ValidationError as e:
         return jsonify({"error": e.messages}), 400
 
-    new_post = PostService.create_post(post_data)
-    return jsonify({
-        "message": "Post created successfully",
-        "post": post_schema.dump(new_post)
-    }), 201
+    try:
+       # Call the service to create the post
+        new_post = create_post_service(post_data)
+
+        # Return the created post
+        return jsonify({
+            "message": "Post created successfully",
+            "post": post_schema.dump(new_post)
+        }), 201
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 401
+    except Exception as e:
+        return jsonify({"error": "An unexpected error occurred", "details": str(e)}), 500
 
 @admin_required
 def get_all_posts():
@@ -30,7 +50,7 @@ def get_all_posts():
 
 @token_required
 def get_post_by_id(post_id):
-    post = PostService.find_post_by_id(post_id)
+    post = PostService.get_post_by_id(post_id)
     return jsonify({
         "message": "Post retrieved successfully",
         "post": post_schema.dump(post)
@@ -38,17 +58,9 @@ def get_post_by_id(post_id):
 
 @token_required
 def get_posts_by_neighbor_id(neighbor_id):
-    posts = PostService.find_posts_by_neighbor_id(neighbor_id)
+    posts = PostService.get_posts_by_neighbor_id(neighbor_id)
     return jsonify({
         "message": "Posts by neighbor ID retrieved successfully",
-        "posts": posts_schema.dump(posts)
-    }), 200
-
-@token_required
-def get_posts_by_zipcode(zipcode):
-    posts = PostService.find_posts_by_zipcode(zipcode)
-    return jsonify({
-        "message": "Posts by zipcode retrieved successfully",
         "posts": posts_schema.dump(posts)
     }), 200
 

@@ -5,6 +5,18 @@ from flask import request, jsonify
 
 SECRET_KEY = 'super_secret_secrets'
 
+def get_current_user():
+    token = request.headers.get('Authorization').split(' ')[1] # Get token from header
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        print("Payload", payload)
+        neighbor_id = payload['sub']
+        return neighbor_id
+    except jwt.ExpiredSignatureError:
+        return None  # Token expired
+    except jwt.InvalidTokenError:
+        return None  # Invalid token
+
 def encode_token(user_id): #original
     payload = {
         'exp': datetime.now(timezone.utc) + timedelta(hours=1), #setting an expiration date

@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_socketio import SocketIO
 from database import db
 from models.schema import ma
@@ -6,12 +6,18 @@ from routes.feedbackBP import feedback_blueprint
 from routes.neighborBP import neighbor_blueprint
 from routes.skillBP import skill_blueprint
 from routes.taskBP import task_blueprint
+from routes.postBP import post_blueprint
+from routes.commentBP import comment_blueprint
+from routes.likeBP import like_blueprint
+from routes.dislikeBP import dislike_blueprint
+from routes.shareBP import share_blueprint
 from limiter import limiter
 from flask_cors import CORS
 from cache import cache
 from flask_swagger_ui import get_swaggerui_blueprint
 from chat import app as chat_app
 from services.SkillService import populate_skill_bank
+import jwt
 
 SWAGGER_URL = '/api/docs' # URL endpoint to view our docs
 API_URL = '/static/swagger.yaml'#Grabs our host from our swagger.yaml file
@@ -42,6 +48,11 @@ def blueprint_config(app):
     app.register_blueprint(neighbor_blueprint, url_prefix='/neighbor')
     app.register_blueprint(skill_blueprint, url_prefix='/skill')
     app.register_blueprint(task_blueprint, url_prefix='/task')
+    app.register_blueprint(post_blueprint, url_prefix='/post')
+    app.register_blueprint(comment_blueprint, url_prefix='/comment')
+    app.register_blueprint(like_blueprint, url_prefix='/like')
+    app.register_blueprint(dislike_blueprint, url_prefix='/dislike')
+    app.register_blueprint(share_blueprint, url_prefix='/share')
     # app.register_blueprint(chat_app, url_prefix='/chat')
     app.register_blueprint(swagger_blueprint, url_prefux=SWAGGER_URL)
 
@@ -60,6 +71,6 @@ if __name__ == '__main__':
 
     with app.app_context():
         db.create_all()
-        populate_skill_bank(db.session)
+        #populate_skill_bank(db.session)
     app.run()
 

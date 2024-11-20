@@ -117,7 +117,7 @@ def login(credentials):
 
 def update_neighbor(neighbor_id, neighbor_data):
     neighbor = db.session.execute(select(Neighbor).where(Neighbor.id == neighbor_id)).scalar()
-    print('I am here', neighbor.name)
+    
     if not neighbor:
         print("Neighbor not found")
         return None

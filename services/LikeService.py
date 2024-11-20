@@ -1,5 +1,6 @@
 from database import db, Base
-from models import Post, Neighbor, Comment, Like, Dislike, Share
+from models.post import Post
+from models.like import Like
 from datetime import datetime
 from sqlalchemy import select, update, delete
 from sqlalchemy.orm import Session
@@ -7,7 +8,7 @@ from typing import List
 
 def add_like(db: Session, like: Like):
     db.add(like)
-    existing_like = db.query(Like).filter(Like.user_id == like.user_id, Like.post_id == like.post_id).first()
+    existing_like = db.query(Like).filter(Like.neighbor_id == like.neighbor_id, Like.post_id == like.post_id).first()
     if existing_like:
         raise ValueError("User has already liked this post")
 

@@ -1,5 +1,6 @@
 from database import db, Base
-from models import Neighbor, Dislike, Post
+from models.post import Post
+from models.dislike import Dislike
 from datetime import datetime
 from sqlalchemy import select, update, delete
 from sqlalchemy.orm import Session
@@ -7,7 +8,7 @@ from typing import List
 
 def add_dislike(db: Session, dislike: Dislike):
     db.add(dislike)
-    existing_dislike = db.query(Dislike).filter(Dislike.user_id == dislike.user_id, Dislike.post_id == dislike.post_id).first()
+    existing_dislike = db.query(Dislike).filter(Dislike.neighbor_id == dislike.neighbor_id, Dislike.post_id == dislike.post_id).first()
     if existing_dislike:
         raise ValueError("User has already disliked this post")
     post = db.query(Post).filter(Post.post_id == dislike.post_id).first()

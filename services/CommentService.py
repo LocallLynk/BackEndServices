@@ -1,5 +1,6 @@
 from database import db, Base
-from models import Comment, Post
+from models.comment import Comment
+from models.post import Post
 from datetime import datetime
 from sqlalchemy import select, update, delete
 from sqlalchemy.orm import Session
