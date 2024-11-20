@@ -14,6 +14,6 @@ class Dislike(Base):
     neighbor_id: Mapped[int] = mapped_column(ForeignKey('neighbor.id', ondelete='CASCADE'), nullable=False)
     disliked_on: Mapped[date] = mapped_column(default=date.today)
 
-    # Relationships with cascade delete
-    post: Mapped["Post"] = relationship("Post", back_populates="dislikes", cascade="all, delete-orphan")
-    neighbor: Mapped["Neighbor"] = relationship("Neighbor", back_populates="dislikes", cascade="all, delete-orphan")
+    
+    post: Mapped["Post"] = relationship("Post", back_populates="dislikes")
+    neighbor: Mapped["Neighbor"] = relationship("Neighbor", back_populates="dislikes")

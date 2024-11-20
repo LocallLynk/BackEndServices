@@ -16,7 +16,7 @@ class Share(Base):
     content: Mapped[str] = mapped_column(db.String(255), nullable=False)
 
     # Relationships
-    post: Mapped["Post"] = relationship("Post", back_populates="shares", cascade="all, delete-orphan")  
-    neighbor: Mapped["Neighbor"] = relationship("Neighbor", back_populates="shares", cascade="all, delete-orphan") 
+    post: Mapped["Post"] = relationship("Post", back_populates="shares")  
+    neighbor: Mapped["Neighbor"] = relationship("Neighbor", back_populates="shares") 
    
 

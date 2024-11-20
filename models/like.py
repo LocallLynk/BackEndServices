@@ -15,5 +15,5 @@ class Like(Base):
     liked_on: Mapped[date] = mapped_column(default=date.today)
 
     # Relationships with cascade delete
-    post: Mapped["Post"] = relationship("Post", back_populates="likes", cascade="all, delete-orphan")
-    neighbor: Mapped["Neighbor"] = relationship("Neighbor", back_populates="likes", cascade="all, delete-orphan")
+    post: Mapped["Post"] = relationship("Post", back_populates="likes")
+    neighbor: Mapped["Neighbor"] = relationship("Neighbor", back_populates="likes")

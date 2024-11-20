@@ -46,7 +46,7 @@ class Neighbor(Base):
     skills: Mapped[List["Skill"]] = relationship("Skill", secondary=neighbor_skill, back_populates="neighbor")
 
     # Relationships to feedback
-    given_feedback: Mapped[List["Feedback"]] = relationship("Feedback", foreign_keys="[Feedback.reviewer_id]", back_populates="reviewer", cascade="all, delete-orphan")
+    given_feedback: Mapped[List["Feedback"]] = relationship("Feedback", foreign_keys="[Feedback.reviewer_id]", back_populates="reviewer")
     received_feedback: Mapped[List["Feedback"]] = relationship("Feedback", foreign_keys="[Feedback.reviewed_neighbor_id]", back_populates="reviewed_neighbor", cascade="all, delete-orphan")
    
     # Relationships for Task as task neighbor and client neighbor

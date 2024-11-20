@@ -19,25 +19,10 @@ class Task(Base):
     skill_id: Mapped[int] = mapped_column(db.Integer, ForeignKey('skill.id', ondelete='CASCADE'), nullable=False)
     
     # Define relationships and clarify foreign keys
-    task_neighbor: Mapped["Neighbor"] = relationship(
-        "Neighbor", 
-        foreign_keys=[task_neighbor_id], 
-        back_populates="tasks_as_task_neighbor"
-    )
-    client_neighbor: Mapped["Neighbor"] = relationship(
-        "Neighbor", 
-        foreign_keys=[client_neighbor_id], 
-        back_populates="tasks_as_client_neighbor"
-    )
-    skill: Mapped["Skill"] = relationship(
-        "Skill", 
-        back_populates="tasks"
-    )
-    feedback: Mapped[List["Feedback"]] = relationship(
-        "Feedback", 
-        back_populates="task", 
-        cascade="all, delete"
-    )
+    task_neighbor: Mapped["Neighbor"] = relationship("Neighbor", foreign_keys=[task_neighbor_id], back_populates="tasks_as_task_neighbor")
+    client_neighbor: Mapped["Neighbor"] = relationship("Neighbor", foreign_keys=[client_neighbor_id], back_populates="tasks_as_client_neighbor")
+    skill: Mapped["Skill"] = relationship("Skill", back_populates="tasks")
+    feedback: Mapped[List["Feedback"]] = relationship("Feedback", back_populates="task", cascade="all, delete")
 
     
     

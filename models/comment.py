@@ -17,5 +17,5 @@ class Comment(Base):
     created_on: Mapped[date] = mapped_column(default=date.today)
 
     # Relationships with cascade delete
-    post: Mapped["Post"] = relationship("Post", back_populates="comments", cascade="all, delete-orphan")
-    neighbor: Mapped["Neighbor"] = relationship("Neighbor", back_populates="comments", cascade="all, delete-orphan")
+    post: Mapped["Post"] = relationship("Post", back_populates="comments")
+    neighbor: Mapped["Neighbor"] = relationship("Neighbor", back_populates="comments")
