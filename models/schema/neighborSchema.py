@@ -3,7 +3,8 @@ from marshmallow import fields
 
 class NeighborSchema(ma.Schema):
     id = fields.Integer(required=False) #will auto increment
-    name = fields.String(required=True)
+    first_name = fields.String(required=True)
+    last_name = fields.String(required=True)
     email = fields.String(required=True)
     phone = fields.String(required=True)
     zipcode = fields.String(required=True)
@@ -20,9 +21,9 @@ class NeighborSchema(ma.Schema):
     
         
     class Meta:
-        fields = ('id', 'name', 'email', 'phone', 'username', 'password', 'zipcode', 'admin', 'num_ratings', 'skills', 'overall_rating') #fields coming into neighbor schema
+        fields = ('id', 'first_name', 'last_name', 'email', 'phone', 'username', 'password', 'zipcode', 'admin', 'num_ratings', 'skills', 'overall_rating') #fields coming into neighbor schema
             
 neighbor_schema = NeighborSchema() #instantiating our neighbor schema
 neighbors_schema = NeighborSchema(many=True, exclude=["password"]) # returns a list of neighbors, excludes the password field
-neighbor_login = NeighborSchema(exclude=["name", "phone", "username","zipcode","id"]) #returns a neighbor object with only the email and password fields
+neighbor_login = NeighborSchema(exclude=["first_name", "last_name", "phone", "username","zipcode","id"]) #returns a neighbor object with only the email and password fields
 neighborz_schema = NeighborSchema(exclude=["password"]) #returns neighbor info without the PW field

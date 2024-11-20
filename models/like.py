@@ -10,8 +10,8 @@ from database import db, Base
 class Like(Base):
     __tablename__ = 'likes'
 
-    like_id: Mapped[int] = mapped_column(primary_key=True)
-    post_id: Mapped[int] = mapped_column(ForeignKey('posts.post_id'), nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    post_id: Mapped[int] = mapped_column(ForeignKey('posts.id', ondelete='CASCADE'), nullable=False)
     neighbor_id: Mapped[int] = mapped_column(ForeignKey('neighbor.id'), nullable=False)
     liked_on: Mapped[date] = mapped_column(default=date.today)
 

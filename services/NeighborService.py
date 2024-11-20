@@ -8,13 +8,13 @@ import secrets
 from flask import request
 
 def generate_password_hash(password):
-    """Generates a secure password hash using the Argon2 algorithm."""
+   
     salt = secrets.token_bytes(16)
     hashed_password = hashlib.pbkdf2_hmac('sha256', password.encode(), salt, 100000)
     return hashed_password, salt
 
 def verify_password(password, hashed_password, salt):
-    """Verifies a password against a stored hash and salt."""
+    
     test_hash = hashlib.pbkdf2_hmac('sha256', password.encode(), salt, 100000)
     return test_hash == hashed_password
 
@@ -29,7 +29,8 @@ def create_neighbor(neighbor_data):
         skills = db.session.query(Skill).filter(Skill.id.in_(skill_ids)).all()
 
     new_neighbor = Neighbor(
-        name=neighbor_data['name'], 
+        first_name=neighbor_data['first_name'],
+        last_name=neighbor_data['last_name'], 
         email=neighbor_data['email'],
         phone=neighbor_data['phone'], 
         zipcode=neighbor_data['zipcode'],
@@ -107,7 +108,7 @@ def login(credentials):
     password = credentials['password'] 
 
     if neighbor and verify_password(password, neighbor.password, neighbor.salt):
-        print(f'Login successful. Welcome, {neighbor.name}')
+        print(f'Login successful. Welcome, {neighbor.first_name}')
         return encode_role_token(neighbor.id, 'neighbor')
     else:
         print('Invalid username or password')
@@ -121,7 +122,8 @@ def update_neighbor(neighbor_id, neighbor_data):
     if not neighbor:
         print("Neighbor not found")
         return None
-    neighbor.name = neighbor_data.get('name', neighbor.name)
+    neighbor.first_name = neighbor_data.get('name', neighbor.first_name)
+    neighbor.last_name = neighbor_data.get('last_name', neighbor.last_name)
     neighbor.email = neighbor_data.get('email', neighbor.email)
     neighbor.phone = neighbor_data.get('phone', neighbor.phone)
     neighbor.zipcode = neighbor_data.get('zipcode', neighbor.zipcode)

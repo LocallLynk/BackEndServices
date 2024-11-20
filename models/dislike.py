@@ -9,8 +9,8 @@ from database import db, Base
 class Dislike(Base):
     __tablename__ = 'dislikes'
 
-    dislike_id: Mapped[int] = mapped_column(primary_key=True)
-    post_id: Mapped[int] = mapped_column(ForeignKey('posts.post_id'), nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    post_id: Mapped[int] = mapped_column(ForeignKey('posts.id', ondelete='CASCADE'), nullable=False)
     neighbor_id: Mapped[int] = mapped_column(ForeignKey('neighbor.id'), nullable=False)
     disliked_on: Mapped[date] = mapped_column(default=date.today)
 

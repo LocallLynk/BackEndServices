@@ -51,6 +51,8 @@ def get_all_posts():
 @token_required
 def get_post_by_id(post_id):
     post = PostService.get_post_by_id(post_id)
+    if not post:
+        return jsonify({"error": "Post not found"}), 404
     return jsonify({
         "message": "Post retrieved successfully",
         "post": post_schema.dump(post)
@@ -59,6 +61,8 @@ def get_post_by_id(post_id):
 @token_required
 def get_posts_by_neighbor_id(neighbor_id):
     posts = PostService.get_posts_by_neighbor_id(neighbor_id)
+    if not posts:
+        return jsonify({"error": "No posts found for neighbor"}), 404
     return jsonify({
         "message": "Posts by neighbor ID retrieved successfully",
         "posts": posts_schema.dump(posts)

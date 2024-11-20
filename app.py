@@ -74,3 +74,4 @@ if __name__ == '__main__':
         #populate_skill_bank(db.session)
     app.run()
 
+#implement the inability to type special characters in the input fields

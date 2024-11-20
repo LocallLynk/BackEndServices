@@ -11,11 +11,11 @@ class PostSchema(ma.Schema):
     content = fields.String(required=True)
     created_on = fields.Date(required=False)
     neighbor_id = fields.Integer(required=False)
-    neighbor = fields.Nested('NeighborSchema', only=['id', 'name', 'email', 'phone', 'username', 'zipcode', 'admin'])
+    neighbor = fields.Nested('NeighborSchema', only=['id', 'first_name', 'last_name', 'username', 'zipcode'])
     comments = fields.Nested('CommentSchema', only=['id', 'content', 'created_on', 'neighbor_id', 'neighbor'], many=True)
     likes = fields.Nested('LikeSchema', only=['id', 'neighbor_id', 'neighbor'], many=True)
     dislikes = fields.Nested('DislikeSchema', only=['id', 'neighbor_id', 'neighbor'], many=True)
-    shares = fields.Nested('ShareSchema', only=['id', 'post', 'shared_on', 'neighbor_id', 'neighbor'], many=True)
+    shares = fields.Nested('ShareSchema', only=['id', 'shared_on', 'neighbor_id'], many=True)
     
     class Meta:
         fields = ('id', 'title', 'likes_count', 'dislikes_count', 'shares_count', 'comments_count', 'content', 'created_on', 'neighbor_id', 'neighbor', 'comments', 'likes', 'dislikes', 'shares') #fields coming into post schema

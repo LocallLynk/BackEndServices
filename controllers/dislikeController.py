@@ -2,10 +2,12 @@ from flask import request, jsonify
 from models.schema.dislikeSchema import dislike_schema, dislikes_schema
 from services import DislikeService
 from marshmallow import ValidationError
-from utils.util import token_required, admin_required
+from utils.util import token_required, admin_required, get_current_user
 
 @token_required
 def add_dislike():
+    neighbor_id = get_current_user()
+    request.json['neighbor_id'] = neighbor_id
     try:
         dislike_data = dislike_schema.load(request.json)
     except ValidationError as e:

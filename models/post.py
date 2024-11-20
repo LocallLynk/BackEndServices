@@ -26,7 +26,7 @@ class Post(Base):
     __tablename__ = 'posts'
 
     # Column Definitions
-    post_id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
     neighbor_id: Mapped[int] = mapped_column(ForeignKey('neighbor.id'), nullable=False)
     title: Mapped[str] = mapped_column(db.String(255), nullable=False)
     content: Mapped[str] = mapped_column(db.String(255), nullable=False)

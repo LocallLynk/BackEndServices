@@ -10,6 +10,7 @@ class Task(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     description: Mapped[str] = mapped_column(db.String(255), nullable=False)
     created_on: Mapped[date] = mapped_column(db.Date, default=date.today())
+    scheduled_on: Mapped[date] = mapped_column(db.Date, nullable=True)
     status: Mapped[str] = mapped_column(db.String(255), nullable=False)
     task_paid: Mapped[bool] = mapped_column(db.Boolean, nullable=False)
     traded_task: Mapped[bool] = mapped_column(db.Boolean, nullable=False)

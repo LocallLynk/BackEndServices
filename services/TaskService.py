@@ -13,7 +13,8 @@ def create_task(task_data):
         status="open",
         task_paid=task_data['task_paid'],
         traded_task=task_data['traded_task'],
-        created_on=date.today()
+        created_on=date.today(),
+        scheduled_on=task_data('scheduled_on', None)
     )
     
     db.session.add(new_task)
@@ -62,6 +63,14 @@ def update_task(task_id, task_data):
     if task.status not in ["open", "in_progress", "completed"]:
         raise ValueError("Invalid status. Please enter 'open', 'in_progress', or 'completed'.")
     db.session.commit()
+    if task.status == "completed":
+        feedback = Feedback(
+            task_id=task_id,
+            rating=task_data['rating'],
+            comment=task_data['comment']
+        )
+        db.session.add(feedback)
+        db.session.commit()
     return task
 
 def delete_task(task_id):
@@ -75,8 +84,6 @@ def delete_task(task_id):
 
 # Placeholder for additional features:
 # - Cart system: Tasks marked as traded could be added to a "cart" along with traded items.
-# - Payment system: Manage task payment methods and status.
-# - Task completion: When a task is marked as completed, it could trigger the feedback system.
-
+# - Payment system: Manage task payment methods and status- will be handled by Stripe API.
 
 

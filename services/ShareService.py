@@ -3,40 +3,64 @@ from models.shares import Share
 from models.post import Post
 from datetime import datetime
 from sqlalchemy import select, update, delete
-from sqlalchemy.orm import Session
 from typing import List
 
-def add_share(db: Session, share: Share):
-    db.add(share)
-    existing_share = db.query(Share).filter(Share.neighbor_id == share.neighbor_id, Share.post_id == share.post_id).first()
+def add_share(share_data):
+    # Ensure `share_data` is a dictionary and not already a `Share` instance
+    if isinstance(share_data, dict):
+        share = Share(**share_data)  # Convert dictionary to Share instance
+    elif isinstance(share_data, Share):
+        share = share_data  # Use the provided Share instance as-is
+    else:
+        raise ValueError("Invalid share data type. Expected dict or Share instance.")
+
+    # Check if the user has already shared the post
+    existing_share = (
+        db.session.query(Share)
+        .filter(Share.neighbor_id == share.neighbor_id, Share.post_id == share.post_id)
+        .first()
+    )
     if existing_share:
-        raise ValueError("User has already shared this post")
-    post = db.query(Post).filter(Post.post_id == share.post_id).first()
+        raise ValueError("You have already shared this post")
+
+    # Check if the post exists
+    post = db.session.query(Post).filter(Post.id == share.post_id).first()
     if not post:
         raise ValueError("Post not found")
+
+    # Increment the share count
     post.shares_count += 1
-    db.commit()
-    db.refresh(share)
+
+    # Save the share to the database
+    db.session.add(share)
+    db.session.commit()
+    db.session.refresh(share)
+
     return share
 
-def remove_share(db: Session, share_id: int):
-    share = db.query(Share).filter(Share.share_id == share_id).first()
+
+def remove_share(share_id):
+    share = db.session.query(Share).filter(Share.id == share_id).first()
     if not share:
         raise ValueError("Share not found")
-    post = db.query(Post).filter(Post.post_id == share.post_id).first()
+    post = db.session.query(Post).filter(Post.id == share.post_id).first()
     if post:
         post.shares_count = max(0, post.shares_count - 1)
-    db.execute(delete(Share).where(Share.share_id == share_id))
-    db.commit()
+    db.session.execute(delete(Share).where(Share.id == share_id))
+    db.session.commit()
     return None
 
-def get_share_by_id(db: Session, share_id: int):
-    return db.query(Share).filter(Share.share_id == share_id).first()
+def get_share_by_id(share_id):
+    try:
+        share = db.session.query(Share).filter(Share.id == share_id).first()
+        return share
+    except Exception as e:
+        raise RuntimeError(f"Error fetching share by ID: {share_id}") from e
 
-def get_all_shares(db: Session, skip: int = 0, limit: int = 10):
-    return db.query(Share).offset(skip).limit(limit).all()
 
-def update_share(db: Session, share_id: int, share: Share):
-    db.execute(update(Share).where(Share.share_id == share_id).values(share))
-    db.commit()
-    return db.execute(select(Share).where(Share.share_id == share_id)).scalar()
+def update_share(share_id, share):
+    db.session.execute(
+        update(Share).where(Share.id == share_id).values(share)
+    )
+    db.session.commit()
+    return db.session.execute(select(Share).where(Share.id == share_id)).scalar()

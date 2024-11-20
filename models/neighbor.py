@@ -28,7 +28,8 @@ class Neighbor(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     profile_pic: Mapped[str] = mapped_column(db.String(255), nullable=True) # Storing the path to the profile picture
-    name: Mapped[str] = mapped_column(db.String(255), nullable=False)
+    first_name: Mapped[str] = mapped_column(db.String(255), nullable=False)
+    last_name: Mapped[str] = mapped_column(db.String(255), nullable=False)
     email: Mapped[str] = mapped_column(db.String(255), nullable=False, unique=True)
     phone: Mapped[str] = mapped_column(db.String(25), nullable=False)
     zipcode: Mapped[str] = mapped_column(db.String(10), nullable=False)

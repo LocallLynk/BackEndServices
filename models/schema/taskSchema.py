@@ -5,6 +5,7 @@ class TaskSchema(ma.Schema):
     id = fields.Integer(required=False) #will auto increment
     description = fields.String(required=True)
     created_on = fields.Date(required=False)
+    scheduled_on = fields.Date(required=False)
     status = fields.String(required=False)
     task_paid = fields.Boolean(required=True)
     traded_task = fields.Boolean(required=True)

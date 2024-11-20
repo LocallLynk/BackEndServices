@@ -65,15 +65,6 @@ def update_task_neighbor_feedback_rating(reviewed_neighbor):
         "overall_rating": feedbacks_schema.dump(task)
     }), 200
 
-@token_required
-def update_client_neighbor_feedback_rating(reviewer_neighbor):
-    client = FeedbackService.update_client_neighbor_feedback_rating(reviewer_neighbor)
-
-    return jsonify({
-        "message": "Feedback rating for client neighbor updated successfully",
-        "overall_rating": feedbacks_schema.dump(client)
-    }), 200
-
 @admin_required
 def get_all_feedback():
     page = request.args.get('page', 1, type=int)
