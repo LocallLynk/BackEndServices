@@ -17,6 +17,6 @@ class Skill(Base):
     neighbor: Mapped[List["Neighbor"]] = relationship("Neighbor", secondary=neighbor_skill, back_populates="skills")
 
     # Relationship for tasks associated with this skill
-    tasks: Mapped[List["Task"]] = relationship("Task", back_populates="skill")
+    tasks: Mapped[List["Task"]] = relationship("Task", back_populates="skill", cascade="all, delete")
 
     

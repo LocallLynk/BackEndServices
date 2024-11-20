@@ -23,11 +23,10 @@ if TYPE_CHECKING:
 
 
 class Neighbor(Base):
-
     __tablename__ = 'neighbor'
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    profile_pic: Mapped[str] = mapped_column(db.String(255), nullable=True) # Storing the path to the profile picture
+    profile_pic: Mapped[str] = mapped_column(db.String(255), nullable=True)  # Storing the path to the profile picture
     first_name: Mapped[str] = mapped_column(db.String(255), nullable=False)
     last_name: Mapped[str] = mapped_column(db.String(255), nullable=False)
     email: Mapped[str] = mapped_column(db.String(255), nullable=False, unique=True)
@@ -44,26 +43,19 @@ class Neighbor(Base):
     client_neighbor: Mapped[bool] = mapped_column(db.Boolean, default=None, nullable=True)
     admin: Mapped[bool] = mapped_column(db.Boolean, default=False, nullable=True)
     
-
     skills: Mapped[List["Skill"]] = relationship("Skill", secondary=neighbor_skill, back_populates="neighbor")
 
     # Relationships to feedback
-    given_feedback: Mapped[List["Feedback"]] = relationship("Feedback", foreign_keys="[Feedback.reviewer_id]", back_populates="reviewer")
-    received_feedback: Mapped[List["Feedback"]] = relationship("Feedback", foreign_keys="[Feedback.reviewed_neighbor_id]", back_populates="reviewed_neighbor")
+    given_feedback: Mapped[List["Feedback"]] = relationship("Feedback", foreign_keys="[Feedback.reviewer_id]", back_populates="reviewer", cascade="all, delete-orphan")
+    received_feedback: Mapped[List["Feedback"]] = relationship("Feedback", foreign_keys="[Feedback.reviewed_neighbor_id]", back_populates="reviewed_neighbor", cascade="all, delete-orphan")
    
     # Relationships for Task as task neighbor and client neighbor
-    tasks_as_task_neighbor: Mapped[List["Task"]] = relationship("Task", foreign_keys="[Task.task_neighbor_id]", back_populates="task_neighbor")
-    tasks_as_client_neighbor: Mapped[List["Task"]] = relationship("Task", foreign_keys="[Task.client_neighbor_id]", back_populates="client_neighbor")
+    tasks_as_task_neighbor: Mapped[List["Task"]] = relationship("Task", foreign_keys="[Task.task_neighbor_id]", back_populates="task_neighbor", cascade="all, delete-orphan")
+    tasks_as_client_neighbor: Mapped[List["Task"]] = relationship("Task", foreign_keys="[Task.client_neighbor_id]", back_populates="client_neighbor", cascade="all, delete-orphan")
 
-    # These relationships only exist because the other models exist 
-    # So create other models, and then lazy load these in 
-
-    # TODO: Add lazy="select"
-
-    # Social interactions
-    
-    posts = relationship("Post", back_populates="neighbor", lazy="select")  # Explicitly specify lazy loading (default)
-    comments = relationship("Comment", back_populates="neighbor", lazy="select")
-    likes = relationship("Like", back_populates="neighbor", lazy="select")
-    dislikes = relationship("Dislike", back_populates="neighbor", lazy="select")
-    shares = relationship("Share", back_populates="neighbor", lazy="select")
+    # Social interactions - cascade deletion
+    posts = relationship("Post", back_populates="neighbor", cascade="all, delete-orphan", lazy="select")
+    comments = relationship("Comment", back_populates="neighbor", cascade="all, delete-orphan", lazy="select")
+    likes = relationship("Like", back_populates="neighbor", cascade="all, delete-orphan", lazy="select")
+    dislikes = relationship("Dislike", back_populates="neighbor", cascade="all, delete-orphan", lazy="select")
+    shares = relationship("Share", back_populates="neighbor", cascade="all, delete-orphan", lazy="select")

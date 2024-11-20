@@ -27,7 +27,7 @@ class Post(Base):
 
     # Column Definitions
     id: Mapped[int] = mapped_column(primary_key=True)
-    neighbor_id: Mapped[int] = mapped_column(ForeignKey('neighbor.id'), nullable=False)
+    neighbor_id: Mapped[int] = mapped_column(ForeignKey('neighbor.id', ondelete='CASCADE'), nullable=False)
     title: Mapped[str] = mapped_column(db.String(255), nullable=False)
     content: Mapped[str] = mapped_column(db.String(255), nullable=False)
     created_on: Mapped[date] = mapped_column(default=date.today)

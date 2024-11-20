@@ -11,9 +11,12 @@ class Share(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     post_id: Mapped[int] = mapped_column(ForeignKey('posts.id', ondelete='CASCADE'), nullable=False)
-    neighbor_id: Mapped[int] = mapped_column(ForeignKey('neighbor.id'), nullable=False)
-    shared_on: Mapped[date] = mapped_column(default=date.today)
+    neighbor_id: Mapped[int] = mapped_column(ForeignKey('neighbor.id', ondelete='CASCADE'), nullable=False)
+    shared_on: Mapped[date] = mapped_column(default=lambda: date.today())  
     content: Mapped[str] = mapped_column(db.String(255), nullable=False)
+
     # Relationships
-    post: Mapped["Post"] = relationship("Post", back_populates="shares")
-    neighbor: Mapped["Neighbor"] = relationship("Neighbor", back_populates="shares")
+    post: Mapped["Post"] = relationship("Post", back_populates="shares", cascade="all, delete-orphan")  
+    neighbor: Mapped["Neighbor"] = relationship("Neighbor", back_populates="shares", cascade="all, delete-orphan") 
+   
+

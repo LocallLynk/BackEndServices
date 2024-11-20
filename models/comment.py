@@ -12,10 +12,10 @@ class Comment(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     post_id: Mapped[int] = mapped_column(ForeignKey('posts.id', ondelete='CASCADE'), nullable=False)
-    neighbor_id: Mapped[int] = mapped_column(ForeignKey('neighbor.id'), nullable=False)
+    neighbor_id: Mapped[int] = mapped_column(ForeignKey('neighbor.id', ondelete='CASCADE'), nullable=False)
     content: Mapped[str] = mapped_column(db.String(255), nullable=False)
     created_on: Mapped[date] = mapped_column(default=date.today)
 
-    # Relationships
-    post: Mapped["Post"] = relationship("Post", back_populates="comments")
-    neighbor: Mapped["Neighbor"] = relationship("Neighbor", back_populates="comments")
+    # Relationships with cascade delete
+    post: Mapped["Post"] = relationship("Post", back_populates="comments", cascade="all, delete-orphan")
+    neighbor: Mapped["Neighbor"] = relationship("Neighbor", back_populates="comments", cascade="all, delete-orphan")
