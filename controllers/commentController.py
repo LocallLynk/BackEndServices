@@ -5,7 +5,7 @@ from marshmallow import ValidationError
 from utils.util import token_required, admin_required, get_current_user
 from models.comment import Comment
 
-@token_required
+#@token_required
 def add_comment():
     neighbor_id = get_current_user()
     request.json['neighbor_id'] = neighbor_id
@@ -27,7 +27,7 @@ def add_comment():
     }), 201
 
 
-@admin_required
+#@admin_required
 def get_all_comments():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
@@ -38,7 +38,7 @@ def get_all_comments():
         "comments": comments_schema.dump(all_comments, many=True)
     }), 200
 
-@token_required
+#@token_required
 def get_comment_by_id(comment_id):
     comment = CommentService.get_comment_by_id(comment_id)
     return jsonify({
@@ -46,7 +46,7 @@ def get_comment_by_id(comment_id):
         "comment": comment_schema.dump(comment)
     }), 200
 
-@token_required
+#@token_required
 def get_comments_by_post_id(post_id):
     comments = CommentService.get_comments_by_post_id(post_id)
     return jsonify({
@@ -54,7 +54,7 @@ def get_comments_by_post_id(post_id):
         "comments": comments_schema.dump(comments)
     }), 200
 
-@token_required
+#@token_required
 def get_comments_by_neighbor_id(neighbor_id):
     comments = CommentService.get_comments_by_neighbor_id(neighbor_id)
     return jsonify({
@@ -62,7 +62,7 @@ def get_comments_by_neighbor_id(neighbor_id):
         "comments": comments_schema.dump(comments)
     }), 200
 
-@token_required
+#@token_required
 def update_comment(comment_id):
     # Get the current user from the token
     neighbor_id = get_current_user()
@@ -93,7 +93,7 @@ def update_comment(comment_id):
     }), 200
 
 
-@token_required
+#@token_required
 def delete_comment(comment_id):
     # Get the current user from the token
     neighbor_id = get_current_user()

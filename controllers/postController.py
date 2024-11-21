@@ -12,7 +12,7 @@ from models.post import Post
 
 
 
-@token_required
+#@token_required
 def create_post():
     # Add current user's neighbor_id to post data
     neighbor_id = get_current_user()
@@ -38,7 +38,7 @@ def create_post():
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred", "details": str(e)}), 500
 
-@admin_required
+#@admin_required
 def get_all_posts():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
@@ -49,7 +49,7 @@ def get_all_posts():
         "posts": posts_schema.dump(all_posts, many=True)
     }), 200
 
-@token_required
+#@token_required
 def get_post_by_id(post_id):
     post = PostService.get_post_by_id(post_id)
     if not post:
@@ -59,7 +59,7 @@ def get_post_by_id(post_id):
         "post": post_schema.dump(post)
     }), 200
 
-@token_required
+#@token_required
 def get_posts_by_neighbor_id(neighbor_id):
     posts = PostService.get_posts_by_neighbor_id(neighbor_id)
     if not posts:
@@ -69,7 +69,7 @@ def get_posts_by_neighbor_id(neighbor_id):
         "posts": posts_schema.dump(posts)
     }), 200
 
-@token_required
+#@token_required
 def update_post(post_id):
     # Get the current user from the token
     neighbor_id = get_current_user()
@@ -100,7 +100,7 @@ def update_post(post_id):
     }), 200
 
 
-@token_required
+#@token_required
 def delete_post(post_id):
     # Get the current user from the token
     neighbor_id = get_current_user()

@@ -5,7 +5,7 @@ from marshmallow import ValidationError
 from utils.util import token_required, admin_required, get_current_user
 from models.shares import Share
 
-@token_required
+#@token_required
 def add_share():
     neighbor_id = get_current_user()
     request.json['neighbor_id'] = neighbor_id  # Add neighbor ID to the request data
@@ -31,14 +31,14 @@ def add_share():
     }), 201
 
 
-@token_required
+#@token_required
 def remove_share(share_id):
     ShareService.remove_share(share_id)
     return jsonify({
         "message": "Share removed successfully"
     }), 200
 
-@token_required
+#@token_required
 def get_share_by_id(share_id):
     share = ShareService.get_share_by_id(share_id)
     return jsonify({
@@ -46,7 +46,7 @@ def get_share_by_id(share_id):
         "share": share_schema.dump(share)
     }), 200
 
-@token_required
+#@token_required
 def update_share(share_id):
     try:
         share_data = share_schema.load(request.json)

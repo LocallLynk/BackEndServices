@@ -6,7 +6,7 @@ from cache import cache
 from utils.util import token_required, user_validation, admin_required
 from services import FeedbackService
 
-@token_required
+#@token_required
 def create_feedback():
     try:
         feedback_data = feedback_schema.load(request.json)
@@ -20,7 +20,7 @@ def create_feedback():
         "feedback": feedback_schema.dump(new_feedback)
     }), 201
 
-@token_required
+#@token_required
 def get_feedback_by_id(feedback_id):
     feedback = FeedbackService.find_feedback_by_id(feedback_id)
 
@@ -29,7 +29,7 @@ def get_feedback_by_id(feedback_id):
         "feedback": feedback_schema.dump(feedback)
     }), 200
 
-@token_required
+#@token_required
 def get_feedback_by_task_id(task_id):
     feedback = FeedbackService.find_feedback_by_task_id(task_id)
 
@@ -38,7 +38,7 @@ def get_feedback_by_task_id(task_id):
         "feedback": feedback_schema.dump(feedback)
     }), 200
 
-@token_required
+#@token_required
 def get_feedback_by_task_neighbor_id(task_neighbor_id):
     feedback = FeedbackService.find_feedback_by_task_neighbor_id(task_neighbor_id)
 
@@ -47,7 +47,7 @@ def get_feedback_by_task_neighbor_id(task_neighbor_id):
         "feedback": feedbacks_schema.dump(feedback)
     }), 200
 
-@token_required
+#@token_required
 def get_feedback_by_client_neighbor_id(client_neighbor_id):
     feedback = FeedbackService.find_feedback_by_client_neighbor_id(client_neighbor_id)
 
@@ -56,7 +56,7 @@ def get_feedback_by_client_neighbor_id(client_neighbor_id):
         "feedback": feedbacks_schema.dump(feedback)
     }), 200
 
-@token_required
+#@token_required
 def update_task_neighbor_feedback_rating(reviewed_neighbor):
     task = FeedbackService.update_task_neighbor_feedback_rating(reviewed_neighbor)
 
@@ -65,7 +65,7 @@ def update_task_neighbor_feedback_rating(reviewed_neighbor):
         "overall_rating": feedbacks_schema.dump(task)
     }), 200
 
-@admin_required
+#@admin_required
 def get_all_feedback():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
@@ -77,7 +77,7 @@ def get_all_feedback():
         "feedback": feedbacks_schema.dump(all_feedback, many=True)
     }), 200
 
-@admin_required
+#@admin_required
 def delete_feedback(feedback_id):
     FeedbackService.delete_feedback(feedback_id)
 

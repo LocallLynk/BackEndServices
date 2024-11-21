@@ -4,7 +4,7 @@ from services import LikeService
 from marshmallow import ValidationError
 from utils.util import token_required, admin_required, get_current_user
 
-@token_required
+#@token_required
 def add_like():
     neighbor_id = get_current_user()
     request.json['neighbor_id'] = neighbor_id
@@ -19,7 +19,7 @@ def add_like():
         "like": like_schema.dump(new_like)
     }), 201
 
-@token_required
+#@token_required
 def remove_like(like_id):
     LikeService.remove_like(like_id)
     return jsonify({
