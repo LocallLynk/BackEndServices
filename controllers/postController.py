@@ -12,7 +12,7 @@ from models.post import Post
 
 
 
-#@token_required
+@token_required
 def create_post():
     # Add current user's neighbor_id to post data
     neighbor_id = get_current_user()

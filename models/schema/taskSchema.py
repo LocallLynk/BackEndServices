@@ -14,7 +14,7 @@ class TaskSchema(ma.Schema):
     skill_id = fields.Integer(required=True)
 
     class Meta:
-        fields = ('id', 'description', 'created_on', 'status', 'task_paid', 'traded_task', 'task_neighbor_id', 'client_neighbor_id', 'skill_id')
+        fields = ('id', 'description', 'created_on', 'scheduled_on', 'status', 'task_paid', 'traded_task', 'task_neighbor_id', 'client_neighbor_id', 'skill_id')
 
 task_schema = TaskSchema() #instantiating our task schema
 tasks_schema = TaskSchema(many=True) # returns a list of tasks

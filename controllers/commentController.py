@@ -5,7 +5,7 @@ from marshmallow import ValidationError
 from utils.util import token_required, admin_required, get_current_user
 from models.comment import Comment
 
-#@token_required
+@token_required
 def add_comment():
     neighbor_id = get_current_user()
     request.json['neighbor_id'] = neighbor_id

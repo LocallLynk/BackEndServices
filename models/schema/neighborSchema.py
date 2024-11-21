@@ -3,6 +3,7 @@ from marshmallow import fields
 
 class NeighborSchema(ma.Schema):
     id = fields.Integer(required=False) #will auto increment
+    profile_pic = fields.String(required=False)
     first_name = fields.String(required=True)
     last_name = fields.String(required=True)
     email = fields.String(required=True)
@@ -21,7 +22,7 @@ class NeighborSchema(ma.Schema):
     
         
     class Meta:
-        fields = ('id', 'first_name', 'last_name', 'email', 'phone', 'username', 'password', 'zipcode', 'admin', 'num_ratings', 'skills', 'overall_rating') #fields coming into neighbor schema
+        fields = ('id', 'profile_pic', 'first_name', 'last_name', 'email', 'phone', 'username', 'password', 'zipcode', 'admin', 'num_ratings', 'skills', 'overall_rating') #fields coming into neighbor schema
             
 neighbor_schema = NeighborSchema() #instantiating our neighbor schema
 neighbors_schema = NeighborSchema(many=True, exclude=["password"]) # returns a list of neighbors, excludes the password field

@@ -5,6 +5,8 @@ from sqlalchemy import select
 
 def create_task(task_data):
     
+    scheduled_on = task_data.get('scheduled_on', None)  # Default to None if key is missing
+
     new_task = Task(
         task_neighbor_id=task_data['task_neighbor_id'],
         client_neighbor_id=task_data['client_neighbor_id'],
@@ -14,7 +16,7 @@ def create_task(task_data):
         task_paid=task_data['task_paid'],
         traded_task=task_data['traded_task'],
         created_on=date.today(),
-        scheduled_on=task_data('scheduled_on', None)
+        scheduled_on=scheduled_on
     )
     
     db.session.add(new_task)

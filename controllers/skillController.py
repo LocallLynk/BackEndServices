@@ -87,8 +87,8 @@ def remove_skill_from_neighbor(neighbor_id, skill_id):
 
 #@token_required
 def add_skill_to_neighbor(neighbor_id, skill_id):
-    if neighbor_id != get_current_user():
-        return jsonify({"error": "You are not the owner of this account"}), 403
+    # if neighbor_id != get_current_user():
+    #     return jsonify({"error": "You are not the owner of this account"}), 403
     SkillService.add_skill_to_neighbor(neighbor_id, skill_id)
     return jsonify({"message": "Skill added to neighbor successfully"}), 200
 
