@@ -20,7 +20,7 @@ def create_neighbor():
        
     }), 201
 
-@cache.cached(timeout=50)
+# @cache.cached(timeout=50)
 #@admin_required
 def get_all_neighbors():
     page = request.args.get('page', 1, type=int)
