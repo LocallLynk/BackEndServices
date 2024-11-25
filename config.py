@@ -6,7 +6,7 @@ class DevelopmentConfig:
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
     CACHE_TYPE = "SimpleCache"
     DEBUG = True
-
+    PROPAGATE_EXCEPTIONS = True
 # # to connect to your computer, after root:, you can put your password between the colon and @
 
 # class TestingConfig:
