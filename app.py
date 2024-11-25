@@ -55,7 +55,7 @@ def blueprint_config(app):
     app.register_blueprint(dislike_blueprint, url_prefix='/dislike')
     app.register_blueprint(share_blueprint, url_prefix='/share')
     # app.register_blueprint(chat_app, url_prefix='/chat')
-    app.register_blueprint(swagger_blueprint, url_prefux=SWAGGER_URL)
+    app.register_blueprint(swagger_blueprint, url_prefix=SWAGGER_URL)
 
 
 def rate_limit_config(app):
