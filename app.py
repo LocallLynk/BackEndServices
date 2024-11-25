@@ -15,7 +15,7 @@ from limiter import limiter
 from flask_cors import CORS
 from cache import cache
 from flask_swagger_ui import get_swaggerui_blueprint
-from chat import app as chat_app
+#from chat import app as chat_app
 from services.SkillService import populate_skill_bank
 import jwt
 import gunicorn
@@ -25,7 +25,7 @@ API_URL = '/static/swagger.yaml'#Grabs our host from our swagger.yaml file
 
 swagger_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL, config={'app_name': 'LocalLynk'})
 
-def create_app(config_name):
+def create_app(config_name="DevelopmentConfig"):
     app = Flask(__name__) # instantiate the Flask app
 
     app.config.from_object(f'config.{config_name}')
