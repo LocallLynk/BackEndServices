@@ -109,7 +109,7 @@ def validate_user(email):
 
     if user:
         # If the email exists, redirect to their homepage
-        return redirect(url_for('homepage', neighbor_id=user.id))
+        return redirect(url_for('feedpage', neighbor_id=user.id))
     else:
         # If the email does not exist, redirect to the account creation page
         return redirect(url_for('create_neighbor'))
