@@ -13,7 +13,8 @@ class TestNeighbor(unittest.TestCase):
 
     def test_create_neighbor(self):
         fake = Faker()
-        name = fake.name()
+        first_name = fake.first_name()
+        last_name = fake.last_name()
         phone = fake.phone_number()
         email = fake.email()
         zipcode = fake.zipcode()
@@ -22,7 +23,8 @@ class TestNeighbor(unittest.TestCase):
         admin = 1
 
         payload = {
-            "name": name,
+            "first_name": first_name,
+            "last_name": last_name,
             "phone": phone,
             "email": email,
             "zipcode": zipcode,
