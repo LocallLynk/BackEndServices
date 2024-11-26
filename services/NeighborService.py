@@ -5,7 +5,7 @@ from utils.util import encode_role_token
 from datetime import date
 import hashlib
 import secrets
-from flask import request
+from flask import request, redirect, url_for
 
 def generate_password_hash(password):
    
@@ -102,6 +102,19 @@ def get_neighbor_by_zipcode(zipcode):
 
 #-------- Logging in --------
 
+
+def validate_user(email):
+    # Query the database to check if the email exists
+    user = Neighbor.query.filter_by(email=Neighbor.email).first()
+
+    if user:
+        # If the email exists, redirect to their homepage
+        return redirect(url_for('feedpage', neighbor_id=user.id))
+    else:
+        # If the email does not exist, redirect to the account creation page
+        return redirect(url_for('create_neighbor'))
+
+
 def login(credentials):
     query = select(Neighbor).where(Neighbor.email == credentials['email'])
     neighbor = db.session.execute(query).scalar_one_or_none()
@@ -122,7 +135,8 @@ def update_neighbor(neighbor_id, neighbor_data):
     if not neighbor:
         print("Neighbor not found")
         return None
-    neighbor.first_name = neighbor_data.get('name', neighbor.first_name)
+    neighbor.profile_pic = neighbor_data.get('profile_pic', neighbor.profile_pic)
+    neighbor.first_name = neighbor_data.get('first_name', neighbor.first_name)
     neighbor.last_name = neighbor_data.get('last_name', neighbor.last_name)
     neighbor.email = neighbor_data.get('email', neighbor.email)
     neighbor.phone = neighbor_data.get('phone', neighbor.phone)

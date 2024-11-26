@@ -15,6 +15,7 @@ from limiter import limiter
 from flask_cors import CORS
 from cache import cache
 from flask_swagger_ui import get_swaggerui_blueprint
+#from chat import app as chat_app
 from services.SkillService import populate_skill_bank
 import jwt
 import gunicorn

@@ -20,7 +20,7 @@ def create_neighbor():
        
     }), 201
 
-@cache.cached(timeout=50)
+# @cache.cached(timeout=50)
 #@admin_required
 def get_all_neighbors():
     page = request.args.get('page', 1, type=int)
@@ -80,6 +80,20 @@ def login():
     else:
         # Error response for invalid credentials
         return jsonify({"status": "error", "message": "Invalid username or password"}), 401
+    
+def validate_user():
+    try:
+        user_data = user_validation.load(request.json)
+    except ValidationError as e:
+        return jsonify(e.messages), 400
+    user = NeighborService.validate_user(user_data)
+    if user:
+        return jsonify({
+            "message": "User validated successfully",
+            "user": neighborz_schema.dump(user)
+        }), 200
+    else:
+        return jsonify({"message": "User not found, sending to create neighbor"}), 404
     
 #@token_required
 def get_neighbor_by_id(neighbor_id):
