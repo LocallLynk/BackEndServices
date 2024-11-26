@@ -122,6 +122,7 @@ def update_neighbor(neighbor_id, neighbor_data):
     if not neighbor:
         print("Neighbor not found")
         return None
+    neighbor.profile_pic = neighbor_data.get('profile_pic', neighbor.profile_pic)
     neighbor.first_name = neighbor_data.get('name', neighbor.first_name)
     neighbor.last_name = neighbor_data.get('last_name', neighbor.last_name)
     neighbor.email = neighbor_data.get('email', neighbor.email)
