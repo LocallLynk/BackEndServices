@@ -41,7 +41,7 @@ def create_neighbor(neighbor_data):
         salt=salt,
         skills=[],
         admin=neighbor_data['admin'],
-        profile_pic=neighbor_data['profile_pic']
+        
         
     )
     
