@@ -6,7 +6,7 @@ This is to allow us to check off routes as we test them, so we know what works a
 
 NeighborBP- url prefix /neighbor
 
-X-create_neighbor: POST, "/"
+-create_neighbor: POST, "/"
     -needs the following input:
     {
     "name": "foo",
@@ -17,24 +17,24 @@ X-create_neighbor: POST, "/"
     "password": "foofoo"
     }
 
-X-get_all_neighbors: GET. "/"
-X-login: POST, "neighbor/login"
+-get_all_neighbors: GET. "/"
+-login: POST, "neighbor/login"
     -needs the following input:
     {
     "email": "foo@foo.foo",
     "password": "foofoo"
     }
-X-make_admin: PUT, "neighbor/admin/<neighbor_id>"
+-make_admin: PUT, "neighbor/admin/<neighbor_id>"
     -needs the following input:
     {
     "admin": "1"
     }
-X-remove_admin: DELETE, "neighbor/admin/<neighbor_id>"
-X-get_neighbor_by_id: GET, "/<neighbor_id>"
-X-get_neighbor_by_username: GET, "/username/<username>"
-X-get_neighbor_by_email: GET, "email/<email>"
-X-get_neighbor_by_zipcode: GET, "/zipcode/<zipcode>"
-X-update_neighbor: PUT, "/<neighbor_id>"
+-remove_admin: DELETE, "neighbor/admin/<neighbor_id>"
+-get_neighbor_by_id: GET, "/<neighbor_id>"
+-get_neighbor_by_username: GET, "/username/<username>"
+-get_neighbor_by_email: GET, "email/<email>"
+-get_neighbor_by_zipcode: GET, "/zipcode/<zipcode>"
+-update_neighbor: PUT, "/<neighbor_id>"
     -needs the following input:
     {
     "name": "foo2",
@@ -44,11 +44,11 @@ X-update_neighbor: PUT, "/<neighbor_id>"
     "username": "foofoo2",
     "password": "foofoo2"
     }
-X-delete_neighbor: DELETE, "/<neighbor_id>"
+-delete_neighbor: DELETE, "/<neighbor_id>"
 
 FeedbackBP- url prefix /feedback
 
-X-create_feedback: POST, "/"
+-create_feedback: POST, "/"
     -needs the following input:
     {
         "reviewed_neighbor_id": "<id_number>",
@@ -68,7 +68,7 @@ X-create_feedback: POST, "/"
 
 SkillBP- url prefix /skill
 
-X-create_skill: POST, "/"
+-create_skill: POST, "/"
     -requires the following input:
     {
         "name": "skill name",
@@ -76,10 +76,10 @@ X-create_skill: POST, "/"
         "experience": "beginner, intermediate, etc",
         "description": "skill description"
     }
-X-get_all_skills: GET, "/"
-X-get_skill_by_id: GET, "/<skill_id>"
-X-get_skill_by_name: GET, "/name/<name>"
-X-update_skill: PUT, "/<skill_id>"
+-get_all_skills: GET, "/"
+-get_skill_by_id: GET, "/<skill_id>"
+-get_skill_by_name: GET, "/name/<name>"
+-update_skill: PUT, "/<skill_id>"
     -requires the following input:
     {
         "name": "skill name",
@@ -87,13 +87,13 @@ X-update_skill: PUT, "/<skill_id>"
         "experience": "beginner, intermediate, etc",
         "description": "skill description"
     }
-X-delete_skill: DELETE, "/<skill_id>
-X-get_neighbors_by_skill: GET, "/<skill_id>/neighbors"
-X-remove_skill_by_neighbor: DELETE, "/<skill_id>/neighbors/<neighbor_id>"
-X-_add_skill_to_neighbors: POST, "/<skill_id>/neighbors/     <neighbor_id>"
+-delete_skill: DELETE, "/<skill_id>
+-get_neighbors_by_skill: GET, "/<skill_id>/neighbors"
+-remove_skill_by_neighbor: DELETE, "/<skill_id>/neighbors/<neighbor_id>"
+-add_skill_to_neighbors: POST, "/<skill_id>/neighbors/     <neighbor_id>"
 
 TaskBP- url prefix /task
-X-create_task: POST, "/"
+-create_task: POST, "/"
     -requires the following input:
     {
         "task_neighbor_id": "<int>",
@@ -107,7 +107,7 @@ X-create_task: POST, "/"
 -get_task_by_id: GET, "/<task_id>"
 -get_task_by_task_neighbor_id: GET, "/task_neighbor/<task_neighbor_id>"
 -get_task_by_client_neighbor_id: GET, "/client_neighbor/<client_neighbor_id>"
-X-update_task: PUT, "/<task_id>"
+-update_task: PUT, "/<task_id>"
     -requires the following input:
     {
         "client_neighbor_id": <int>,
