@@ -56,7 +56,7 @@ def make_admin(neighbor_id):
     
 #@admin_required
 def remove_admin(neighbor_id):
-    neighbor = NeighborService.make_admin(neighbor_id)
+    neighbor = NeighborService.remove_admin(neighbor_id)
 
     if neighbor:
         return jsonify({

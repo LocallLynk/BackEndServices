@@ -71,6 +71,7 @@ def remove_admin(neighbor_id):
         return None
 
     neighbor.admin = False
+    db.session.flush()
     db.session.commit()
     db.session.refresh(neighbor)
     print("Neighbor is no longer an admin")
