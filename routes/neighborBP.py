@@ -5,7 +5,8 @@ neighbor_blueprint = Blueprint('neighbor_bp', __name__)
 
 #url_prefix='/neighbor'
 
-neighbor_blueprint.route('/create', methods=['POST'])(create_neighbor)
+neighbor_blueprint.route('/feed', methods=['GET'])(home_feed)
+neighbor_blueprint.route('/register', methods=['POST'])(create_neighbor)
 neighbor_blueprint.route('/validate', methods=['POST'])(validate_user)
 neighbor_blueprint.route('/get', methods=['GET'])(get_all_neighbors)
 neighbor_blueprint.route('/login', methods=['POST'])(login)

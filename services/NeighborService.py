@@ -1,5 +1,7 @@
 from database import db, Base  # services interact directly with the db
-from models import Neighbor, Skill, Task, Feedback
+from models import Neighbor, Skill, Task
+from models.post import Post
+from models.schema import postSchema, taskSchema
 from sqlalchemy import select
 from utils.util import encode_role_token
 from datetime import date
@@ -128,6 +130,23 @@ def login(credentials):
         return None
 
 #-------- Updating a neighbor's information --------
+
+@staticmethod
+def get_home_feed(user_id):
+    
+    # Example queries: Fetch posts and tasks for the feed
+    posts = Post.query.order_by(Post.created_on.desc()).limit(20).all()  # Latest 20 posts
+    tasks = Task.query.filter(Task.task_neighbor_id == user_id).limit(20).all()  # User-specific tasks
+
+    # Convert data to JSON-friendly format
+    post_data = [postSchema.dump(post) for post in posts]
+    task_data = [taskSchema.dump(task) for task in tasks]
+
+    # Return the structured feed data
+    return {
+        "posts": post_data,
+        "tasks": task_data
+    }
 
 def update_neighbor(neighbor_id, neighbor_data):
     neighbor = db.session.execute(select(Neighbor).where(Neighbor.id == neighbor_id)).scalar()
