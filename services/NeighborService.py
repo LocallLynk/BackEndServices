@@ -39,7 +39,9 @@ def create_neighbor(neighbor_data):
         username=neighbor_data['username'], 
         password=password_hash, 
         salt=salt,
-        skills=[]
+        skills=[],
+        admin=neighbor_data['admin'],
+        profile_pic=neighbor_data['profile_pic']
         
     )
     
