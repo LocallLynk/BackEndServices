@@ -29,7 +29,9 @@ def create_neighbor(neighbor_data):
     if 'skills' in neighbor_data:
         skill_ids = neighbor_data['skills']  
         skills = db.session.query(Skill).filter(Skill.id.in_(skill_ids)).all()
-
+    # Set a default profile picture URL if none is provided
+    default_profile_pic = 'https://i.imgur.com/SZvSpBt.jpeg'
+    
     new_neighbor = Neighbor(
         first_name=neighbor_data['first_name'],
         last_name=neighbor_data['last_name'], 
@@ -41,9 +43,9 @@ def create_neighbor(neighbor_data):
         salt=salt,
         skills=[],
         admin=neighbor_data['admin'],
-        
-        
-    )
+        profile_pic=neighbor_data.get('profile_pic', default_profile_pic) or default_profile_pic)
+
+    
     
     db.session.add(new_neighbor)
     db.session.commit()
