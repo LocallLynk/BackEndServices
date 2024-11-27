@@ -78,8 +78,8 @@ def get_neighbors_by_skill(skill_id):
 
 #@token_required
 def remove_skill_from_neighbor(neighbor_id, skill_id):
-    if neighbor_id != get_current_user():
-        return jsonify({"error": "You are not the owner of this account"}), 403
+    # if neighbor_id != get_current_user():
+    #     return jsonify({"error": "You are not the owner of this account"}), 403
     if not neighbor_id:
         return jsonify({"error": "Neighbor not found"}), 404
     SkillService.remove_skill_from_neighbor(neighbor_id, skill_id)

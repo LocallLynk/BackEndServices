@@ -112,9 +112,9 @@ def delete_post(post_id):
     if not post:
         return jsonify({"error": "Post not found"}), 404
 
-    # Check if the current user is the owner of the post
-    if Post.neighbor_id != neighbor_id:
-        return jsonify({"error": "You are not the owner of this post"}), 403
+    # # Check if the current user is the owner of the post
+    # if Post.neighbor_id != neighbor_id:
+    #     return jsonify({"error": "You are not the owner of this post"}), 403
 
     # Delete the post
     PostService.delete_post(post_id)

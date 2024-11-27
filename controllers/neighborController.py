@@ -112,8 +112,7 @@ def get_neighbor_by_id(neighbor_id):
 def update_neighbor(neighbor_id):
     try:
         neighbor_data = neighbor_schema.load(request.json)
-        if neighbor_id != get_current_user():
-            return jsonify({"message": "Unauthorized"}), 403
+       
     except ValidationError as e:
         return jsonify(e.messages), 400
     if not neighbor_id:
@@ -130,8 +129,7 @@ def update_neighbor(neighbor_id):
 def delete_neighbor(neighbor_id):
     if not neighbor_id:
         return jsonify({"message": "Neighbor not found"}), 404
-    if neighbor_id != get_current_user():
-        return jsonify({"message": "Unauthorized"}), 403
+   
     NeighborService.delete_neighbor(neighbor_id)
 
     return jsonify({"message": "Neighbor deleted successfully"}), 204

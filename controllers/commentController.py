@@ -74,10 +74,6 @@ def update_comment(comment_id):
     if not comment:
         return jsonify({"error": "Comment not found"}), 404
 
-    # Check if the current user is the owner of the comment
-    if comment.neighbor_id != neighbor_id:
-        return jsonify({"error": "You are not the owner of this comment"}), 403
-
     # Validate the input data
     try:
         comment_data = comment_schema.load(request.json)
@@ -104,10 +100,6 @@ def delete_comment(comment_id):
     # Check if the comment exists
     if not comment:
         return jsonify({"error": "Comment not found"}), 404
-
-    # Check if the current user is the owner of the comment
-    if comment.neighbor_id != neighbor_id:
-        return jsonify({"error": "You are not the owner of this comment"}), 403
 
     # Delete the comment
     CommentService.delete_comment(comment_id)
