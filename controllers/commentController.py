@@ -42,6 +42,8 @@ def get_all_comments():
 #@token_required
 def get_comment_by_id(comment_id):
     comment = CommentService.get_comment_by_id(comment_id)
+    if not comment:
+        return jsonify({"error": "Comment not found"}), 404
     return jsonify({
         "message": "Comment retrieved successfully",
         "comment": comment_schema.dump(comment)
@@ -50,6 +52,8 @@ def get_comment_by_id(comment_id):
 #@token_required
 def get_comments_by_post_id(post_id):
     comments = CommentService.get_comments_by_post_id(post_id)
+    if not comments:
+        return jsonify({"error": "No comments found for post"}), 404
     return jsonify({
         "message": "Comments by post ID retrieved successfully",
         "comments": comments_schema.dump(comments)
@@ -58,6 +62,8 @@ def get_comments_by_post_id(post_id):
 #@token_required
 def get_comments_by_neighbor_id(neighbor_id):
     comments = CommentService.get_comments_by_neighbor_id(neighbor_id)
+    if not comments:
+        return jsonify({"error": "No comments found for neighbor"}), 404
     return jsonify({
         "message": "Comments by neighbor ID retrieved successfully",
         "comments": comments_schema.dump(comments)
