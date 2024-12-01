@@ -30,7 +30,7 @@ def create_neighbor(neighbor_data):
         skill_ids = neighbor_data['skills']  
         skills = db.session.query(Skill).filter(Skill.id.in_(skill_ids)).all()
     # Set a default profile picture URL if none is provided
-    default_profile_pic = 'https://i.imgur.com/SZvSpBt.jpeg'
+    default_profile_pic = 'https://pixabay.com/vectors/avatar-icon-placeholder-facebook-1577909'
     
     new_neighbor = Neighbor(
         first_name=neighbor_data['first_name'],
