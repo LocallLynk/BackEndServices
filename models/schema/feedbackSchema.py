@@ -9,7 +9,7 @@ class FeedbackSchema(ma.Schema):
     reviewed_neighbor_id = fields.Integer(required=True)
     reviewer_id = fields.Integer(required=True)
     task_id = fields.Integer(required=True)
-    reviewer = fields.Nested('NeighborSchema', only=['id', 'first_name', 'last_name', 'email', 'phone', 'username', 'zipcode', 'admin'])
+    reviewer = fields.Nested('NeighborSchema', only=['id','profile_pic', 'first_name', 'last_name', 'email', 'phone', 'username', 'zipcode', 'admin'])
     reviewed_neighbor = fields.Nested('NeighborSchema', only=['id', 'first_name', 'last_name', 'email', 'phone', 'username', 'zipcode', 'admin'])
     task = fields.Nested('TaskSchema', only=['id', 'description', 'created_on', 'status', 'task_paid', 'traded_task', 'task_neighbor_id', 'client_neighbor_id', 'skill_id'])
 
