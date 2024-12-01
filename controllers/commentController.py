@@ -4,6 +4,7 @@ from services import CommentService
 from marshmallow import ValidationError
 from utils.util import token_required, admin_required, get_current_user
 from models.comment import Comment
+from database import db
 
 @token_required
 def add_comment():
@@ -68,7 +69,7 @@ def update_comment(comment_id):
     neighbor_id = get_current_user()
 
     # Fetch the comment from the database
-    comment = Comment.query.get(comment_id)
+    comment = db.session.get(Comment, comment_id)
 
     # Check if the comment exists
     if not comment:
@@ -95,7 +96,7 @@ def delete_comment(comment_id):
     neighbor_id = get_current_user()
 
     # Fetch the comment from the database
-    comment = Comment.query.get(comment_id)
+    comment = db.session.get(Comment, comment_id)
 
     # Check if the comment exists
     if not comment:

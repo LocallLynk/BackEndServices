@@ -177,5 +177,30 @@ X-create_post: POST, "post/add"
 X-get_all_posts: GET, "post/get"
 X-get_post_by_id: GET, "post/get/<post_id>"
 X-get_posts_by_neighbor_id: GET, "post/get/neighbor/<neighbor_id>"
--update_post: PUT, "post/update/<post_id>"
--delete_post: DELETE, "post/delete/<post_id>"
+X-update_post: PUT, "post/update/<post_id>"
+X-delete_post: DELETE, "post/delete/<post_id>"
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+CommentBP
+url prefix = /comment
+
+X-add_comment: POST, "comment/add"
+    -requires the following input:
+    {
+        "post_id": <post_id_num>,
+        "content": "whatever you wanna comment here"
+    }
+X-get_all_comments: GET, "comment/get"
+X-get_comment_by_id: GET, "comment/get/<comment_id>"
+X-get_comments_by_post_id: GET, "comment/get/post/<post_id>"
+X-get_comments_by_neighbor_id: GET, "comment/get/neighbor/<neighbor_id>"
+X-update_comment: PUT, "comment/update/<comment_id>"
+    -requires the following input:
+    {
+        "post_id": <post_id>,
+        "content": "updated content"
+    }
+X-delete_comment: DELETE, "comment/delete/<comment_id>"
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
