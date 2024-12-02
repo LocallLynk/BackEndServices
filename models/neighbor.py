@@ -26,7 +26,7 @@ class Neighbor(Base):
     __tablename__ = 'neighbor'
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    profile_pic: Mapped[str] = mapped_column(db.String(255), default='https://pixabay.com/vectors/avatar-icon-placeholder-facebook-1577909', nullable=True)  # Storing the path to the profile picture
+    profile_pic: Mapped[str] = mapped_column(db.String(255), default='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png', nullable=True)  # Storing the path to the profile picture
     first_name: Mapped[str] = mapped_column(db.String(255), nullable=False)
     last_name: Mapped[str] = mapped_column(db.String(255), nullable=False)
     email: Mapped[str] = mapped_column(db.String(255), nullable=False, unique=True)
