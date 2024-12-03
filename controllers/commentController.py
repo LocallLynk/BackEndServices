@@ -4,6 +4,7 @@ from services import CommentService
 from marshmallow import ValidationError
 from utils.util import token_required, admin_required, get_current_user
 from models.comment import Comment
+from database import db
 
 @token_required
 def add_comment():
@@ -41,6 +42,8 @@ def get_all_comments():
 #@token_required
 def get_comment_by_id(comment_id):
     comment = CommentService.get_comment_by_id(comment_id)
+    if not comment:
+        return jsonify({"error": "Comment not found"}), 404
     return jsonify({
         "message": "Comment retrieved successfully",
         "comment": comment_schema.dump(comment)
@@ -49,6 +52,8 @@ def get_comment_by_id(comment_id):
 #@token_required
 def get_comments_by_post_id(post_id):
     comments = CommentService.get_comments_by_post_id(post_id)
+    if not comments:
+        return jsonify({"error": "No comments found for post"}), 404
     return jsonify({
         "message": "Comments by post ID retrieved successfully",
         "comments": comments_schema.dump(comments)
@@ -57,6 +62,8 @@ def get_comments_by_post_id(post_id):
 #@token_required
 def get_comments_by_neighbor_id(neighbor_id):
     comments = CommentService.get_comments_by_neighbor_id(neighbor_id)
+    if not comments:
+        return jsonify({"error": "No comments found for neighbor"}), 404
     return jsonify({
         "message": "Comments by neighbor ID retrieved successfully",
         "comments": comments_schema.dump(comments)
@@ -68,15 +75,11 @@ def update_comment(comment_id):
     neighbor_id = get_current_user()
 
     # Fetch the comment from the database
-    comment = Comment.query.get(comment_id)
+    comment = db.session.get(Comment, comment_id)
 
     # Check if the comment exists
     if not comment:
         return jsonify({"error": "Comment not found"}), 404
-
-    # Check if the current user is the owner of the comment
-    if comment.neighbor_id != neighbor_id:
-        return jsonify({"error": "You are not the owner of this comment"}), 403
 
     # Validate the input data
     try:
@@ -99,15 +102,11 @@ def delete_comment(comment_id):
     neighbor_id = get_current_user()
 
     # Fetch the comment from the database
-    comment = Comment.query.get(comment_id)
+    comment = db.session.get(Comment, comment_id)
 
     # Check if the comment exists
     if not comment:
         return jsonify({"error": "Comment not found"}), 404
-
-    # Check if the current user is the owner of the comment
-    if comment.neighbor_id != neighbor_id:
-        return jsonify({"error": "You are not the owner of this comment"}), 403
 
     # Delete the comment
     CommentService.delete_comment(comment_id)

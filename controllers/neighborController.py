@@ -20,6 +20,14 @@ def create_neighbor():
        
     }), 201
 
+#@token_required
+def home_feed():
+    
+    user_id = request.current_user  
+    feed_data = NeighborService.get_home_feed(user_id)
+
+    return jsonify(feed_data), 200
+
 # @cache.cached(timeout=50)
 #@admin_required
 def get_all_neighbors():
@@ -48,7 +56,7 @@ def make_admin(neighbor_id):
     
 #@admin_required
 def remove_admin(neighbor_id):
-    neighbor = NeighborService.make_admin(neighbor_id)
+    neighbor = NeighborService.remove_admin(neighbor_id)
 
     if neighbor:
         return jsonify({
@@ -112,8 +120,8 @@ def get_neighbor_by_id(neighbor_id):
 def update_neighbor(neighbor_id):
     try:
         neighbor_data = neighbor_schema.load(request.json)
-        if neighbor_id != get_current_user():
-            return jsonify({"message": "Unauthorized"}), 403
+        # if neighbor_id != get_current_user():
+        #     return jsonify({"message": "Unauthorized"}), 403
     except ValidationError as e:
         return jsonify(e.messages), 400
     if not neighbor_id:
@@ -130,8 +138,8 @@ def update_neighbor(neighbor_id):
 def delete_neighbor(neighbor_id):
     if not neighbor_id:
         return jsonify({"message": "Neighbor not found"}), 404
-    if neighbor_id != get_current_user():
-        return jsonify({"message": "Unauthorized"}), 403
+    # if neighbor_id != get_current_user():
+    #     return jsonify({"message": "Unauthorized"}), 403
     NeighborService.delete_neighbor(neighbor_id)
 
     return jsonify({"message": "Neighbor deleted successfully"}), 204

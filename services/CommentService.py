@@ -20,13 +20,23 @@ def add_comment(comment):
     return comment
 
 def get_comment_by_id(comment_id):
-    return db.session.query(Comment).filter(Comment.id == comment_id).first()
+    comment = db.session.query(Comment).filter(Comment.id == comment_id).first()
+    if not comment:
+        return {"error": "No comment found"}, 404
+    return comment
+
 
 def get_comments_by_post_id(post_id):
-    return db.session.query(Comment).filter(Comment.post_id == post_id).all()
+    post = db.session.query(Comment).filter(Comment.post_id == post_id).all()
+    if not post:
+        return {"error": "No comments found for post"}, 404
+    return post
 
 def get_comments_by_neighbor_id(neighbor_id):
-    return db.session.query(Comment).filter(Comment.neighbor_id == neighbor_id).all()
+    post = db.session.query(Comment).filter(Comment.neighbor_id == neighbor_id).all()
+    if not post:
+        return {"error": "No comments found for neighbor"}, 404
+    return post
 
 def get_all_comments(skip: int = 0, limit: int = 10):
     return db.session.query(Comment).offset(skip).limit(limit).all()

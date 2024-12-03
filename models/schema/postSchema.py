@@ -11,7 +11,7 @@ class PostSchema(ma.Schema):
     content = fields.String(required=True)
     created_on = fields.Date(required=False)
     neighbor_id = fields.Integer(required=False)
-    neighbor = fields.Nested('NeighborSchema', only=['id', 'first_name', 'last_name', 'username', 'zipcode'])
+    neighbor = fields.Nested('NeighborSchema', only=['id','profile_pic', 'first_name', 'last_name', 'username', 'zipcode'])
     comments = fields.Nested('CommentSchema', only=['id', 'content', 'created_on', 'neighbor_id', 'neighbor'], many=True)
     likes = fields.Nested('LikeSchema', only=['id', 'neighbor_id', 'neighbor'], many=True)
     dislikes = fields.Nested('DislikeSchema', only=['id', 'neighbor_id', 'neighbor'], many=True)

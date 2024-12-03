@@ -7,7 +7,7 @@ class CommentSchema(ma.Schema):
     created_on = fields.Date(required=False)
     post_id = fields.Integer(required=True)
     neighbor_id = fields.Integer(required=False)
-    neighbor = fields.Nested('NeighborSchema', only=['id', 'first_name', 'last_name', 'email', 'phone', 'username', 'zipcode', 'admin'])
+    neighbor = fields.Nested('NeighborSchema', only=['id', 'profile_pic', 'first_name', 'last_name', 'email', 'phone', 'username', 'zipcode', 'admin'])
     post = fields.Nested('PostSchema', only=['id', 'likes_count', 'dislikes_count', 'shares_count', 'comments_count', 'content', 'created_on', 'neighbor_id', 'neighbor', 'comments', 'likes', 'dislikes', 'shares'])
 
     class Meta:
