@@ -77,12 +77,16 @@ def update_post(post_id):
     # Fetch the post from the database
     post = db.session.get(Post, post_id)
 
+    post = db.session.get(Post, post_id)
+
 
     # Check if the post exists
     if not post:
         return jsonify({"error": "Post not found"}), 404
 
     # Check if the current user is the owner of the post
+    # if Post.neighbor_id != neighbor_id:
+    #     return jsonify({"error": "You are not the owner of this post"}), 403
     # if Post.neighbor_id != neighbor_id:
     #     return jsonify({"error": "You are not the owner of this post"}), 403
 
@@ -107,6 +111,8 @@ def delete_post(post_id):
     neighbor_id = get_current_user()
 
     # Fetch the post from the database
+    post = db.session.get(Post, post_id)
+
     post = db.session.get(Post, post_id)
 
 

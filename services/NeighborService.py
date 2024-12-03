@@ -1,5 +1,7 @@
 from database import db, Base  # services interact directly with the db
-from models import Neighbor, Skill, Task, Feedback
+from models import Neighbor, Skill, Task
+from models.post import Post
+from models.schema import postSchema, taskSchema
 from sqlalchemy import select
 from utils.util import encode_role_token
 from datetime import date
@@ -27,7 +29,9 @@ def create_neighbor(neighbor_data):
     if 'skills' in neighbor_data:
         skill_ids = neighbor_data['skills']  
         skills = db.session.query(Skill).filter(Skill.id.in_(skill_ids)).all()
-
+    # Set a default profile picture URL if none is provided
+    default_profile_pic = 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'
+    
     new_neighbor = Neighbor(
         first_name=neighbor_data['first_name'],
         last_name=neighbor_data['last_name'], 
@@ -37,9 +41,11 @@ def create_neighbor(neighbor_data):
         username=neighbor_data['username'], 
         password=password_hash, 
         salt=salt,
-        skills=[]
-        
-    )
+        skills=[],
+        admin=neighbor_data['admin'],
+        profile_pic=neighbor_data.get('profile_pic', default_profile_pic) or default_profile_pic)
+
+    
     
     db.session.add(new_neighbor)
     db.session.commit()
@@ -65,6 +71,7 @@ def remove_admin(neighbor_id):
         return None
 
     neighbor.admin = False
+    db.session.flush()
     db.session.commit()
     db.session.refresh(neighbor)
     print("Neighbor is no longer an admin")
@@ -109,7 +116,7 @@ def validate_user(email):
 
     if user:
         # If the email exists, redirect to their homepage
-        return redirect(url_for('feedpage', neighbor_id=user.id))
+        return redirect(url_for('home_feed', neighbor_id=user.id))
     else:
         # If the email does not exist, redirect to the account creation page
         return redirect(url_for('create_neighbor'))
@@ -128,6 +135,23 @@ def login(credentials):
         return None
 
 #-------- Updating a neighbor's information --------
+
+@staticmethod
+def get_home_feed(user_id):
+    
+    # Example queries: Fetch posts and tasks for the feed
+    posts = Post.query.order_by(Post.created_on.desc()).limit(20).all()  # Latest 20 posts
+    tasks = Task.query.filter(Task.task_neighbor_id == user_id).limit(20).all()  # User-specific tasks
+
+    # Convert data to JSON-friendly format
+    post_data = [postSchema.dump(post) for post in posts]
+    task_data = [taskSchema.dump(task) for task in tasks]
+
+    # Return the structured feed data
+    return {
+        "posts": post_data,
+        "tasks": task_data
+    }
 
 def update_neighbor(neighbor_id, neighbor_data):
     neighbor = db.session.execute(select(Neighbor).where(Neighbor.id == neighbor_id)).scalar()

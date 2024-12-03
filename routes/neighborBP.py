@@ -1,11 +1,12 @@
 from flask import Blueprint
-from controllers.neighborController import create_neighbor, get_all_neighbors, get_neighbor_by_id, get_neighbor_by_username, get_neighbor_by_email, get_neighbor_by_zipcode, update_neighbor, delete_neighbor, make_admin, login, remove_admin, validate_user        
+from controllers.neighborController import create_neighbor, get_all_neighbors, get_neighbor_by_id, get_neighbor_by_username, get_neighbor_by_email, get_neighbor_by_zipcode, update_neighbor, delete_neighbor, make_admin, login, remove_admin, validate_user, home_feed        
 
 neighbor_blueprint = Blueprint('neighbor_bp', __name__)
 
 #url_prefix='/neighbor'
 
-neighbor_blueprint.route('/create', methods=['POST'])(create_neighbor)
+neighbor_blueprint.route('/feed', methods=['GET'])(home_feed)
+neighbor_blueprint.route('/register', methods=['POST'])(create_neighbor)
 neighbor_blueprint.route('/validate', methods=['POST'])(validate_user)
 neighbor_blueprint.route('/get', methods=['GET'])(get_all_neighbors)
 neighbor_blueprint.route('/login', methods=['POST'])(login)

@@ -20,6 +20,14 @@ def create_neighbor():
        
     }), 201
 
+#@token_required
+def home_feed():
+    
+    user_id = request.current_user  
+    feed_data = NeighborService.get_home_feed(user_id)
+
+    return jsonify(feed_data), 200
+
 # @cache.cached(timeout=50)
 #@admin_required
 def get_all_neighbors():
@@ -48,7 +56,7 @@ def make_admin(neighbor_id):
     
 #@admin_required
 def remove_admin(neighbor_id):
-    neighbor = NeighborService.make_admin(neighbor_id)
+    neighbor = NeighborService.remove_admin(neighbor_id)
 
     if neighbor:
         return jsonify({
