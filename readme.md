@@ -44,7 +44,7 @@ X-update_neighbor: PUT, "/<neighbor_id>"
     "username": "foofoo2",
     "password": "foofoo2"
     }
-X-delete_neighbor: DELETE, "/<neighbor_id>"
+-delete_neighbor: DELETE, "/<neighbor_id>"
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 FeedbackBP- 
