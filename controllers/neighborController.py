@@ -32,7 +32,7 @@ def home_feed():
 #@admin_required
 def get_all_neighbors():
     page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 10, type=int)
+    per_page = request.args.get('per_page', 20, type=int)
 
     all_neighbors = NeighborService.get_all_neighbors(page, per_page)
 

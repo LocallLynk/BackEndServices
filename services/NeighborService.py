@@ -78,7 +78,7 @@ def remove_admin(neighbor_id):
     return neighbor
 #-------- Searching for neighbors --------
 
-def get_all_neighbors(page=1, per_page=10):
+def get_all_neighbors(page=1, per_page=20):
     query = select(Neighbor).order_by(Neighbor.zipcode).limit(per_page).offset((page - 1) * per_page)
     result = db.session.execute(query)
     return result.scalars().all()
