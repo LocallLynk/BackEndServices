@@ -4,7 +4,7 @@ from services import DislikeService
 from marshmallow import ValidationError
 from utils.util import token_required, admin_required, get_current_user
 
-#@token_required
+@token_required
 def add_dislike():
     neighbor_id = get_current_user()
     request.json['neighbor_id'] = neighbor_id
@@ -19,7 +19,7 @@ def add_dislike():
         "dislike": dislike_schema.dump(new_dislike)
     }), 201
 
-#@token_required
+@token_required
 def remove_dislike(dislike_id):
     DislikeService.remove_dislike(dislike_id)
     return jsonify({

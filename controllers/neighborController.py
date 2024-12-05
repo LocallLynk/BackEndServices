@@ -20,7 +20,7 @@ def create_neighbor():
        
     }), 201
 
-#@token_required
+@token_required
 def home_feed():
     
     user_id = request.current_user  
@@ -42,7 +42,7 @@ def get_all_neighbors():
         
     }), 200
 
-#@admin_required
+@admin_required
 def make_admin(neighbor_id):
     neighbor = NeighborService.make_admin(neighbor_id)
 
@@ -54,7 +54,7 @@ def make_admin(neighbor_id):
     else:
         return jsonify({"message": "Neighbor not found"}), 404
     
-#@admin_required
+@admin_required
 def remove_admin(neighbor_id):
     neighbor = NeighborService.remove_admin(neighbor_id)
 
@@ -116,7 +116,7 @@ def get_neighbor_by_id(neighbor_id):
         
     }), 200
 
-#@token_required
+@token_required
 def update_neighbor(neighbor_id):
     try:
         neighbor_data = neighbor_schema.load(request.json)
@@ -134,7 +134,7 @@ def update_neighbor(neighbor_id):
         
     }), 200
 
-#@token_required
+@token_required
 def delete_neighbor(neighbor_id):
     if not neighbor_id:
         return jsonify({"message": "Neighbor not found"}), 404

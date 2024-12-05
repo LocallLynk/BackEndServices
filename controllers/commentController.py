@@ -28,7 +28,7 @@ def add_comment():
     }), 201
 
 
-#@admin_required
+@admin_required
 def get_all_comments():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
@@ -69,7 +69,7 @@ def get_comments_by_neighbor_id(neighbor_id):
         "comments": comments_schema.dump(comments)
     }), 200
 
-#@token_required
+@token_required
 def update_comment(comment_id):
     # Get the current user from the token
     neighbor_id = get_current_user()
@@ -96,7 +96,7 @@ def update_comment(comment_id):
     }), 200
 
 
-#@token_required
+@token_required
 def delete_comment(comment_id):
     # Get the current user from the token
     neighbor_id = get_current_user()

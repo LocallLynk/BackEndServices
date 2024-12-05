@@ -69,7 +69,7 @@ def get_posts_by_neighbor_id(neighbor_id):
         "posts": posts_schema.dump(posts)
     }), 200
 
-#@token_required
+@token_required
 def update_post(post_id):
     # Get the current user from the token
     neighbor_id = get_current_user()
@@ -105,7 +105,7 @@ def update_post(post_id):
     }), 200
 
 
-#@token_required
+@token_required
 def delete_post(post_id):
     # Get the current user from the token
     neighbor_id = get_current_user()

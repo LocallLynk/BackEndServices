@@ -4,7 +4,7 @@ from services import TaskService
 from marshmallow import ValidationError
 from utils.util import token_required, admin_required
 
-#@token_required
+@token_required
 def create_task():
     try:
         task_data = task_schema.load(request.json)
@@ -17,7 +17,7 @@ def create_task():
         "task": task_schema.dump(new_task)
     }), 201
 
-#@admin_required
+@admin_required
 def get_all_tasks():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
@@ -65,7 +65,7 @@ def update_task(task_id):
         "task": task_schema.dump(updated_task)
     }), 200
 
-#@token_required
+@token_required
 def delete_task(task_id):
     TaskService.delete_task(task_id)
     return jsonify({"message": "Task deleted successfully"}), 200

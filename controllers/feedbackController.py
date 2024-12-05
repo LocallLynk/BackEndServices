@@ -6,7 +6,7 @@ from cache import cache
 from utils.util import token_required, user_validation, admin_required
 from services import FeedbackService
 
-#@token_required
+@token_required
 def create_feedback():
     try:
         feedback_data = feedback_schema.load(request.json)

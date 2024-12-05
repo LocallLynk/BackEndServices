@@ -11,6 +11,7 @@ from routes.commentBP import comment_blueprint
 from routes.likeBP import like_blueprint
 from routes.dislikeBP import dislike_blueprint
 from routes.shareBP import share_blueprint
+from routes.userRequestBP import userData_blueprint
 from limiter import limiter
 from flask_cors import CORS
 from cache import cache
@@ -54,6 +55,8 @@ def blueprint_config(app):
     app.register_blueprint(like_blueprint, url_prefix='/like')
     app.register_blueprint(dislike_blueprint, url_prefix='/dislike')
     app.register_blueprint(share_blueprint, url_prefix='/share')
+    app.register_blueprint(userData_blueprint, url_prefix='/user_data')
+    
     # app.register_blueprint(chat_app, url_prefix='/chat')
     app.register_blueprint(swagger_blueprint, url_prefix=SWAGGER_URL)
 
