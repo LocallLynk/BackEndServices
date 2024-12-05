@@ -6,7 +6,7 @@ import json
 from urllib.request import urlopen
 import os
 
-SECRET_KEY = 'super_secret_secrets'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # Auth0 Configuration
 AUTH0_DOMAIN = os.getenv('VITE_AUTH0_DOMAIN')
