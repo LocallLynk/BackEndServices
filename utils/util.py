@@ -11,7 +11,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # Auth0 Configuration
 AUTH0_DOMAIN = os.getenv('VITE_AUTH0_DOMAIN')
 API_IDENTIFIER = os.getenv('API_IDENTIFIER')
-ALGORITHMS = os.getenv('ALGORITHMS').split(',')
+ALGORITHMS = os.getenv('ALGORITHMS')
 
 def get_current_user():
     token = request.headers.get('Authorization').split(' ')[1] # Get token from header
