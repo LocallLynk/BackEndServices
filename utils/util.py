@@ -11,7 +11,7 @@ SECRET_KEY = 'super_secret_secrets'
 # Auth0 Configuration
 AUTH0_DOMAIN = os.getenv('VITE_AUTH0_DOMAIN')
 API_IDENTIFIER = os.getenv('API_IDENTIFIER')
-ALGORITHMS = os.getenv('ALGORITHMS')
+ALGORITHMS = os.getenv('ALGORITHMS').split(',')
 
 def get_current_user():
     token = request.headers.get('Authorization').split(' ')[1] # Get token from header
