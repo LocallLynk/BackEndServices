@@ -44,7 +44,7 @@ paths:
                 last_name:
                   type: string
                   example: Doe
-                  email:
+                email:
                   type: string
                   example: johndoe@foo.com
                 phone:
@@ -135,7 +135,7 @@ paths:
                   example: true
       responses:
         '200':
-          description: "message": "Neighbor is now an admin"
+          description: "message: Neighbor is now an admin"
           content:
             application/json:
               schema:
@@ -174,7 +174,7 @@ paths:
                   example: false
       responses:
         '200':
-          description: "message": "Neighbor is no longer an admin"
+          description: "message: Neighbor is no longer an admin"
           content:
             application/json:
               schema:
@@ -549,7 +549,7 @@ paths:
             type: integer
       responses:
         '200':
-          description: "message": "Neighbor deleted successfully"
+          description: "message: Neighbor deleted successfully"
           content:
             application/json:
               schema:
@@ -573,7 +573,6 @@ paths:
                   email:
                     type: string
                     example: johndoe@foo.com
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   feedback/add:
     post:
       summary: Create Feedback
@@ -663,50 +662,47 @@ paths:
                     type: integer
                     example: 5
                   reviewed_neighbor:
-                    type: dictionary
-                    example: "feedback": {
-                      "admin": false,
-                      "email": "johndoe@foo.com",
-                      "first_name": "John",
-                      "id": 1,
-                      "last_name": "Doe",
-                      "phone": "1234567890",
-                      "profile_pic": "https://www.google.com/image.jpg",
-                      "username": "johndoefosho",
-                      "zipcode": "12345"
-                    }
+                    type: object
+                    example: 
+                      admin: false,
+                      email: "johndoe@foo.com"
+                      first_name: "John"
+                      id: 1,
+                      last_name: "Doe"
+                      phone: "1234567890"
+                      profile_pic: "https://www.google.com/image.jpg"
+                      username: "johndoefosho"
+                      zipcode: "12345"
                   reviewed_neighbor_id:
                     type: integer
                     example: 1
                   reviewer:
-                    type: dictionary
-                    example: "reviewer": {
-                      "admin": false,
-                      "email": "janedoe@foo.com",
-                      "first_name": "Jane",
-                      "id": 2,
-                      "last_name": "Doe",
-                      "phone": "1234567890",
-                      "profile_pic": "https://www.google.com/image.jpg",
-                      "username": "janedoeyoukno",
-                      "zipcode": "12345"
-                    }
+                    type: object
+                    example: 
+                      admin: false
+                      email: "janedoe@foo.com"
+                      first_name: "Jane"
+                      id: 2,
+                      last_name: "Doe"
+                      phone: "1234567890"
+                      profile_pic: "https://www.google.com/image.jpg"
+                      username: "janedoeyoukno"
+                      zipcode: "12345"
                   reviewer_id:
                     type: integer
                     example: 2
                   task:
-                    type: dictionary
-                    example: "task": {
-                      "client_neighbor_id": 1,
-                      "created_on": "2021-06-01T00:00:00.000Z",
-                      "description": "Help with gardening",
-                      "id": 5,
-                      "skill_id": 100,
-                      "status": "completed",
-                      "task_neighbor_id": 2,
-                      "task_paid": true,
-                      "traded_task": false
-                    }
+                    type: object
+                    example:
+                      client_neighbor_id: 1
+                      created_on: "2021-06-01T00:00:00.000Z"
+                      description: "Help with gardening"
+                      id: 5,
+                      skill_id: 100
+                      status: "completed"
+                      task_neighbor_id: 2
+                      task_paid: true
+                      traded_task: false
                   task_id:
                     type: integer
                     example: 5
@@ -735,51 +731,265 @@ paths:
                 type: object
                 properties:
                   feedback:
-                    type: dictionary
+                    type: object
                     items:
                       type: object
                       properties:
-                        {"feedback": {
-                          "comment": "Great job, thanks for the help!!",
-                          "created_on": "2021-06-01T00:00:00.000Z",
-                          "id": 1,
-                          "rating": 5,
-                          "reviewed_neighbor": {
-                            "admin": false,
-                            "email": "janedoe@foo.com",
-                            "first_name": "Jane",
-                            "id": 2,
-                            "last_name": "Doe",
-                            "phone": "1234567890",
-                            "profile_pic": "https://www.google.com/image.jpg",
-                            "username": "janedoeyoukno",
-                            "zipcode": "12345"}
-                          "reviewed_neighbor_id": 1,
-                          "reviewer": {
-                            "admin": false,
-                            "email": "johndoe@foo.com",
-                            "first_name": "John",
-                            "id": 1,
-                            "last_name": "Doe",
-                            "phone": "1234567890",
-                            "profile_pic": "https://www.google.com/image.jpg",
-                            "username": "johndoefosho",
-                            "zipcode": "12345"}
-                          "reviewer_id": 1,
-                          "task": {
-                            "client_neighbor_id": 1,
-                            "created_on": "2021-06-01T00:00:00.000Z",
-                            "description": "Help with gardening",
-                            "id": 5,
-                            "skill_id": 100,
-                            "status": "completed",
-                            "task_neighbor_id": 2,
-                            "task_paid": true,
-                            "traded_task": false}
-                          "task_id": 5
-                        }
-                        "message": "Feedback for the task retrieved successfully"
-                        }
+                          comment: "Great job, thanks for the help!!"
+                          created_on: "2021-06-01T00:00:00.000Z"
+                          id: 1
+                          rating: 5
+                          reviewed_neighbor: 
+                            admin: false
+                            email: "janedoe@foo.com"
+                            first_name: "Jane"
+                            id: 2
+                            last_name: "Doe"
+                            phone: "1234567890"
+                            profile_pic: "https://www.google.com/image.jpg"
+                            username: "janedoeyoukno"
+                            zipcode: "12345"
+                          reviewed_neighbor_id: 1
+                          reviewer: 
+                            admin: false
+                            email: "johndoe@foo.com"
+                            first_name: "John"
+                            id: 1
+                            last_name: "Doe"
+                            phone: "1234567890"
+                            profile_pic: "https://www.google.com/image.jpg"
+                            username: "johndoefosho"
+                            zipcode: "12345"
+                          reviewer_id: 1
+                          task: 
+                            client_neighbor_id: 1
+                            created_on: "2021-06-01T00:00:00.000Z"
+                            description: "Help with gardening"
+                            id: 5
+                            skill_id: 100
+                            status: "completed"
+                            task_neighbor_id: 2
+                            task_paid: true
+                            traded_task: false
+                          task_id: 5
+                          message: "Feedback for the task retrieved successfully"
+  feedback/get/task_neighbor/{task_neighbor_id}:
+    get:
+      summary: Get Feedback by Task Neighbor ID
+      description: Returns a list of feedback instances by task neighbor ID
+      tags:
+        - Feedback
+      parameters:
+        - in: path
+          name: task_neighbor_id
+          required: true
+          description: ID of the task neighbor to retrieve feedback for
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  feedback:
+                    type: object
+                    items:
+                      type: object
+                      properties:
+                          comment: "Great job, thanks for the help!!"
+                          created_on: "2021-06-01T00:00:00.000Z"
+                          id: 1
+                          rating: 5
+                          reviewed_neighbor: 
+                            admin: false
+                            email: "johndoe@foo.com"
+                            first_name: "John"
+                            id: 1
+                            last_name: "Doe"
+                            phone: "1234567890"
+                            profile_pic: "https://www.google.com/image.jpg"
+                            username: "johndoefosho"
+                            zipcode: "12345"
+                          reviewed_neighbor_id: 1
+                          reviewer: 
+                            admin: false
+                            email: "janedoe@foo.com"
+                            first_name: "Jane"
+                            id: 2
+                            last_name: "Doe"
+                            phone: "1234567890"
+                            profile_pic: "https://www.google.com/image.jpg"
+                            username: "janedoeyoukno"
+                            zipcode: "12345"
+                          reviewer_id: 2
+                          task: 
+                            client_neighbor_id: 1
+                            created_on: "2021-06-01T00:00:00.000Z"
+                            description: "Help with gardening"
+                            id: 5
+                            skill_id: 100
+                            status: "completed"
+                            task_neighbor_id: 2
+                            task_paid: true
+                            traded_task: false
+                          task_id: 5
+                          message: "Feedback for the task neighbor retrieved successfully"
+  feedback/get/client_neighbor/{client_neighbor_id}: 
+    get:
+      summary: Get Feedback by Client Neighbor ID
+      description: Returns a list of feedback instances by client neighbor ID
+      tags:
+        - Feedback
+      parameters:
+        - in: path
+          name: client_neighbor_id
+          required: true
+          description: ID of the client neighbor to retrieve feedback for
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  feedback:
+                    type: object
+                    items:
+                      type: object
+                      properties:
+                          comment: "Great job, thanks for the help!!"
+                          created_on: "2021-06-01T00:00:00.000Z"
+                          id: 1
+                          rating: 5
+                          reviewed_neighbor: 
+                            admin: false
+                            email: "janedoe@foo.com"
+                            first_name: "Jane"
+                            id: 2
+                            last_name: "Doe"
+                            phone: "1234567890"
+                            profile_pic: "https://www.google.com/image.jpg"
+                            username: "janedoeyoukno"
+                            zipcode: "12345"
+                          reviewed_neighbor_id: 1
+                          reviewer: 
+                            admin: false
+                            email: "johndoe@foo.com"
+                            first_name: "John"
+                            id: 1
+                            last_name: "Doe"
+                            phone: "1234567890"
+                            profile_pic: "https://www.google.com/image.jpg"
+                            username: "johndoefosho"
+                            zipcode: "12345"
+                          reviewer_id: 1
+                          task: 
+                            client_neighbor_id: 1
+                            created_on: "2021-06-01T00:00:00.000Z"
+                            description: "Help with gardening"
+                            id: 5
+                            skill_id: 100
+                            status: "completed"
+                            task_neighbor_id: 2
+                            task_paid: true
+                            traded_task: false
+                          task_id: 5
+                          message: "Feedback for the client neighbor retrieved successfully"
+  feedback/update/task_neighbor/{task_neighbor_id}: 
+    put:
+      summary: Update Feedback by Task Neighbor ID
+      description: Updates a feedback instance by task neighbor ID
+      tags:
+        - Feedback
+      parameters:
+        - in: path
+          name: task_neighbor_id
+          required: true
+          description: ID of the task neighbor to update feedback for
+          schema:
+            type: integer
+      requestBody:
+        description: Feedback information to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+                  example: "Great job, thanks for the help!!"
+                rating:
+                  type: integer
+                  example: 5
+  feedback/delete/{feedback_id}:
+    delete:
+      summary: Delete Feedback
+      description: Deletes a feedback instance from the system
+      tags:
+        - Feedback
+      parameters:
+        - in: path
+          name: feedback_id
+          required: true
+          description: ID of the feedback to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "message: Feedback deleted successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  comment:
+                    type: string
+                    example: "Great job, thanks for the help!!"
+                  rating:
+                    type: integer
+                    example: 5
+                  reviewed_neighbor_id:
+                    type: integer
+                    example: 1
+                  reviewer_id:
+                    type: integer
+                    example: 2
+                  task_id:
+                    type: integer
+                    example: 5
+                  message:
+                    type: string
+                    example: "Feedback deleted successfully"
+  feedback/get:
+    get:
+      summary: Get all Feedback
+      description: Returns a list of all feedback instances
+      tags:
+        - Feedback
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  feedback:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                          description: Returns all feedback instances
 
 
 

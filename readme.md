@@ -62,39 +62,13 @@ SX-create_feedback: POST, "feedback/add"
         "comment": "<string>"
     }
 SX-get_feedback_by_id: GET, "feedback/get/<feedback_id>"
-X-get_feedback_by_task_id: GET, "feedback/get/task/<task_id>"
-X-get_feedback_by_neighbor_task_id: GET, "feedback/get/task_neighbor/<task_neighbor_id>"
-X-get_feedback_by_client_neighbor_id: GET, "feedback/get/client_neighbor/<client_neighbor_id>"
-X-update_task_neighbor_feedback_rating: PUT, "feedback/update/task_neighbor/<task_neighbor_id>"
-X-delete_feedback: DELETE, "feedback/delete/<feedback_id>"
-X-get_all_feedback: get, "feedback/get"
+SX-get_feedback_by_task_id: GET, "feedback/get/task/<task_id>"
+SX-get_feedback_by_neighbor_task_id: GET, "feedback/get/task_neighbor/<task_neighbor_id>"
+SX-get_feedback_by_client_neighbor_id: GET, "feedback/get/client_neighbor/<client_neighbor_id>"
+SX-update_task_neighbor_feedback_rating: PUT, "feedback/update/task_neighbor/<task_neighbor_id>"
+SX-delete_feedback: DELETE, "feedback/delete/<feedback_id>"
+SX-get_all_feedback: get, "feedback/get"
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-SkillBP
-url prefix = /skill
-X-create_skill: POST, "/"
-    -requires the following payload:
-    {
-        "name": "skill name",
-        "category": "skill category",
-        "experience": "beginner, intermediate, etc",
-        "description": "skill description"
-    }
-X-get_all_skills: GET, "/"
-X-get_skill_by_id: GET, "/<skill_id>"
-X-get_skill_by_name: GET, "/name/<name>"
-X-update_skill: PUT, "/<skill_id>"
-    -requires the following payload:
-    {
-        "name": "skill name",
-        "category": "skill category",
-        "experience": "beginner, intermediate, etc",
-        "description": "skill description"
-    }
-X-delete_skill: DELETE, "/<skill_id>
-X-get_neighbors_by_skill: GET, "skill/get/<skill_id>/neighbors"
-X-remove_skill_by_neighbor: DELETE, "skill/remove/<skill_id>/neighbors/<neighbor_id>"
-X-add_skill_to_neighbors: POST, "skill/add/<skill_id>/neighbors/<neighbor_id>"
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 TaskBP- url prefix = /task
