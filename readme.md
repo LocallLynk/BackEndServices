@@ -7,7 +7,7 @@ This is to allow us to check off routes as we test them, so we know what works a
 NeighborBP 
 url prefix = /neighbor
 
-X-create_neighbor: POST, "/register"
+SX-create_neighbor: POST, "/register"
     -needs the following input:
     {
     "name": "foo",
@@ -18,39 +18,41 @@ X-create_neighbor: POST, "/register"
     "password": "foofoo"
     }
 
-X-login: POST, "neighbor/login"
+SX-login: POST, "neighbor/login"
     -requires the following payload:
     {
     "email": "foo@foo.foo",
     "password": "foofoo"
     }
-X-make_admin: PUT, "neighbor/admin/<neighbor_id>"
+SX-make_admin: PUT, "neighbor/admin/<neighbor_id>"
     -requires the following payload:
     {
     "admin": "1"
     }
-X-remove_admin: DELETE, "neighbor/admin/<neighbor_id>"
-X-get_neighbor_by_id: GET, "/<neighbor_id>"
-X-get_neighbor_by_username: GET, "/username/<username>"
-X-get_neighbor_by_email: GET, "email/<email>"
-X-get_neighbor_by_zipcode: GET, "/zipcode/<zipcode>"
-X-update_neighbor: PUT, "/<neighbor_id>"
+SX-remove_admin: DELETE, "neighbor/admin/<neighbor_id>"
+SX-get_neighbor_by_id: GET, "neighbor/get/id/<neighbor_id>"
+SX-get_neighbor_by_username: GET, "neighbor/get/username/<username>"
+SX-get_neighbor_by_email: GET, "neighbor/get/email/<email>"
+SX-get_neighbor_by_zipcode: GET, "neighbor/get/zipcode/<zipcode>"
+SX-update_neighbor: PUT, "neighbor/update/<neighbor_id>"
     -requires the following payload:
     {
-    "name": "foo2",
+    "first_name": "foo",
+    "last_name": "foofoo",
     "email": "foo2@foo.foo",
     "phone": "1234567890",
     "zipcode": "12345"
     "username": "foofoo2",
-    "password": "foofoo2"
+    "password": "foofoo2",
+    "admin": "False"
     }
--delete_neighbor: DELETE, "/<neighbor_id>"
+SX-delete_neighbor: DELETE, "neighbor/delete/<neighbor_id>"
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 FeedbackBP- 
 url prefix = /feedback
 
-X-create_feedback: POST, "feedback/add"
+SX-create_feedback: POST, "feedback/add"
     -requires the following payload:
     {
         "reviewed_neighbor_id": "<id_number>",
@@ -59,7 +61,7 @@ X-create_feedback: POST, "feedback/add"
         "reviewer_id": "<reviewer_id_num>",
         "comment": "<string>"
     }
-X-get_feedback_by_id: GET, "feedback/get/<feedback_id>"
+SX-get_feedback_by_id: GET, "feedback/get/<feedback_id>"
 X-get_feedback_by_task_id: GET, "feedback/get/task/<task_id>"
 X-get_feedback_by_neighbor_task_id: GET, "feedback/get/task_neighbor/<task_neighbor_id>"
 X-get_feedback_by_client_neighbor_id: GET, "feedback/get/client_neighbor/<client_neighbor_id>"

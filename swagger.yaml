@@ -1,0 +1,786 @@
+openapi: 3.0.0
+info:
+  title: Locallynk API
+  description: API documentation for Locallynk backend
+  version: 1.0.0
+servers:
+  - url: https://backendservices-hsz0.onrender.com
+    description: Render Server
+paths:
+  /neighbor/login:
+    post:
+      summary: Login to Locallynk
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Successfully Logged In
+                  token:
+                    type: bearer
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+  /neighbor/register:
+    post:
+      summary: Register to Locallynk
+      description: Registers a new user to Locallynk with the information provided
+      tags:
+        - User Management
+      requestBody:
+        description: User data required to register on Locallynk
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  example: John
+                last_name:
+                  type: string
+                  example: Doe
+                  email:
+                  type: string
+                  example: johndoe@foo.com
+                phone:
+                  type: string
+                  example: 1234567890
+                username:
+                  type: string
+                  example: johndoefosho
+                password:
+                  type: string
+                  example: password
+                zipcode:
+                  type: string
+                  example: 12345
+                admin:
+                  type: boolean
+                  example: false
+      responses:
+        '201':
+          description: Neighbor created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  admin:
+                    type: boolean
+                    example: false
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  first_name:
+                    type: string
+                    example: John
+                  last_name:
+                    type: string
+                    example: Doe
+                  email:
+                    type: string
+                    example: johndoe@foo.com
+                  num_ratings:
+                    type: integer
+                    example: 0
+                  overall_rating:
+                    type: integer
+                    example: 0.0
+                  phone:
+                    type: string
+                    example: 1234567890
+                  profile_pic:
+                    type: string
+                    example: https://www.google.com/image.jpg
+                  username:
+                    type: string
+                    example: johndoefosho
+                  zipcode:
+                    type: string
+                    example: 12345
+                  skills:
+                    type: list
+                    example: ["gardening", "cooking"]
+  /neighbor/make_admin/{neighbor_id}:
+    put:
+      summary: Make Neighbor an Admin
+      description: Updates a Neighbor's status to admin
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: neighbor_id
+          required: true
+          description: ID of the neighbor to update
+          schema:
+            type: integer
+      requestBody:
+        description: Admin status to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                admin:
+                  type: boolean
+                  example: true
+      responses:
+        '200':
+          description: "message": "Neighbor is now an admin"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  admin:
+                    type: boolean
+                    example: true
+                  
+  /neighbor/remove_admin/{neighbor_id}:
+    delete:
+      summary: Remove Admin Status
+      description: Updates a Neighbor's status to non-admin
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: neighbor_id
+          required: true
+          description: ID of the neighbor to update
+          schema:
+            type: integer
+      requestBody:
+        description: Admin status to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                admin:
+                  type: boolean
+                  example: false
+      responses:
+        '200':
+          description: "message": "Neighbor is no longer an admin"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  admin:
+                    type: boolean
+                    example: false
+  /neighbor/get:
+    get:
+      summary: Get all Neighbors
+      description: Returns a list of all neighbors
+      tags:
+        - User Management
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  neighbors:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        admin:
+                          type: boolean
+                          example: false
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+                        first_name:
+                          type: string
+                          example: John
+                        last_name:
+                          type: string
+                          example: Doe
+                        email:
+                          type: string
+                          example: johndoe@foo.com
+                        num_ratings:
+                          type: integer
+                          example: 0
+                        overall_rating:
+                          type: integer
+                          example: 0.0
+                        phone:
+                          type: string
+                          example: 1234567890
+                        profile_pic:
+                          type: string
+                          example: https://www.google.com/image.jpg
+                        username:
+                          type: string
+                          example: johndoefosho
+                        zipcode:
+                          type: string
+                          example: 12345
+                        skills:
+                          type: list
+                          example: ["gardening", "cooking"]
+  /neighbor/get/id/{neighbor_id}:
+    get:
+      summary: Get Neighbor by ID
+      description: Returns a neighbor by ID
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: neighbor_id
+          required: true
+          description: ID of the neighbor to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  admin:
+                    type: boolean
+                    example: false
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  first_name:
+                    type: string
+                    example: John
+                  last_name:
+                    type: string
+                    example: Doe
+                  email:
+                    type: string
+                    example: johndoe@foo.com
+                  num_ratings:
+                    type: integer
+                    example: 0
+                  overall_rating:
+                    type: integer
+                    example: 0.0
+                  phone:
+                    type: string
+                    example: 1234567890
+                  profile_pic:
+                    type: string
+                    example: https://www.google.com/image.jpg
+                  username:
+                    type: string
+                    example: johndoefosho
+                  zipcode:
+                    type: string
+                    example: 12345
+                  skills:
+                    type: list
+                    example: ["gardening", "cooking"]
+  /neighbor/get/email/{email}:
+    get:
+      summary: Get Neighbor by Email
+      description: Returns a neighbor by email
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: email
+          required: true
+          description: Email of the neighbor to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  admin:
+                    type: boolean
+                    example: false
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  first_name:
+                    type: string
+                    example: John
+                  last_name:
+                    type: string
+                    example: Doe
+                  email:
+                    type: string
+                    example: johndoe@foo.com
+                  num_ratings:
+                    type: integer
+                    example: 0
+                  overall_rating:
+                    type: integer
+                    example: 0.0
+                  phone:
+                    type: string
+                    example: 1234567890
+                  profile_pic:
+                    type: string
+                    example: https://www.google.com/image.jpg
+                  username:
+                    type: string
+                    example: johndoefosho
+                  zipcode:
+                    type: string
+                    example: 12345
+                  skills:
+                    type: list
+                    example: ["gardening", "cooking"]
+  /neighbor/get/username/{username}:
+    get:
+      summary: Get Neighbor by Username
+      description: Returns a neighbor by username
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: username
+          required: true
+          description: Username of the neighbor to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  admin:
+                    type: boolean
+                    example: false
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  first_name:
+                    type: string
+                    example: John
+                  last_name:
+                    type: string
+                    example: Doe
+                  email:
+                    type: string
+                    example: johndoe@foo.com
+                  num_ratings:
+                    type: integer
+                    example: 0
+                  overall_rating:
+                    type: integer
+                    example: 0.0
+                  phone:
+                    type: string
+                    example: 1234567890
+                  profile_pic:
+                    type: string
+                    example: https://www.google.com/image.jpg
+                  username:
+                    type: string
+                    example: johndoefosho
+                  zipcode:
+                    type: string
+                    example: 12345
+                  skills:
+                    type: list
+                    example: ["gardening", "cooking"]
+  /neighbor/get/zipcode/{zipcode}:
+    get:
+      summary: Get Neighbor by Zipcode
+      description: Returns a list of neighbors by zipcode
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: zipcode
+          required: true
+          description: Zipcode of the neighbors to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  neighbors:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        admin:
+                          type: boolean
+                          example: false
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+                        first_name:
+                          type: string
+                          example: John
+                        last_name:
+                          type: string
+                          example: Doe
+                        email:
+                          type: string
+                          example: johndoe@foo.com
+                        num_ratings:
+                          type: integer
+                          example: 0
+                        overall_rating:
+                          type: integer
+                          example: 0.0
+                        phone:
+                          type: string
+                          example: 1234567890
+                        profile_pic:
+                          type: string
+                          example: https://www.google.com/image.jpg
+                        username:
+                          type: string
+                          example: johndoefosho
+                        zipcode:
+                          type: string
+                          example: 12345
+                        skills:
+                          type: list
+                          example: ["gardening", "cooking"]
+  /neighbor/update/{neighbor_id}:
+    put:
+      summary: Update Neighbor Information
+      description: Updates a neighbor's information
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: neighbor_id
+          required: true
+          description: ID of the neighbor to update
+          schema:
+            type: integer
+      requestBody:
+        description: Neighbor information to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  example: John
+                last_name:
+                  type: string
+                  example: Doe
+                email:
+                  type: string
+                  example: johndoe@foo.com
+                phone:
+                  type: string
+                  example: 1234567890
+                username:
+                  type: string
+                  example: johndoefosho
+                password:
+                  type: string
+                  example: password
+                zipcode:
+                  type: string
+                  example: 12345
+                admin:
+                  type: boolean
+                  example: false
+  neighbor/delete/{neighbor_id}:
+    delete:
+      summary: Delete Neighbor
+      description: Deletes a neighbor from the system
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: neighbor_id
+          required: true
+          description: ID of the neighbor to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "message": "Neighbor deleted successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  admin:
+                    type: boolean
+                    example: false
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  first_name:
+                    type: string
+                    example: John
+                  last_name:
+                    type: string
+                    example: Doe
+                  email:
+                    type: string
+                    example: johndoe@foo.com
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  feedback/add:
+    post:
+      summary: Create Feedback
+      description: Creates a feedback instance for a neighbor
+      tags:
+        - Feedback
+      requestBody:
+        description: Feedback data required to create a feedback
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reviewed_neighbor_id:
+                  type: integer
+                  example: 1
+                task_id:
+                  type: integer
+                  example: 5
+                reviewer_id:
+                  type: integer
+                  example: 1
+                rating:
+                  type: integer
+                  example: 5
+      responses:
+        '201':
+          description: Feedback created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  feedback:
+                    type: string
+                    example: "Great neighbor!"
+                  rating:
+                    type: integer
+                    example: 5
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  user_id:
+                    type: integer
+                    example: 2
+                  comment:
+                    type: string
+                    example: "Great work, thanks for the help!"
+  feedback/get/{feedback_id}:
+    get:
+      summary: Get Feedback by ID
+      description: Returns a feedback instance by ID
+      tags:
+        - Feedback
+      parameters:
+        - in: path
+          name: feedback_id
+          required: true
+          description: ID of the feedback to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  comment:
+                    type: string
+                    example: "Great job, thanks for the help!!"
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  rating:
+                    type: integer
+                    example: 5
+                  reviewed_neighbor:
+                    type: dictionary
+                    example: "feedback": {
+                      "admin": false,
+                      "email": "johndoe@foo.com",
+                      "first_name": "John",
+                      "id": 1,
+                      "last_name": "Doe",
+                      "phone": "1234567890",
+                      "profile_pic": "https://www.google.com/image.jpg",
+                      "username": "johndoefosho",
+                      "zipcode": "12345"
+                    }
+                  reviewed_neighbor_id:
+                    type: integer
+                    example: 1
+                  reviewer:
+                    type: dictionary
+                    example: "reviewer": {
+                      "admin": false,
+                      "email": "janedoe@foo.com",
+                      "first_name": "Jane",
+                      "id": 2,
+                      "last_name": "Doe",
+                      "phone": "1234567890",
+                      "profile_pic": "https://www.google.com/image.jpg",
+                      "username": "janedoeyoukno",
+                      "zipcode": "12345"
+                    }
+                  reviewer_id:
+                    type: integer
+                    example: 2
+                  task:
+                    type: dictionary
+                    example: "task": {
+                      "client_neighbor_id": 1,
+                      "created_on": "2021-06-01T00:00:00.000Z",
+                      "description": "Help with gardening",
+                      "id": 5,
+                      "skill_id": 100,
+                      "status": "completed",
+                      "task_neighbor_id": 2,
+                      "task_paid": true,
+                      "traded_task": false
+                    }
+                  task_id:
+                    type: integer
+                    example: 5
+                  message:
+                    type: string
+                    example: "Feedback retrieved successfully"
+  feedback/get/task/{task_id}: 
+    get:
+      summary: Get Feedback by Task ID
+      description: Returns a list of feedback instances by task ID
+      tags:
+        - Feedback
+      parameters:
+        - in: path
+          name: task_id
+          required: true
+          description: ID of the task to retrieve feedback for
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  feedback:
+                    type: dictionary
+                    items:
+                      type: object
+                      properties:
+                        {"feedback": {
+                          "comment": "Great job, thanks for the help!!",
+                          "created_on": "2021-06-01T00:00:00.000Z",
+                          "id": 1,
+                          "rating": 5,
+                          "reviewed_neighbor": {
+                            "admin": false,
+                            "email": "janedoe@foo.com",
+                            "first_name": "Jane",
+                            "id": 2,
+                            "last_name": "Doe",
+                            "phone": "1234567890",
+                            "profile_pic": "https://www.google.com/image.jpg",
+                            "username": "janedoeyoukno",
+                            "zipcode": "12345"}
+                          "reviewed_neighbor_id": 1,
+                          "reviewer": {
+                            "admin": false,
+                            "email": "johndoe@foo.com",
+                            "first_name": "John",
+                            "id": 1,
+                            "last_name": "Doe",
+                            "phone": "1234567890",
+                            "profile_pic": "https://www.google.com/image.jpg",
+                            "username": "johndoefosho",
+                            "zipcode": "12345"}
+                          "reviewer_id": 1,
+                          "task": {
+                            "client_neighbor_id": 1,
+                            "created_on": "2021-06-01T00:00:00.000Z",
+                            "description": "Help with gardening",
+                            "id": 5,
+                            "skill_id": 100,
+                            "status": "completed",
+                            "task_neighbor_id": 2,
+                            "task_paid": true,
+                            "traded_task": false}
+                          "task_id": 5
+                        }
+                        "message": "Feedback for the task retrieved successfully"
+                        }
+
+
+
+
