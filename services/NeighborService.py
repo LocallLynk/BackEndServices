@@ -92,7 +92,7 @@ def get_neighbor_by_id(neighbor_id):
 def get_neighbor_by_username(username):
     query = select(Neighbor).where(Neighbor.username == username)
     result = db.session.execute(query)
-    neighbor = result.scalars().first()
+    neighbor = result.scalars().one_or_none()
     if not neighbor:
         raise ValueError("Neighbor not found.")
     return neighbor
@@ -100,7 +100,7 @@ def get_neighbor_by_username(username):
 def get_neighbor_by_email(email):
     query = select(Neighbor).where(Neighbor.email == email)
     result = db.session.execute(query)
-    neighbor = result.scalars().first()
+    neighbor = result.scalars().one_or_none()
     if not neighbor:
         raise ValueError("Neighbor not found.")
     return neighbor
