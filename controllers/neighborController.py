@@ -108,6 +108,9 @@ def validate_user():
 def get_neighbor_by_id(neighbor_id):
     try:
         neighbor = NeighborService.get_neighbor_by_id(neighbor_id)
+        if not neighbor:
+            return jsonify({"message": "Neighbor not found"}), 404
+
         return jsonify({
             "message": "Neighbor retrieved successfully",
             "neighbor": neighborz_schema.dump(neighbor)
