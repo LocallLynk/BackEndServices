@@ -106,16 +106,21 @@ def validate_user():
     
 #@token_required
 def get_neighbor_by_id(neighbor_id):
-    neighbor = NeighborService.get_neighbor_by_id(neighbor_id)
-    if not neighbor:
+    try:
+        neighbor = NeighborService.get_neighbor_by_id(neighbor_id)
+        if not neighbor:
+            return jsonify({"message": "Neighbor not found"}), 404
+
+        return jsonify({
+            "message": "Neighbor retrieved successfully",
+            "neighbor": neighborz_schema.dump(neighbor)
+        }), 200
+    except NoResultFound:
         return jsonify({"message": "Neighbor not found"}), 404
-
-    return jsonify({
-        "message": "Neighbor retrieved successfully",
-        "neighbor": neighborz_schema.dump(neighbor)
-
-        
-    }), 200
+    except Exception as e:
+        # Log the exception for debugging purposes
+        print(f"Error occurred: {e}")
+        return jsonify({"message": "An unexpected error occurred"}), 500
 
 @token_required
 def update_neighbor(neighbor_id):
@@ -148,13 +153,21 @@ def delete_neighbor(neighbor_id):
 
 #@token_required
 def get_neighbor_by_username(username):
-    neighbor = NeighborService.get_neighbor_by_username(username)
-    if not neighbor:
+    try:
+        neighbor = NeighborService.get_neighbor_by_username(username)
+        if not neighbor:
+            return jsonify({"message": "Neighbor not found"}), 404
+
+        return jsonify({
+            "message": "Neighbor by username retrieved successfully",
+            "neighbor": neighborz_schema.dump(neighbor)
+        }), 200
+    except NoResultFound:
         return jsonify({"message": "Neighbor not found"}), 404
-    return jsonify({
-        "message": "Neighbor by username retrieved successfully",
-        "neighbor": neighborz_schema.dump(neighbor)
-    }), 200
+    except Exception as e:
+        # Log the exception for debugging purposes
+        print(f"Error occurred: {e}")
+        return jsonify({"message": "An unexpected error occurred"}), 500
 
 #@token_required
 def get_neighbor_by_email(email):
@@ -175,13 +188,21 @@ def get_neighbor_by_email(email):
 
 #@token_required
 def get_neighbor_by_zipcode(zipcode):
-    neighbor = NeighborService.get_neighbor_by_zipcode(zipcode)
-    if not neighbor:
+    try:
+        neighbor = NeighborService.get_neighbor_by_zipcode(zipcode)
+        if not neighbor:
+            return jsonify({"message": "Neighbor not found"}), 404
+
+        return jsonify({
+            "message": "Neighbors by zipcode retrieved successfully",
+            "neighbor": neighbors_schema.dump(neighbor)
+        }), 200
+    except NoResultFound:
         return jsonify({"message": "Neighbor not found"}), 404
-    return jsonify({
-        "message": "Neighbors by zipcode retrieved successfully",
-        "neighbor": neighbors_schema.dump(neighbor)
-    }), 200
+    except Exception as e:
+        # Log the exception for debugging purposes
+        print(f"Error occurred: {e}")
+        return jsonify({"message": "An unexpected error occurred"}), 500
 
 
 
