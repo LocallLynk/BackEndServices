@@ -20,8 +20,9 @@ from flask_swagger_ui import get_swaggerui_blueprint
 from services.SkillService import populate_skill_bank
 import jwt
 import gunicorn
+from flask_swagger import swagger
 
-SWAGGER_URL = '/api/docs' # URL endpoint to view our docs
+SWAGGER_URL = '/api/docs/#/' # URL endpoint to view our docs
 API_URL = '/static/swagger.yaml'#Grabs our host from our swagger.yaml file
 
 swagger_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL, config={'app_name': 'LocalLynk'})
@@ -76,6 +77,7 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
         #populate_skill_bank(db.session)
+        
     app.run()
 
 #implement the inability to type special characters in the input fields

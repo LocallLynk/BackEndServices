@@ -1,0 +1,2877 @@
+openapi: 3.0.0
+info:
+  title: Locallynk API
+  description: API documentation for Locallynk backend
+  version: 1.0.0
+servers:
+  - url: https://backendservices-hsz0.onrender.com
+    description: Render Server
+paths:
+  /neighbor/login:
+    post:
+      summary: Login to Locallynk
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Successfully Logged In
+                  token:
+                    type: bearer
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+  /neighbor/register:
+    post:
+      summary: Register to Locallynk
+      description: Registers a new user to Locallynk with the information provided
+      tags:
+        - User Management
+      requestBody:
+        description: User data required to register on Locallynk
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  example: John
+                last_name:
+                  type: string
+                  example: Doe
+                email:
+                  type: string
+                  example: johndoe@foo.com
+                phone:
+                  type: string
+                  example: 1234567890
+                username:
+                  type: string
+                  example: johndoefosho
+                password:
+                  type: string
+                  example: password
+                zipcode:
+                  type: string
+                  example: 12345
+                admin:
+                  type: boolean
+                  example: false
+      responses:
+        '201':
+          description: Neighbor created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  admin:
+                    type: boolean
+                    example: false
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  first_name:
+                    type: string
+                    example: John
+                  last_name:
+                    type: string
+                    example: Doe
+                  email:
+                    type: string
+                    example: johndoe@foo.com
+                  num_ratings:
+                    type: integer
+                    example: 0
+                  overall_rating:
+                    type: integer
+                    example: 0.0
+                  phone:
+                    type: string
+                    example: 1234567890
+                  profile_pic:
+                    type: string
+                    example: https://www.google.com/image.jpg
+                  username:
+                    type: string
+                    example: johndoefosho
+                  zipcode:
+                    type: string
+                    example: 12345
+                  skills:
+                    type: list
+                    example: ["gardening", "cooking"]
+  /neighbor/make_admin/{neighbor_id}:
+    put:
+      summary: Make Neighbor an Admin
+      description: Updates a Neighbor's status to admin
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: neighbor_id
+          required: true
+          description: ID of the neighbor to update
+          schema:
+            type: integer
+      requestBody:
+        description: Admin status to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                admin:
+                  type: boolean
+                  example: true
+      responses:
+        '200':
+          description: "message: Neighbor is now an admin"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  admin:
+                    type: boolean
+                    example: true
+                  
+  /neighbor/remove_admin/{neighbor_id}:
+    delete:
+      summary: Remove Admin Status
+      description: Updates a Neighbor's status to non-admin
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: neighbor_id
+          required: true
+          description: ID of the neighbor to update
+          schema:
+            type: integer
+      requestBody:
+        description: Admin status to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                admin:
+                  type: boolean
+                  example: false
+      responses:
+        '200':
+          description: "message: Neighbor is no longer an admin"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  admin:
+                    type: boolean
+                    example: false
+  /neighbor/get:
+    get:
+      summary: Get all Neighbors
+      description: Returns a list of all neighbors
+      tags:
+        - User Management
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  neighbors:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        admin:
+                          type: boolean
+                          example: false
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+                        first_name:
+                          type: string
+                          example: John
+                        last_name:
+                          type: string
+                          example: Doe
+                        email:
+                          type: string
+                          example: johndoe@foo.com
+                        num_ratings:
+                          type: integer
+                          example: 0
+                        overall_rating:
+                          type: integer
+                          example: 0.0
+                        phone:
+                          type: string
+                          example: 1234567890
+                        profile_pic:
+                          type: string
+                          example: https://www.google.com/image.jpg
+                        username:
+                          type: string
+                          example: johndoefosho
+                        zipcode:
+                          type: string
+                          example: 12345
+                        skills:
+                          type: list
+                          example: ["gardening", "cooking"]
+  /neighbor/get/id/{neighbor_id}:
+    get:
+      summary: Get Neighbor by ID
+      description: Returns a neighbor by ID
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: neighbor_id
+          required: true
+          description: ID of the neighbor to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  admin:
+                    type: boolean
+                    example: false
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  first_name:
+                    type: string
+                    example: John
+                  last_name:
+                    type: string
+                    example: Doe
+                  email:
+                    type: string
+                    example: johndoe@foo.com
+                  num_ratings:
+                    type: integer
+                    example: 0
+                  overall_rating:
+                    type: integer
+                    example: 0.0
+                  phone:
+                    type: string
+                    example: 1234567890
+                  profile_pic:
+                    type: string
+                    example: https://www.google.com/image.jpg
+                  username:
+                    type: string
+                    example: johndoefosho
+                  zipcode:
+                    type: string
+                    example: 12345
+                  skills:
+                    type: list
+                    example: ["gardening", "cooking"]
+  /neighbor/get/email/{email}:
+    get:
+      summary: Get Neighbor by Email
+      description: Returns a neighbor by email
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: email
+          required: true
+          description: Email of the neighbor to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  admin:
+                    type: boolean
+                    example: false
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  first_name:
+                    type: string
+                    example: John
+                  last_name:
+                    type: string
+                    example: Doe
+                  email:
+                    type: string
+                    example: johndoe@foo.com
+                  num_ratings:
+                    type: integer
+                    example: 0
+                  overall_rating:
+                    type: integer
+                    example: 0.0
+                  phone:
+                    type: string
+                    example: 1234567890
+                  profile_pic:
+                    type: string
+                    example: https://www.google.com/image.jpg
+                  username:
+                    type: string
+                    example: johndoefosho
+                  zipcode:
+                    type: string
+                    example: 12345
+                  skills:
+                    type: list
+                    example: ["gardening", "cooking"]
+  /neighbor/get/username/{username}:
+    get:
+      summary: Get Neighbor by Username
+      description: Returns a neighbor by username
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: username
+          required: true
+          description: Username of the neighbor to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  admin:
+                    type: boolean
+                    example: false
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  first_name:
+                    type: string
+                    example: John
+                  last_name:
+                    type: string
+                    example: Doe
+                  email:
+                    type: string
+                    example: johndoe@foo.com
+                  num_ratings:
+                    type: integer
+                    example: 0
+                  overall_rating:
+                    type: integer
+                    example: 0.0
+                  phone:
+                    type: string
+                    example: 1234567890
+                  profile_pic:
+                    type: string
+                    example: https://www.google.com/image.jpg
+                  username:
+                    type: string
+                    example: johndoefosho
+                  zipcode:
+                    type: string
+                    example: 12345
+                  skills:
+                    type: list
+                    example: ["gardening", "cooking"]
+  /neighbor/get/zipcode/{zipcode}:
+    get:
+      summary: Get Neighbor by Zipcode
+      description: Returns a list of neighbors by zipcode
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: zipcode
+          required: true
+          description: Zipcode of the neighbors to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  neighbors:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        admin:
+                          type: boolean
+                          example: false
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+                        first_name:
+                          type: string
+                          example: John
+                        last_name:
+                          type: string
+                          example: Doe
+                        email:
+                          type: string
+                          example: johndoe@foo.com
+                        num_ratings:
+                          type: integer
+                          example: 0
+                        overall_rating:
+                          type: integer
+                          example: 0.0
+                        phone:
+                          type: string
+                          example: 1234567890
+                        profile_pic:
+                          type: string
+                          example: https://www.google.com/image.jpg
+                        username:
+                          type: string
+                          example: johndoefosho
+                        zipcode:
+                          type: string
+                          example: 12345
+                        skills:
+                          type: list
+                          example: ["gardening", "cooking"]
+  /neighbor/update/{neighbor_id}:
+    put:
+      summary: Update Neighbor Information
+      description: Updates a neighbor's information
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: neighbor_id
+          required: true
+          description: ID of the neighbor to update
+          schema:
+            type: integer
+      requestBody:
+        description: Neighbor information to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  example: John
+                last_name:
+                  type: string
+                  example: Doe
+                email:
+                  type: string
+                  example: johndoe@foo.com
+                phone:
+                  type: string
+                  example: 1234567890
+                username:
+                  type: string
+                  example: johndoefosho
+                password:
+                  type: string
+                  example: password
+                zipcode:
+                  type: string
+                  example: 12345
+                admin:
+                  type: boolean
+                  example: false
+      responses:
+        '200':
+          description: "message: Neighbor updated successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  admin:
+                    type: boolean
+                    example: false
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  first_name:
+                    type: string
+                    example: John
+                  last_name:
+                    type: string
+                    example: Doe
+                  email:
+                    type: string
+                    example: johndoe@foo.com
+                  num_ratings:
+                    type: integer
+                    example: 0
+                  overall_rating:
+                    type: integer
+                    example: 0.0
+                  phone:
+                    type: string
+                    example: 1234567890
+                  profile_pic:
+                    type: string
+                    example: https://www.google.com/image.jpg
+                  username:
+                    type: string
+                    example: johndoefosho
+                  zipcode:
+                    type: string
+                    example: 12345
+  neighbor/delete/{neighbor_id}:
+    delete:
+      summary: Delete Neighbor
+      description: Deletes a neighbor from the system
+      tags:
+        - User Management
+      parameters:
+        - in: path
+          name: neighbor_id
+          required: true
+          description: ID of the neighbor to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "message: Neighbor deleted successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  admin:
+                    type: boolean
+                    example: false
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  first_name:
+                    type: string
+                    example: John
+                  last_name:
+                    type: string
+                    example: Doe
+                  email:
+                    type: string
+                    example: johndoe@foo.com
+  feedback/add:
+    post:
+      summary: Create Feedback
+      description: Creates a feedback instance for a neighbor
+      tags:
+        - Feedback
+      requestBody:
+        description: Feedback data required to create a feedback
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reviewed_neighbor_id:
+                  type: integer
+                  example: 1
+                task_id:
+                  type: integer
+                  example: 5
+                reviewer_id:
+                  type: integer
+                  example: 1
+                rating:
+                  type: integer
+                  example: 5
+      responses:
+        '201':
+          description: Feedback created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  feedback:
+                    type: string
+                    example: "Great neighbor!"
+                  rating:
+                    type: integer
+                    example: 5
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  user_id:
+                    type: integer
+                    example: 2
+                  comment:
+                    type: string
+                    example: "Great work, thanks for the help!"
+  feedback/get/{feedback_id}:
+    get:
+      summary: Get Feedback by ID
+      description: Returns a feedback instance by ID
+      tags:
+        - Feedback
+      parameters:
+        - in: path
+          name: feedback_id
+          required: true
+          description: ID of the feedback to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  comment:
+                    type: string
+                    example: "Great job, thanks for the help!!"
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  rating:
+                    type: integer
+                    example: 5
+                  reviewed_neighbor:
+                    type: object
+                    example: 
+                      admin: false,
+                      email: "johndoe@foo.com"
+                      first_name: "John"
+                      id: 1,
+                      last_name: "Doe"
+                      phone: "1234567890"
+                      profile_pic: "https://www.google.com/image.jpg"
+                      username: "johndoefosho"
+                      zipcode: "12345"
+                  reviewed_neighbor_id:
+                    type: integer
+                    example: 1
+                  reviewer:
+                    type: object
+                    example: 
+                      admin: false
+                      email: "janedoe@foo.com"
+                      first_name: "Jane"
+                      id: 2,
+                      last_name: "Doe"
+                      phone: "1234567890"
+                      profile_pic: "https://www.google.com/image.jpg"
+                      username: "janedoeyoukno"
+                      zipcode: "12345"
+                  reviewer_id:
+                    type: integer
+                    example: 2
+                  task:
+                    type: object
+                    example:
+                      client_neighbor_id: 1
+                      created_on: "2021-06-01T00:00:00.000Z"
+                      description: "Help with gardening"
+                      id: 5,
+                      skill_id: 100
+                      status: "completed"
+                      task_neighbor_id: 2
+                      task_paid: true
+                      traded_task: false
+                  task_id:
+                    type: integer
+                    example: 5
+                  message:
+                    type: string
+                    example: "Feedback retrieved successfully"
+  feedback/get/task/{task_id}: 
+    get:
+      summary: Get Feedback by Task ID
+      description: Returns a list of feedback instances by task ID
+      tags:
+        - Feedback
+      parameters:
+        - in: path
+          name: task_id
+          required: true
+          description: ID of the task to retrieve feedback for
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  feedback:
+                    type: object
+                    items:
+                      type: object
+                      properties:
+                          comment: "Great job, thanks for the help!!"
+                          created_on: "2021-06-01T00:00:00.000Z"
+                          id: 1
+                          rating: 5
+                          reviewed_neighbor: 
+                            admin: false
+                            email: "janedoe@foo.com"
+                            first_name: "Jane"
+                            id: 2
+                            last_name: "Doe"
+                            phone: "1234567890"
+                            profile_pic: "https://www.google.com/image.jpg"
+                            username: "janedoeyoukno"
+                            zipcode: "12345"
+                          reviewed_neighbor_id: 1
+                          reviewer: 
+                            admin: false
+                            email: "johndoe@foo.com"
+                            first_name: "John"
+                            id: 1
+                            last_name: "Doe"
+                            phone: "1234567890"
+                            profile_pic: "https://www.google.com/image.jpg"
+                            username: "johndoefosho"
+                            zipcode: "12345"
+                          reviewer_id: 1
+                          task: 
+                            client_neighbor_id: 1
+                            created_on: "2021-06-01T00:00:00.000Z"
+                            description: "Help with gardening"
+                            id: 5
+                            skill_id: 100
+                            status: "completed"
+                            task_neighbor_id: 2
+                            task_paid: true
+                            traded_task: false
+                          task_id: 5
+                          message: "Feedback for the task retrieved successfully"
+  feedback/get/task_neighbor/{task_neighbor_id}:
+    get:
+      summary: Get Feedback by Task Neighbor ID
+      description: Returns a list of feedback instances by task neighbor ID
+      tags:
+        - Feedback
+      parameters:
+        - in: path
+          name: task_neighbor_id
+          required: true
+          description: ID of the task neighbor to retrieve feedback for
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  feedback:
+                    type: object
+                    items:
+                      type: object
+                      properties:
+                          comment: "Great job, thanks for the help!!"
+                          created_on: "2021-06-01T00:00:00.000Z"
+                          id: 1
+                          rating: 5
+                          reviewed_neighbor: 
+                            admin: false
+                            email: "johndoe@foo.com"
+                            first_name: "John"
+                            id: 1
+                            last_name: "Doe"
+                            phone: "1234567890"
+                            profile_pic: "https://www.google.com/image.jpg"
+                            username: "johndoefosho"
+                            zipcode: "12345"
+                          reviewed_neighbor_id: 1
+                          reviewer: 
+                            admin: false
+                            email: "janedoe@foo.com"
+                            first_name: "Jane"
+                            id: 2
+                            last_name: "Doe"
+                            phone: "1234567890"
+                            profile_pic: "https://www.google.com/image.jpg"
+                            username: "janedoeyoukno"
+                            zipcode: "12345"
+                          reviewer_id: 2
+                          task: 
+                            client_neighbor_id: 1
+                            created_on: "2021-06-01T00:00:00.000Z"
+                            description: "Help with gardening"
+                            id: 5
+                            skill_id: 100
+                            status: "completed"
+                            task_neighbor_id: 2
+                            task_paid: true
+                            traded_task: false
+                          task_id: 5
+                          message: "Feedback for the task neighbor retrieved successfully"
+  feedback/get/client_neighbor/{client_neighbor_id}: 
+    get:
+      summary: Get Feedback by Client Neighbor ID
+      description: Returns a list of feedback instances by client neighbor ID
+      tags:
+        - Feedback
+      parameters:
+        - in: path
+          name: client_neighbor_id
+          required: true
+          description: ID of the client neighbor to retrieve feedback for
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  feedback:
+                    type: object
+                    items:
+                      type: object
+                      properties:
+                          comment: "Great job, thanks for the help!!"
+                          created_on: "2021-06-01T00:00:00.000Z"
+                          id: 1
+                          rating: 5
+                          reviewed_neighbor: 
+                            admin: false
+                            email: "janedoe@foo.com"
+                            first_name: "Jane"
+                            id: 2
+                            last_name: "Doe"
+                            phone: "1234567890"
+                            profile_pic: "https://www.google.com/image.jpg"
+                            username: "janedoeyoukno"
+                            zipcode: "12345"
+                          reviewed_neighbor_id: 1
+                          reviewer: 
+                            admin: false
+                            email: "johndoe@foo.com"
+                            first_name: "John"
+                            id: 1
+                            last_name: "Doe"
+                            phone: "1234567890"
+                            profile_pic: "https://www.google.com/image.jpg"
+                            username: "johndoefosho"
+                            zipcode: "12345"
+                          reviewer_id: 1
+                          task: 
+                            client_neighbor_id: 1
+                            created_on: "2021-06-01T00:00:00.000Z"
+                            description: "Help with gardening"
+                            id: 5
+                            skill_id: 100
+                            status: "completed"
+                            task_neighbor_id: 2
+                            task_paid: true
+                            traded_task: false
+                          task_id: 5
+                          message: "Feedback for the client neighbor retrieved successfully"
+  feedback/update/task_neighbor/{task_neighbor_id}: 
+    put:
+      summary: Update Feedback by Task Neighbor ID
+      description: Updates a feedback instance by task neighbor ID
+      tags:
+        - Feedback
+      parameters:
+        - in: path
+          name: task_neighbor_id
+          required: true
+          description: ID of the task neighbor to update feedback for
+          schema:
+            type: integer
+      requestBody:
+        description: Feedback information to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+                  example: "Great job, thanks for the help!!"
+                rating:
+                  type: integer
+                  example: 5
+      responses:
+        '200':
+          description: "message: Feedback updated successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  comment:
+                    type: string
+                    example: "Great job, thanks for the help!!"
+                  rating:
+                    type: integer
+                    example: 5
+                  reviewed_neighbor_id:
+                    type: integer
+                    example: 1
+                  reviewer_id:
+                    type: integer
+                    example: 2
+                  task_id:
+                    type: integer
+                    example: 5
+                  message:
+                    type: string
+                    example: "Feedback updated successfully"
+  feedback/delete/{feedback_id}:
+    delete:
+      summary: Delete Feedback
+      description: Deletes a feedback instance from the system
+      tags:
+        - Feedback
+      parameters:
+        - in: path
+          name: feedback_id
+          required: true
+          description: ID of the feedback to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "message: Feedback deleted successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  comment:
+                    type: string
+                    example: "Great job, thanks for the help!!"
+                  rating:
+                    type: integer
+                    example: 5
+                  reviewed_neighbor_id:
+                    type: integer
+                    example: 1
+                  reviewer_id:
+                    type: integer
+                    example: 2
+                  task_id:
+                    type: integer
+                    example: 5
+                  message:
+                    type: string
+                    example: "Feedback deleted successfully"
+  feedback/get:
+    get:
+      summary: Get all Feedback
+      description: Returns a list of all feedback instances
+      tags:
+        - Feedback
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  feedback:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                          description: Returns all feedback instances
+  task/create:
+    post:
+      summary: Create a Task
+      description: creates a new task
+      tags:
+        - Task Management
+      requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tasks:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        client_neighbor_id:
+                          type: integer
+                          example: 1
+                        task_neighbor_id:
+                          type: integer
+                          example: 2
+                        skill_id:
+                          type: integer
+                          example: 100
+                        description:
+                          type: string
+                          example: "Help with gardening"
+                        task_paid:
+                          type: boolean
+                          example: true
+                        traded_task:
+                          type: boolean
+                          example: false
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+      responses:
+        '201':
+          description: Task created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  client_neighbor_id:
+                    type: integer
+                    example: 1
+                  task_neighbor_id:
+                    type: integer
+                    example: 2
+                  skill_id:
+                    type: integer
+                    example: 100
+                  description:
+                    type: string
+                    example: "Help with gardening"
+                  task_paid:
+                    type: boolean
+                    example: true
+                  traded_task:
+                    type: boolean
+                    example: false
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+  task/get:
+    get:
+      summary: Get all Tasks
+      description: Returns a list of all tasks
+      tags:
+        - Task Management
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tasks:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        client_neighbor_id:
+                          type: integer
+                          example: 1
+                        task_neighbor_id:
+                          type: integer
+                          example: 2
+                        skill_id:
+                          type: integer
+                          example: 100
+                        description:
+                          type: string
+                          example: "Help with gardening"
+                        task_paid:
+                          type: boolean
+                          example: true
+                        traded_task:
+                          type: boolean
+                          example: false
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+  task/get/id/{task_id}:
+    get:
+      summary: Get Task by ID
+      description: Returns a task by ID
+      tags:
+        - Task Management
+      parameters:
+        - in: path
+          name: task_id
+          required: true
+          description: ID of the task to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  client_neighbor_id:
+                    type: integer
+                    example: 1
+                  task_neighbor_id:
+                    type: integer
+                    example: 2
+                  skill_id:
+                    type: integer
+                    example: 100
+                  description:
+                    type: string
+                    example: "Help with gardening"
+                  task_paid:
+                    type: boolean
+                    example: true
+                  traded_task:
+                    type: boolean
+                    example: false
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+  task/get/{task_id}: 
+    get:
+      summary: Get Task by ID
+      description: Returns a task by ID
+      tags:
+        - Task Management
+      parameters:
+        - in: path
+          name: task_id
+          required: true
+          description: ID of the task to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  client_neighbor_id:
+                    type: integer
+                    example: 1
+                  task_neighbor_id:
+                    type: integer
+                    example: 2
+                  skill_id:
+                    type: integer
+                    example: 100
+                  description:
+                    type: string
+                    example: "Help with gardening"
+                  task_paid:
+                    type: boolean
+                    example: true
+                  traded_task:
+                    type: boolean
+                    example: false
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  scheduled_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+  task/get/task_neighbor/{task_neighbor_id}:
+    get:
+      summary: Get Task by Task Neighbor ID
+      description: Returns a list of tasks by task neighbor ID
+      tags:
+        - Task Management
+      parameters:
+        - in: path
+          name: task_neighbor_id
+          required: true
+          description: ID of the task neighbor to retrieve tasks for
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tasks:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        client_neighbor_id:
+                          type: integer
+                          example: 1
+                        task_neighbor_id:
+                          type: integer
+                          example: 2
+                        skill_id:
+                          type: integer
+                          example: 100
+                        description:
+                          type: string
+                          example: "Help with gardening"
+                        task_paid:
+                          type: boolean
+                          example: true
+                        traded_task:
+                          type: boolean
+                          example: false
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+                        scheduled_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+                        status:
+                          type: string
+                          example: "completed"
+                        message:
+                          type: string
+                          example: "Tasks by task neighbor ID retrieved successfully"
+  task/get/client_neighbor/{client_neighbor_id}:
+    get:
+      summary: Get Task by Client Neighbor ID
+      description: Returns a list of tasks by client neighbor ID
+      tags:
+        - Task Management
+      parameters:
+        - in: path
+          name: client_neighbor_id
+          required: true
+          description: ID of the client neighbor to retrieve tasks for
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tasks:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        client_neighbor_id:
+                          type: integer
+                          example: 1
+                        task_neighbor_id:
+                          type: integer
+                          example: 2
+                        skill_id:
+                          type: integer
+                          example: 100
+                        description:
+                          type: string
+                          example: "Help with gardening"
+                        task_paid:
+                          type: boolean
+                          example: true
+                        traded_task:
+                          type: boolean
+                          example: false
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+                        scheduled_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+                        status:
+                          type: string
+                          example: "completed"
+                        message:
+                          type: string
+                          example: "Tasks by client neighbor ID retrieved successfully"
+  task/update/{task_id}:
+    put:
+      summary: Update Task Information
+      description: Updates a task's information
+      tags:
+        - Task Management
+      parameters:
+        - in: path
+          name: task_id
+          required: true
+          description: ID of the task to update
+          schema:
+            type: integer
+      requestBody:
+        description: Task information to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client_neighbor_id:
+                  type: integer
+                  example: 1
+                task_neighbor_id:
+                  type: integer
+                  example: 2
+                skill_id:
+                  type: integer
+                  example: 100
+                description:
+                  type: string
+                  example: "Help with gardening"
+                task_paid:
+                  type: boolean
+                  example: true
+                traded_task:
+                  type: boolean
+                  example: false
+                status:
+                  type: string
+                  example: "completed"
+      responses:
+        '200':
+          description: "message: Task updated successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  client_neighbor_id:
+                    type: integer
+                    example: 1
+                  task_neighbor_id:
+                    type: integer
+                    example: 2
+                  skill_id:
+                    type: integer
+                    example: 100
+                  description:
+                    type: string
+                    example: "Help with gardening"
+                  task_paid:
+                    type: boolean
+                    example: true
+                  traded_task:
+                    type: boolean
+                    example: false
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  scheduled_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  status:
+                    type: string
+                    example: "completed"
+                  message:
+                    type: string
+                    example: "Task updated successfully"
+  task/delete/{task_id}: 
+    delete:
+      summary: Delete Task
+      description: Deletes a task from the system
+      tags:
+        - Task Management
+      parameters:
+        - in: path
+          name: task_id
+          required: true
+          description: ID of the task to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "message: Task deleted successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  client_neighbor_id:
+                    type: integer
+                    example: 1
+                  task_neighbor_id:
+                    type: integer
+                    example: 2
+                  skill_id:
+                    type: integer
+                    example: 100
+                  description:
+                    type: string
+                    example: "Help with gardening"
+                  task_paid:
+                    type: boolean
+                    example: true
+                  traded_task:
+                    type: boolean
+                    example: false
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  scheduled_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  status:
+                    type: string
+                    example: "completed"
+                  message:
+                    type: string
+                    example: "Task deleted successfully"
+  skill/create:
+    post:
+      summary: Create a Skill
+      description: creates a new skill
+      tags:
+        - Skill Management
+      requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  skills:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: "gardening"
+                        experience:
+                          type: string
+                          example: "Beginner"
+                        category:
+                          type: string
+                          example: Lifestyle
+                        description:
+                          type: string
+                          example: "How to start a vegetable garden"
+      responses:
+        '201':
+          description: Skill created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: "gardening"
+                  description:
+                    type: string
+                    example: "How to start a vegetable garden"
+                  category:
+                    type: string
+                    example: lifestyle   
+                  experience:
+                    type: string
+                    example: "Beginner"
+  skill/get:
+    get:
+      summary: Get all Skills
+      description: Returns a list of all skills
+      tags:
+        - Skill Management
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  skills:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: "gardening"
+                        experience:
+                          type: string
+                          example: "Beginner"
+                        category:
+                          type: string
+                          example: Lifestyle
+                        description:
+                          type: string
+                          example: "How to start a vegetable garden"
+  skill/get/skill/{skill_id}:
+    get:
+      summary: Get Skill by ID
+      description: Returns a skill by ID
+      tags:
+        - Skill Management
+      parameters:
+        - in: path
+          name: skill_id
+          required: true
+          description: ID of the skill to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: "gardening"
+                  experience:
+                    type: string
+                    example: "Beginner"
+                  category:
+                    type: string
+                    example: Lifestyle
+                  description:
+                    type: string
+                    example: "How to start a vegetable garden"
+  skill/get/name/{name}:
+    get:
+      summary: Get Skill by Name
+      description: Returns a skill by name
+      tags:
+        - Skill Management
+      parameters:
+        - in: path
+          name: name
+          required: true
+          description: Name of the skill to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: "gardening"
+                  experience:
+                    type: string
+                    example: "Beginner"
+                  category:
+                    type: string
+                    example: Lifestyle
+                  description:
+                    type: string
+                    example: "How to start a vegetable garden"
+  skill/update/{skill_id}:
+    put:
+      summary: Update Skill Information
+      description: Updates a skill's information
+      tags:
+        - Skill Management
+      parameters:
+        - in: path
+          name: skill_id
+          required: true
+          description: ID of the skill to update
+          schema:
+            type: integer
+      requestBody:
+        description: Skill information to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "gardening"
+                experience:
+                  type: string
+                  example: "Beginner"
+                category:
+                  type: string
+                  example: Lifestyle
+                description:
+                  type: string
+                  example: "How to start a vegetable garden"
+      responses:
+        '200':
+          description: "message: Skill updated successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: "gardening"
+                  experience:
+                    type: string
+                    example: "Beginner"
+                  category:
+                    type: string
+                    example: Lifestyle
+                  description:
+                    type: string
+                    example: "How to start a vegetable garden"
+                  message:
+                    type: string
+                    example: "Skill updated successfully"
+  skill/delete/{skill_id}:
+    delete:
+      summary: Delete Skill
+      description: Deletes a skill from the system
+      tags:
+        - Skill Management
+      parameters:
+        - in: path
+          name: skill_id
+          required: true
+          description: ID of the skill to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "message: Skill deleted successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: "gardening"
+                  experience:
+                    type: string
+                    example: "Beginner"
+                  category:
+                    type: string
+                    example: Lifestyle
+                  description:
+                    type: string
+                    example: "How to start a vegetable garden"
+                  message:
+                    type: string
+                    example: "Skill deleted successfully"
+  skill/get/{skill_id}/neighbors:
+    get:
+      summary: Get Neighbors by Skill ID
+      description: Returns a list of neighbors by skill ID
+      tags:
+        - Skill Management
+      parameters:
+        - in: path
+          name: skill_id
+          required: true
+          description: ID of the skill to retrieve neighbors for
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  neighbors:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        admin:
+                          type: boolean
+                          example: false
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+                        first_name:
+                          type: string
+                          example: John
+                        last_name:
+                          type: string
+                          example: Doe
+                        email:
+                          type: string
+                          example: johndoe@foo.com
+                        num_ratings:
+                          type: integer
+                          example: 7
+                        overall_rating:
+                          type: integer
+                          example: 4.5
+                        phone:
+                          type: string
+                          example: 1234567890
+                        profile_pic:
+                          type: string
+                          example: https://www.google.com/image.jpg
+                        username:
+                          type: string
+                          example: johndoefosho
+                        zipcode:
+                          type: string
+                          example: 12345
+                        skills:
+                          type: list
+                          example: ["gardening", "cooking"]
+  skill/add/{skill_id}/neighbors/{neighbor_id}:
+    post:
+      summary: Add skill to neighbor
+      description: Adds a skill to a neighbor
+      tags:
+        - Skill Management
+      parameters:
+        - in: path
+          name: skill_id
+          required: true
+          description: ID of the skill to add 
+          schema:
+            type: integer
+        - in: path
+          name: neighbor_id
+          required: true
+          description: ID of the neighbor to add the skill to
+          schema:
+            type: integer
+      responses:
+        '201':
+          description: Skill added to neighbor successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  skill_id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  message:
+                    type: string
+                    example: "Skill added to neighbor successfully"
+  skill/remove/{skill_id}/neighbors/{neighbor_id}:
+    delete:
+      summary: Remove skill from neighbor
+      description: Removes a skill from a neighbor
+      tags:
+        - Skill Management
+      parameters:
+        - in: path
+          name: skill_id
+          required: true
+          description: ID of the skill to remove 
+          schema:
+            type: integer
+        - in: path
+          name: neighbor_id
+          required: true
+          description: ID of the neighbor to remove the skill from
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "message: Skill removed from neighbor successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  skill_id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  message:
+                    type: string
+                    example: "Skill removed from neighbor successfully"
+  post/add:
+    post:
+      summary: Create a Post
+      description: creates a new post
+      tags:
+        - Post Management
+      requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  posts:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        neighbor_id:
+                          type: integer
+                          example: 1
+                        title:
+                          type: string
+                          example: "Looking for a gardening buddy"
+                        content:
+                          type: string
+                          example: "I need help with my garden"
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+      responses:
+        '201':
+          description: Post created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: "Looking for a gardening buddy"
+                  description:
+                    type: string
+                    example: "I need help with my garden"
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  message:
+                    type: string
+                    example: "Post created successfully"
+  post/get:
+    get:
+      summary: Get all Posts
+      description: Returns a list of all posts
+      tags:
+        - Post Management
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  posts:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        neighbor_id:
+                          type: integer
+                          example: 1
+                        title:
+                          type: string
+                          example: "Looking for a gardening buddy"
+                        content:
+                          type: string
+                          example: "I need help with my garden"
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+                        message:
+                          type: string
+                          example: "Posts retrieved successfully"
+  post/get/{post_id}:
+    get:
+      summary: Get Post by ID
+      description: Returns a post by ID
+      tags:
+        - Post Management
+      parameters:
+        - in: path
+          name: post_id
+          required: true
+          description: ID of the post to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: "Looking for a gardening buddy"
+                  content:
+                    type: string
+                    example: "I need help with my garden"
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  message:
+                    type: string
+                    example: "Post retrieved successfully"
+  post/get/neighbor/{neighbor_id}:
+    get:
+      summary: Get Post by Neighbor ID
+      description: Returns a list of posts by neighbor ID
+      tags:
+        - Post Management
+      parameters:
+        - in: path
+          name: neighbor_id
+          required: true
+          description: ID of the neighbor to retrieve posts for
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  posts:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        neighbor_id:
+                          type: integer
+                          example: 1
+                        title:
+                          type: string
+                          example: "Looking for a gardening buddy"
+                        content:
+                          type: string
+                          example: "I need help with my garden"
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+                        message:
+                          type: string
+                          example: "Posts by neighbor ID retrieved successfully"
+  post/update/{post_id}:
+    put:
+      summary: Update Post Information
+      description: Updates a post's information
+      tags:
+        - Post Management
+      parameters:
+        - in: path
+          name: post_id
+          required: true
+          description: ID of the post to update
+          schema:
+            type: integer
+      requestBody:
+        description: Post information to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                neighbor_id:
+                  type: integer
+                  example: 1
+                title:
+                  type: string
+                  example: "Looking for a gardening buddy"
+                content:
+                  type: string
+                  example: "I need help with my garden"
+      responses:
+        '200':
+          description: "message: Post updated successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: "Looking for a gardening buddy"
+                  content:
+                    type: string
+                    example: "I need help with my garden"
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  message:
+                    type: string
+                    example: "Post updated successfully"
+  post/delete/{post_id}:
+    delete:
+      summary: Delete Post
+      description: Deletes a post from the system
+      tags:
+        - Post Management
+      parameters:
+        - in: path
+          name: post_id
+          required: true
+          description: ID of the post to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "message: Post deleted successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: "Looking for a gardening buddy"
+                  content:
+                    type: string
+                    example: "I need help with my garden"
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  message:
+                    type: string
+                    example: "Post deleted successfully"
+  comment/add:
+    post:
+      summary: Create a Comment
+      description: creates a new comment
+      tags:
+        - Comment Management
+      requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comments:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        post_id:
+                          type: integer
+                          example: 1
+                        neighbor_id:
+                          type: integer
+                          example: 1
+                        content:
+                          type: string
+                          example: "I can help with that"
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+      responses:
+        '201':
+          description: Comment created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  post_id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  content:
+                    type: string
+                    example: "I can help with that"
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  message:
+                    type: string
+                    example: "Comment created successfully"
+  comment/get:
+    get:
+      summary: Get all Comments
+      description: Returns a list of all comments
+      tags:
+        - Comment Management
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comments:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        post_id:
+                          type: integer
+                          example: 1
+                        neighbor_id:
+                          type: integer
+                          example: 1
+                        content:
+                          type: string
+                          example: "I can help with that"
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+                        message:
+                          type: string
+                          example: "Comments retrieved successfully"
+  comment/get/{comment_id}:
+    get:
+      summary: Get Comment by ID
+      description: Returns a comment by ID
+      tags:
+        - Comment Management
+      parameters:
+        - in: path
+          name: comment_id
+          required: true
+          description: ID of the comment to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  post_id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  content:
+                    type: string
+                    example: "I can help with that"
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  message:
+                    type: string
+                    example: "Comment retrieved successfully"
+  comment/get/post/{post_id}:
+    get:
+      summary: Get Comment by Post ID
+      description: Returns a list of comments by post ID
+      tags:
+        - Comment Management
+      parameters:
+        - in: path
+          name: post_id
+          required: true
+          description: ID of the post to retrieve comments for
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comments:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        post_id:
+                          type: integer
+                          example: 1
+                        neighbor_id:
+                          type: integer
+                          example: 1
+                        content:
+                          type: string
+                          example: "I can help with that"
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+                        message:
+                          type: string
+                          example: "Comments by post ID retrieved successfully"
+  comment/get/neighbor/{neighbor_id}:
+    get:
+      summary: Get Comment by Neighbor ID
+      description: Returns a list of comments by neighbor ID
+      tags:
+        - Comment Management
+      parameters:
+        - in: path
+          name: neighbor_id
+          required: true
+          description: ID of the neighbor to retrieve comments for
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comments:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        post_id:
+                          type: integer
+                          example: 1
+                        neighbor_id:
+                          type: integer
+                          example: 1
+                        content:
+                          type: string
+                          example: "I can help with that"
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+                        message:
+                          type: string
+                          example: "Comments by neighbor ID retrieved successfully"
+  comment/update/{comment_id}:
+    put:
+      summary: Update Comment Information
+      description: Updates a comment's information
+      tags:
+        - Comment Management
+      parameters:
+        - in: path
+          name: comment_id
+          required: true
+          description: ID of the comment to update
+          schema:
+            type: integer
+      requestBody:
+        description: Comment information to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                post_id:
+                  type: integer
+                  example: 1
+                neighbor_id:
+                  type: integer
+                  example: 1
+                content:
+                  type: string
+                  example: "I can help with that"
+      responses:
+        '200':
+          description: "message: Comment updated successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  post_id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  content:
+                    type: string
+                    example: "I can help with that"
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  message:
+                    type: string
+                    example: "Comment updated successfully"
+  comment/delete/{comment_id}:
+    delete:
+      summary: Delete Comment
+      description: Deletes a comment from the system
+      tags:
+        - Comment Management
+      parameters:
+        - in: path
+          name: comment_id
+          required: true
+          description: ID of the comment to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "message: Comment deleted successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  post_id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  content:
+                    type: string
+                    example: "I can help with that"
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  message:
+                    type: string
+                    example: "Comment deleted successfully"
+  share/add:
+    post:
+      summary: Create a Share
+      description: creates a new share
+      tags:
+        - Share Management
+      requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shares:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        post_id:
+                          type: integer
+                          example: 1
+                        neighbor_id:
+                          type: integer
+                          example: 1
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+      responses:
+        '201':
+          description: Share created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  post_id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  message:
+                    type: string
+                    example: "Share created successfully"
+  share/get/{share_id}:
+    get:
+      summary: Get Share by ID
+      description: Returns a share by ID
+      tags:
+        - Share Management
+      parameters:
+        - in: path
+          name: share_id
+          required: true
+          description: ID of the share to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  post_id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  message:
+                    type: string
+                    example: "Share retrieved successfully"
+  share/update/{share_id}:
+    put:
+      summary: Update Share Information
+      description: Updates a share's information
+      tags:
+        - Share Management
+      parameters:
+        - in: path
+          name: share_id
+          required: true
+          description: ID of the share to update
+          schema:
+            type: integer
+      requestBody:
+        description: Share information to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                post_id:
+                  type: integer
+                  example: 1
+                neighbor_id:
+                  type: integer
+                  example: 1
+      responses:
+        '200':
+          description: "message: Share updated successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  post_id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  message:
+                    type: string
+                    example: "Share updated successfully"
+  share/remove/{share_id}:
+    delete:
+      summary: Remove Share
+      description: Deletes a share from the system
+      tags:
+        - Share Management
+      parameters:
+        - in: path
+          name: share_id
+          required: true
+          description: ID of the share to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "message: Share deleted successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  post_id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  message:
+                    type: string
+                    example: "Share deleted successfully"
+  like/add:
+    post:
+      summary: Create a Like
+      description: creates a new like
+      tags:
+        - Like Management
+      requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  likes:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        post_id:
+                          type: integer
+                          example: 1
+                        neighbor_id:
+                          type: integer
+                          example: 1
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+      responses:
+        '201':
+          description: Like created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  post_id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  message:
+                    type: string
+                    example: "Like created successfully"
+  like/delete/{like_id}:
+    delete:
+      summary: Delete Like
+      description: Deletes a like from the system
+      tags:
+        - Like Management
+      parameters:
+        - in: path
+          name: like_id
+          required: true
+          description: ID of the like to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "message: Like deleted successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  post_id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  message:
+                    type: string
+                    example: "Like deleted successfully"
+  dislike/add:
+    post:
+      summary: Create a Dislike
+      description: creates a new dislike
+      tags:
+        - Dislike Management
+      requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dislikes:
+                    type: list
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        post_id:
+                          type: integer
+                          example: 1
+                        neighbor_id:
+                          type: integer
+                          example: 1
+                        created_on:
+                          type: date-time
+                          example: 2021-06-01T00:00:00.000Z
+      responses:
+        '201':
+          description: Dislike created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  post_id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  message:
+                    type: string
+                    example: "Dislike created successfully"
+  dislike/remove/{dislike_id}:
+    delete:
+      summary: Delete Dislike
+      description: Deletes a dislike from the system
+      tags:
+        - Dislike Management
+      parameters:
+        - in: path
+          name: dislike_id
+          required: true
+          description: ID of the dislike to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "message: Dislike deleted successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  post_id:
+                    type: integer
+                    example: 1
+                  neighbor_id:
+                    type: integer
+                    example: 1
+                  created_on:
+                    type: date-time
+                    example: 2021-06-01T00:00:00.000Z
+                  message:
+                    type: string
+                    example: "Dislike deleted successfully"
+                
+
+
+
+
+
