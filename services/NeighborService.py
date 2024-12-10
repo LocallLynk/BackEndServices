@@ -97,6 +97,8 @@ def get_neighbor_by_username(username):
 
 def get_neighbor_by_email(email):
     query = select(Neighbor).where(Neighbor.email == email)
+    if not query:
+        raise ValueError("Neighbor not found.")
     result = db.session.execute(query)
     return result.scalars().first()
 

@@ -156,6 +156,8 @@ def get_neighbor_by_username(username):
 #@token_required
 def get_neighbor_by_email(email):
     neighbor = NeighborService.get_neighbor_by_email(email)
+    if not neighbor:
+        return jsonify({"message": "Neighbor not found"}), 404
     return jsonify({
         "message": "Neighbor by email retrieved successfully",
         "neighbor": neighborz_schema.dump(neighbor)
