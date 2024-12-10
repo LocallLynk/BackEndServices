@@ -148,6 +148,8 @@ def delete_neighbor(neighbor_id):
 #@token_required
 def get_neighbor_by_username(username):
     neighbor = NeighborService.get_neighbor_by_username(username)
+    if not neighbor:
+        return jsonify({"message": "Neighbor not found"}), 404
     return jsonify({
         "message": "Neighbor by username retrieved successfully",
         "neighbor": neighborz_schema.dump(neighbor)
@@ -166,6 +168,8 @@ def get_neighbor_by_email(email):
 #@token_required
 def get_neighbor_by_zipcode(zipcode):
     neighbor = NeighborService.get_neighbor_by_zipcode(zipcode)
+    if not neighbor:
+        return jsonify({"message": "Neighbor not found"}), 404
     return jsonify({
         "message": "Neighbors by zipcode retrieved successfully",
         "neighbor": neighbors_schema.dump(neighbor)
