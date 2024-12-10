@@ -85,10 +85,10 @@ def get_all_neighbors(page=1, per_page=20):
 
 def get_neighbor_by_id(neighbor_id):
     query = select(Neighbor).where(Neighbor.id == neighbor_id)
-    result = db.session.execute(query).one_or_none()
-    neighbor = result
-    if not neighbor:
+    if not query:
         raise ValueError("Neighbor not found.")
+    result = db.session.execute(query)
+    neighbor = result.scalars()
     return neighbor
 
 def get_neighbor_by_username(username):
