@@ -22,7 +22,7 @@ import jwt
 import gunicorn
 from flask_swagger import swagger
 
-SWAGGER_URL = '/api/docs' # URL endpoint to view our docs
+SWAGGER_URL = '/api/docs/#/' # URL endpoint to view our docs
 API_URL = '/static/swagger.yaml'#Grabs our host from our swagger.yaml file
 
 swagger_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL, config={'app_name': 'LocalLynk'})

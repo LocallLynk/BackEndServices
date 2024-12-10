@@ -72,7 +72,7 @@ SX-get_all_feedback: get, "feedback/get"
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 TaskBP- url prefix = /task
-X-create_task: POST, "task/create"
+SX-create_task: POST, "task/create"
     -requires the following payload:
     {
         "task_neighbor_id": "<int>",
@@ -82,11 +82,11 @@ X-create_task: POST, "task/create"
         "task_paid": "<bool>",
         "traded_task": "<bool>"
     }
-X-get_all_tasks: GET, "task/get"
-X-get_task_by_id: GET, "task/get/<task_id>"
-X-get_task_by_task_neighbor_id: GET, "task/get/task_neighbor/<task_neighbor_id>"
-X-get_task_by_client_neighbor_id: GET, "task/get/client_neighbor/<client_neighbor_id>"
-X-update_task: PUT, "task/update/<task_id>" #updates task status
+SX-get_all_tasks: GET, "task/get"
+SX-get_task_by_id: GET, "task/get/<task_id>"
+SX-get_task_by_task_neighbor_id: GET, "task/get/task_neighbor/<task_neighbor_id>"
+SX-get_task_by_client_neighbor_id: GET, "task/get/client_neighbor/<client_neighbor_id>"
+SX-update_task: PUT, "task/update/<task_id>" #updates task status
     -requires the following payload:
     {
         "client_neighbor_id": <int>,
@@ -97,12 +97,12 @@ X-update_task: PUT, "task/update/<task_id>" #updates task status
         "traded_task": "<bool>",
         "status": "in_progress, open, completed" 
 }
-X-delete_task: DELETE, "task/delete/<task_id>/"
+SX-delete_task: DELETE, "task/delete/<task_id>/"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SkillBP
 url prefix = /skill
 
-X-create_skill: POST, "/skill/create"
+SX-create_skill: POST, "/skill/create"
     -requires the following payload:
     {
         "name": "skill_name",
@@ -110,10 +110,10 @@ X-create_skill: POST, "/skill/create"
         "experience": "beginner/intermediate/expert",
         "description": "skill_description"
     }
-X-get_all_skills: GET, "/skill/get"
-X-get_skill_by_id: GET, "/get/skill/<skill_id>"
-X-get_skill_by_name: GET, "/get/name/<name>"
-X-update_skill: PUT, "/skill/update/<skill_id>"
+SX-get_all_skills: GET, "/skill/get"
+SX-get_skill_by_id: GET, "/get/skill/<skill_id>"
+SX-get_skill_by_name: GET, "/get/name/<name>"
+SX-update_skill: PUT, "/skill/update/<skill_id>"
     -requires the following payload:
     {
         "name": "skill_name",
@@ -121,64 +121,45 @@ X-update_skill: PUT, "/skill/update/<skill_id>"
         "experience": "beginner/intermediate/expert",
         "description": "skill_description"
     }
-X-delete_skill: DELETE, "/skill/delete/<skill_id>"
+SX-delete_skill: DELETE, "/skill/delete/<skill_id>"
 
-X-get_neighbors_by_skill: GET, "/skill/get/<skill_id>/neighbors"
-X-add_skill_to_neighbor: POST, "skill/add/<skill_id>/neighbors/<neighbor_id>"
-X-remove_skill_from_neighbor: DELETE, "skill/remove/<skill_id>/neighbors/<neighbor_id>"
+SX-get_neighbors_by_skill: GET, "/skill/get/<skill_id>/neighbors"
+SX-add_skill_to_neighbor: POST, "skill/add/<skill_id>/neighbors/<neighbor_id>"
+SX-remove_skill_from_neighbor: DELETE, "skill/remove/<skill_id>/neighbors/<neighbor_id>"
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-FeedbackBP
-url prefix = /feedback
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-X-create_feedback: POST, "feedback/add"
-    -requires the following payload:
-    {
-        "reviewed_neighbor_id": <reviewed_neighbor_id>,
-        "task_id": <task_id>,
-        "rating": <rating_int>,
-        "reviewer_id": <reviewer_id>,
-        "comment": "whatever feedback you want to leave goes here"
-    }
-X-get_feedback_by_id: GET, "feedback/get/<feedback_id>"
-X-get_feedback_by_task_id: GET, "feedback/get/task/<task_id>"
-X-get_feedback_by_task_neighbor_id: GET, "feedback/get/task_neighbor/<task_neighbor_id>"
-X-get_feedback_by_client_neighbor_id: GET, "feedback/get/client_neighbor/<client_neighbor_id>"
-X-delete_feedback: DELETE, "feedback/delete/<feedback_id>"
-X-get_all_feedback: GET, "feedback/get"
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PostBP
 url prefix = /post
 
-X-create_post: POST, "post/add"
+SX-create_post: POST, "post/add"
     requires the following payload:
     {
         "title": "post_title",
         "content": "post_content"
     }
-X-get_all_posts: GET, "post/get"
-X-get_post_by_id: GET, "post/get/<post_id>"
-X-get_posts_by_neighbor_id: GET, "post/get/neighbor/<neighbor_id>"
-X-update_post: PUT, "post/update/<post_id>"
-X-delete_post: DELETE, "post/delete/<post_id>"
+SX-get_all_posts: GET, "post/get"
+SX-get_post_by_id: GET, "post/get/<post_id>"
+SX-get_posts_by_neighbor_id: GET, "post/get/neighbor/<neighbor_id>"
+SX-update_post: PUT, "post/update/<post_id>"
+SX-delete_post: DELETE, "post/delete/<post_id>"
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 CommentBP
 url prefix = /comment
 
-X-add_comment: POST, "comment/add"
+SX-add_comment: POST, "comment/add"
     -requires the following payload:
     {
         "post_id": <post_id_num>,
         "content": "whatever you wanna comment here"
     }
-X-get_all_comments: GET, "comment/get"
-X-get_comment_by_id: GET, "comment/get/<comment_id>"
-X-get_comments_by_post_id: GET, "comment/get/post/<post_id>"
-X-get_comments_by_neighbor_id: GET, "comment/get/neighbor/<neighbor_id>"
-X-update_comment: PUT, "comment/update/<comment_id>"
+SX-get_all_comments: GET, "comment/get"
+SX-get_comment_by_id: GET, "comment/get/<comment_id>"
+SX-get_comments_by_post_id: GET, "comment/get/post/<post_id>"
+SX-get_comments_by_neighbor_id: GET, "comment/get/neighbor/<neighbor_id>"
+SX-update_comment: PUT, "comment/update/<comment_id>"
     -requires the following payload:
     {
         "post_id": <post_id>,
@@ -191,26 +172,26 @@ X-delete_comment: DELETE, "comment/delete/<comment_id>"
 shareBP
 -url prefix = /share
 
-X-add_share: POST, "share/add"
+SX-add_share: POST, "share/add"
     -requires the following payload:
     {
         "post_id": <post_id>,
         "content": "post content"
     }
-X-get_share_by_id: GET, "share/get/<share_id>"
-X-update_share: PUT, "share/update/<share_id>"
-X-remove_share: DELETE, "share/remove/<share_id>
+SX-get_share_by_id: GET, "share/get/<share_id>"
+SX-update_share: PUT, "share/update/<share_id>"
+SX-remove_share: DELETE, "share/remove/<share_id>
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 likeBP 
 -URL prefix = /like
 
-X-add_like: POST, "like/add"
-X-remove_like: DELETE, "like/delete/<like_id>"
+SX-add_like: POST, "like/add"
+SX-remove_like: DELETE, "like/delete/<like_id>"
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 dislikeBP
 -URL prefix = /dislike
 
-X-add_dislike: POST, "dislike/add"
-X-remove_dislike: DELETE, "dislike/remove/<dislike_id>
+SX-add_dislike: POST, "dislike/add"
+SX-remove_dislike: DELETE, "dislike/remove/<dislike_id>
