@@ -4,6 +4,7 @@ from services import NeighborService
 from marshmallow import ValidationError
 from cache import cache
 from utils.util import token_required, user_validation, admin_required, get_current_user
+from sqlalchemy.orm.exc import NoResultFound
 
 
 def create_neighbor():
@@ -157,13 +158,20 @@ def get_neighbor_by_username(username):
 
 #@token_required
 def get_neighbor_by_email(email):
-    neighbor = NeighborService.get_neighbor_by_email(email)
-    if not neighbor:
+    try:
+        neighbor = NeighborService.get_neighbor_by_email(email)
+        if not neighbor:
+            return jsonify({"message": "Neighbor not found"}), 404
+        return jsonify({
+            "message": "Neighbor by email retrieved successfully",
+            "neighbor": neighborz_schema.dump(neighbor)
+        }), 200
+    except NoResultFound:
         return jsonify({"message": "Neighbor not found"}), 404
-    return jsonify({
-        "message": "Neighbor by email retrieved successfully",
-        "neighbor": neighborz_schema.dump(neighbor)
-    }), 200
+    except Exception as e:
+        # Log the exception for debugging purposes
+        print(f"Error occurred: {e}")
+        return jsonify({"message": "An unexpected error occurred"}), 500
 
 #@token_required
 def get_neighbor_by_zipcode(zipcode):
