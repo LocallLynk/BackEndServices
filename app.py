@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 from flask_socketio import SocketIO
 from database import db
 from models.schema import ma
@@ -21,8 +21,6 @@ from services.SkillService import populate_skill_bank
 import jwt
 import gunicorn
 from flask_swagger import swagger
-import os
-from dotenv import load_dotenv
 
 SWAGGER_URL = '/api/docs/#/' # URL endpoint to view our docs
 API_URL = '/static/swagger.yaml'#Grabs our host from our swagger.yaml file
@@ -31,11 +29,6 @@ swagger_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL, config={'app_n
 
 def create_app(config_name="DevelopmentConfig"):
     app = Flask(__name__) # instantiate the Flask app
-    load_dotenv()
-
-    allowed_origins = os.getenv('ALLOWED_ORIGINS')
-    if allowed_origins != "*":
-        allowed_origins = allowed_origins.split(',')
 
     app.config.from_object(f'config.{config_name}')
     db.init_app(app)
@@ -43,7 +36,7 @@ def create_app(config_name="DevelopmentConfig"):
     blueprint_config(app)
     rate_limit_config(app)
     cache.init_app(app)
-    CORS(app, origins = allowed_origins)
+    CORS(app)
     socketio = SocketIO(app)
     socketio.init_app(app)
     
