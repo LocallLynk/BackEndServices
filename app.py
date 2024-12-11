@@ -29,6 +29,7 @@ swagger_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL, config={'app_n
 
 def create_app(config_name="DevelopmentConfig"):
     app = Flask(__name__) # instantiate the Flask app
+    CORS(app)
 
     app.config.from_object(f'config.{config_name}')
     db.init_app(app)
