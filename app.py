@@ -29,7 +29,7 @@ swagger_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL, config={'app_n
 
 def create_app(config_name="DevelopmentConfig"):
     app = Flask(__name__) # instantiate the Flask app
-    CORS(app, origins = ["https://locallynk.vercel.app/", "http://localhost:5173"])
+    CORS(app, origins = ["https://locallynk.vercel.app/", "http://localhost:5173", "https://locallynk.vercel.app/register", "http://localhost:5173/register"])
 
     app.config.from_object(f'config.{config_name}')
     db.init_app(app)
